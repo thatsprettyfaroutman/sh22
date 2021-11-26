@@ -19,6 +19,7 @@ const StyledFooter = styled.footer`
   min-height: 50vh;
   padding: 1rem;
   background-color: #1d1d1b;
+  color: #fff;
 `
 
 export const Footer = ({ children, ...restProps }) => {

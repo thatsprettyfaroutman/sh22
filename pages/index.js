@@ -1,82 +1,54 @@
 import { getHomeSections } from '@util/contentfulPosts'
 
 import styled from 'styled-components'
-import chroma from 'chroma-js'
-import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
+import { Text } from '@components/Text'
 import { Hero } from '@components/Hero'
-import { Lottie } from '@components/Lottie'
+import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 
-import duckyduck from '@lotties/duckyduck2.lottie.json'
-import porcuboi from '@lotties/porcuboi.lottie.json'
+const AppStyled = styled.main``
 
-const AppStyled = styled.div`
-  > section {
-    position: relative;
-    min-height: min(800px, calc(100vh - 64px));
+const SECTION = {
+  hero: Hero,
+  about: ({ section }) => (
+    <Section>
+      <Text.Heading1>{section.title}</Text.Heading1>
+    </Section>
+  ),
+  tracks: ({ section }) => (
+    <Section>
+      <Text.Heading1>{section.title}</Text.Heading1>
+    </Section>
+  ),
+  alumn: ({ section }) => (
+    <Section>
+      <Text.Heading1>{section.title}</Text.Heading1>
+    </Section>
+  ),
+  contacts: ({ section }) => (
+    <Footer>
+      <Text.Heading1>{section.title}</Text.Heading1>
+      <p>1 some content</p>
+      <p>2 some content</p>
+      <p>3 some content</p>
+      <p>4 some content</p>
+      <p>5 some content</p>
+    </Footer>
+  ),
+}
 
-    :nth-child(odd) {
-      background-color: ${(p) =>
-        chroma(p.theme.palette[0]).brighten(0.4).css()};
-    }
-  }
-`
+export default function Home({ sections, ...restProps }) {
+  console.log(sections)
 
-const Ducks = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  > * {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    margin-bottom: -80px;
-    width: 229px; // duckyduck width
-  }
-
-  > :nth-child(1) {
-    width: 278px; // porcuboi width
-    transform: scale(0.72);
-    margin-bottom: -121px;
-  }
-
-  > :nth-child(1) {
-    /* margin-left: 110px; */
-  }
-
-  > :nth-child(2),
-  > :nth-child(3) {
-    left: auto;
-    right: 0;
-  }
-
-  > :nth-child(3) {
-    margin-right: 110px;
-  }
-`
-
-export default function Home(props) {
-  // console.log(props)
   return (
-    <AppStyled>
-      <section>
-        <Hero />
-        <Ducks>
-          <Lottie animationData={porcuboi} />
-          <Lottie animationData={duckyduck} />
-          <Lottie animationData={duckyduck} animationOffset={500} />
-        </Ducks>
-      </section>
-      <section />
-      <Footer>
-        <p>1 some content</p>
-        <p>2 some content</p>
-        <p>3 some content</p>
-        <p>4 some content</p>
-        <p>5 some content</p>
-      </Footer>
+    <AppStyled {...restProps}>
+      {sections.map((section) => {
+        const Section = SECTION[section.link]
+        if (!Section) {
+          return null
+        }
+        return <Section key={section.id} section={section} />
+      })}
     </AppStyled>
   )
 }

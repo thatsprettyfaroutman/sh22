@@ -1,4 +1,5 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import Head from 'next/head'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
 
 const GlobalStyle = createGlobalStyle`
@@ -20,7 +21,7 @@ const theme = {
   palette: [
     '#E5FBFF', // bg
     '#171E3A', // card bg
-    '#FFFFFF', // fg
+    '#101010', // fg
     '#EE295C', // accent 1 pink
     '#FFD166', // accent 2 gold
     '#3459DC', //  accent 3 blue
@@ -29,11 +30,19 @@ const theme = {
 
 export default function App({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <InfiniteSpringProvider>
-        <Component {...pageProps} />
-      </InfiniteSpringProvider>
-    </ThemeProvider>
+    <>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500&family=Raleway&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <InfiniteSpringProvider>
+          <Component {...pageProps} />
+        </InfiniteSpringProvider>
+      </ThemeProvider>
+    </>
   )
 }

@@ -5,6 +5,8 @@ import { range } from 'ramda'
 import { a } from 'react-spring'
 import { ColorTunnel } from '@components/ColorTunnel'
 import { Lottie } from '@components/Lottie'
+import { Section } from '@components/Section'
+import { Text } from '@components/Text'
 import flowerboi from '@lotties/flowerboi.lottie.json'
 import flowerboibg from '@lotties/flowerboibg.lottie.json'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
@@ -13,6 +15,9 @@ import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 // import hox from './hox.svg'
 import lerp from 'lerp'
 
+import duckyduck from '@lotties/duckyduck2.lottie.json'
+import porcuboi from '@lotties/porcuboi.lottie.json'
+
 const POPSICLE_WIDTH = 83
 const POPSICLE_HEIGHT = 84
 const LOLLIPOP_WIDTH = 116
@@ -20,18 +25,26 @@ const LOLLIPOP_HEIGHT = 164
 const HOX_WIDTH = 105
 const HOX_HEIGHT = 107
 
-const StyledHero = styled.div`
+const StyledHero = styled(Section)`
   position: relative;
   display: grid;
+  grid-gap: 48px;
   align-content: center;
+  justify-content: center;
   min-height: inherit;
-  width: 100%;
   overflow: hidden;
+  background-color: ${(p) => p.theme.palette[0]};
+
+  > ${Text.Heading1} {
+    position: relative;
+    text-align: center;
+    max-width: 700px;
+  }
 `
 
 const Lotties = styled.div`
   position: relative;
-  height: 420px;
+  height: 425px;
 
   > * {
     position: absolute;
@@ -80,10 +93,45 @@ const FlyingThings = styled.div`
   }
 `
 
+const Ducks = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  > * {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-bottom: -80px;
+    width: 229px; // duckyduck width
+  }
+
+  > :nth-child(1) {
+    width: 278px; // porcuboi width
+    transform: scale(0.72);
+    margin-bottom: -121px;
+  }
+
+  > :nth-child(1) {
+    /* margin-left: 110px; */
+  }
+
+  > :nth-child(2),
+  > :nth-child(3) {
+    left: auto;
+    right: 0;
+  }
+
+  > :nth-child(3) {
+    margin-right: 110px;
+  }
+`
+
 const getDistance = () =>
   Math.sqrt(Math.pow(window.innerWidth, 2), Math.pow(window.innerHeight, 2))
 
-export const Hero = ({ ...restProps }) => {
+export const Hero = ({ section, ...restProps }) => {
   const { infiniteSpring } = useInfiniteSpringContext()
   const distanceRef = useRef(getDistance())
 
@@ -178,6 +226,14 @@ export const Hero = ({ ...restProps }) => {
         <Lottie animationData={flowerboibg} className="Flowerboibg" />
         <Lottie animationData={flowerboi} className="Flowerboi" />
       </Lotties>
+
+      <Ducks>
+        <Lottie animationData={porcuboi} />
+        <Lottie animationData={duckyduck} />
+        <Lottie animationData={duckyduck} animationOffset={500} />
+      </Ducks>
+
+      <Text.Heading1>{section.title}</Text.Heading1>
     </StyledHero>
   )
 }
