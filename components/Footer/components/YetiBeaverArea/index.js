@@ -5,7 +5,7 @@ import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
 import { YETIBEAVER_OVERFLOW_AREA, YETIBEAVER_WIDTH } from '../../consts'
 
-const StyledYetiBeaverArea = styled.div`
+const SYetiBeaverArea = styled.div`
   position: absolute;
   top: -${YETIBEAVER_OVERFLOW_AREA}px;
   right: 0;
@@ -60,7 +60,7 @@ export const YetiBeaverArea = ({
   })
 
   return (
-    <StyledYetiBeaverArea {...restProps}>
+    <SYetiBeaverArea {...restProps}>
       <AContent
         style={{
           ...spring,
@@ -69,6 +69,6 @@ export const YetiBeaverArea = ({
       >
         {visible ? children : null}
       </AContent>
-    </StyledYetiBeaverArea>
+    </SYetiBeaverArea>
   )
 }

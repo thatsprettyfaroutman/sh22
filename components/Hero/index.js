@@ -1,57 +1,47 @@
-import window from 'handle-window-undefined'
-import { useRef, useEffect } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
-import { range } from 'ramda'
-import { a } from 'react-spring'
-import { ColorTunnel } from '@components/ColorTunnel'
-import { Lottie } from '@components/Lottie'
+import { a, useSpring, useTrail } from 'react-spring'
+import { easeCubicOut, easeCubicInOut } from 'd3-ease'
+import lerp from 'lerp'
+import { omit } from 'ramda'
+import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
+import { Button } from '@components/Button'
+import { Lottie } from '@components/Lottie'
+
+import porcuboi from '@lotties/porcuboi.lottie.json'
+import duckyduck from '@lotties/duckyduck2.lottie.json'
 import flowerboi from '@lotties/flowerboi.lottie.json'
 import flowerboibg from '@lotties/flowerboibg.lottie.json'
-import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
-// import popsicle from './popsicle2.png'
-// import lollipop from './lollipop.svg'
-// import hox from './hox.svg'
-import lerp from 'lerp'
-
-import duckyduck from '@lotties/duckyduck2.lottie.json'
-import porcuboi from '@lotties/porcuboi.lottie.json'
-
-const POPSICLE_WIDTH = 83
-const POPSICLE_HEIGHT = 84
-const LOLLIPOP_WIDTH = 116
-const LOLLIPOP_HEIGHT = 164
-const HOX_WIDTH = 105
-const HOX_HEIGHT = 107
+import arrow from '@lotties/arrow.lottie.json'
 
 const StyledHero = styled(Section)`
   position: relative;
   display: grid;
   grid-gap: 48px;
+  padding: 32px;
   align-content: center;
   justify-content: center;
-  min-height: inherit;
+  justify-items: center;
   overflow: hidden;
-  background-color: ${(p) => p.theme.palette[0]};
-
-  > ${Text.Heading1} {
-    position: relative;
-    text-align: center;
-    max-width: 700px;
-  }
+  background-color: ${(p) => p.theme.color.section.hero.bg};
+  color: ${(p) => p.theme.color.section.hero.fg};
 `
 
-const Lotties = styled.div`
+const MainLotties = styled(a.div)`
   position: relative;
   height: 425px;
+  width: 425px;
+  /* background-color: ${(p) => p.theme.color.debug.bg}; */
 
   > * {
     position: absolute;
-    top: -53px;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, 0);
     pointer-events: none;
+    margin: -265px 0 0 -298px;
+    transform-origin: 298px 265px;
   }
 
   > .Flowerboibg {
@@ -62,38 +52,7 @@ const Lotties = styled.div`
   }
 `
 
-const FlyingThings = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0%;
-  left: 0%;
-  overflow: hidden;
-  /* background-color: #ff00ff22; */
-
-  > img {
-    position: absolute;
-    display: block;
-    top: 50%;
-    left: 50%;
-    transform-origin: 50% 50%;
-  }
-
-  > img.Hero__popsicle {
-    width: 83px;
-    height: 83px;
-    margin: ${-POPSICLE_HEIGHT / 2}px 0 0 ${-POPSICLE_WIDTH / 2}px;
-  }
-
-  > img.Hero__lollipop {
-    margin: ${-LOLLIPOP_HEIGHT / 2}px 0 0 ${-LOLLIPOP_WIDTH / 2}px;
-  }
-  > img.Hero__hox {
-    margin: ${-HOX_HEIGHT / 2}px 0 0 ${-HOX_WIDTH / 2}px;
-  }
-`
-
-const Ducks = styled.div`
+const DancingLotties = styled(a.div)`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -128,112 +87,100 @@ const Ducks = styled.div`
   }
 `
 
-const getDistance = () =>
-  Math.sqrt(Math.pow(window.innerWidth, 2), Math.pow(window.innerHeight, 2))
+const Title = styled(a(Text.Heading1))`
+  position: relative;
+  text-align: center;
+  max-width: 700px;
+`
+
+const Arrow = styled(a.img).attrs({ src: '/images/arrow.svg' })`
+  position: relative;
+  display: block;
+  width: 46px;
+  height: auto;
+  margin-top: 48px;
+`
 
 export const Hero = ({ section, ...restProps }) => {
-  const { infiniteSpring } = useInfiniteSpringContext()
-  const distanceRef = useRef(getDistance())
+  const { secondsPassed } = useInfiniteSpringContext()
 
-  useEffect(() => {
-    const resize = () => {
-      distanceRef.current = getDistance()
-    }
-    window.addEventListener('resize', resize)
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
+  const isFlowerBgBooming = secondsPassed >= 3
+  const isFlowerboiDancing = secondsPassed >= 4
+  const isDancersVisible = secondsPassed >= 3
 
-  // const p = infiniteSpring.time.to((t) => (t % 5000) / 5000);
-  // const p2 = infiniteSpring.time.to((t) => ((t + 1000) % 5000) / 5000);
-  const p3 = infiniteSpring.time.to((t) => (t % 10000) / 10000)
+  const trail = useTrail(4, {
+    from: { p: 0 },
+    p: 1,
+  })
+
+  const dancersSpring = useSpring({
+    config: { duration: 5000, easing: easeCubicOut },
+    from: { y: 200, opacity: 0 },
+    y: isDancersVisible ? 0 : 200,
+    opacity: isDancersVisible ? 1 : 0,
+  })
+
+  const arrowSpring = useSpring({
+    config: { duration: 1000, easing: easeCubicOut },
+    from: { y: 32, opacity: 0 },
+    y: 0,
+    opacity: 1,
+    delay: 6000,
+  })
+
+  const flowerBgSpring = useMemo(() => ({ scale: trail[0].p }), [trail])
+
+  const flowerboiSpring = useMemo(() => ({ scale: trail[1].p }), [trail])
+
+  const titleSpring = useMemo(
+    () => ({
+      y: trail[2].p.to((p) => lerp(-32, 0, p)),
+      opacity: trail[2].p,
+    }),
+    [trail]
+  )
+
+  const buttonSpring = useMemo(
+    () => ({
+      y: trail[3].p.to((p) => lerp(-32, 0, p)),
+      opacity: trail[3].p,
+    }),
+    [trail]
+  )
 
   return (
     <StyledHero {...restProps}>
       {/* <ColorTunnel /> */}
-      <FlyingThings>
-        {/* {range(0, 32).map((i) => {
-          const angle = ((Math.PI * 2) / 32) * (i + 32);
-          return (
-            <a.img
-              className="Hero__lollipop"
-              src={lollipop}
-              style={{
-                rotate: p.to(
-                  (p) => `${p * angle * 6 * (i % 2 === 0 ? 1 : -1)}rad`
-                ),
-                x: p.to((p) => Math.sin(angle) * p * window.innerWidth),
-                y: p.to((p) => Math.cos(angle) * p * window.innerHeight),
-                scale: 0.5
-              }}
-            />
-          );
-        })} */}
-        {/* {range(0, 32).map((i) => {
-          const angle = ((Math.PI * 2) / 32) * (i + 32);
-          return (
-            <a.img
-              className="Hero__lollipop"
-              src={lollipop}
-              style={{
-                rotate: p2.to((p) => `${p * angle * -4}rad`),
-                x: p2.to(
-                  (p) =>
-                    Math.sin(angle) *
-                    p *
-                    window.innerWidth *
-                    (i % 2 === 0 ? 1 : 1.5)
-                ),
-                y: p2.to(
-                  (p) =>
-                    Math.cos(angle) *
-                    p *
-                    window.innerHeight *
-                    (i % 2 === 0 ? 1 : 1.5)
-                ),
-                scale: 0.4
-              }}
-            />
-          );
-        })} */}
-        {range(0, 256).map((i) => {
-          const angle = ((Math.PI * 2) / 256) * (i + 256)
+      {/* <FlyingThings /> */}
 
-          return (
-            <a.img
-              key={i}
-              className="Hero__popsicle"
-              src="/images/popsicle.png"
-              style={{
-                rotate: p3.to(
-                  (p) => `${lerp(angle, angle + Math.PI * 8, p)}rad`
-                ),
-                x: p3.to(
-                  (p) =>
-                    Math.sin(angle) * ((p + i / 64) % 1) * distanceRef.current
-                ),
-                y: p3.to(
-                  (p) =>
-                    Math.cos(angle) * ((p + i / 64) % 1) * distanceRef.current
-                ),
-              }}
-            />
-          )
-        })}
-      </FlyingThings>
-      <Lotties>
-        <Lottie animationData={flowerboibg} className="Flowerboibg" />
-        <Lottie animationData={flowerboi} className="Flowerboi" />
-      </Lotties>
+      <MainLotties>
+        <Lottie
+          animationData={flowerboibg}
+          className="Flowerboibg"
+          style={flowerBgSpring}
+          animationStopped={!isFlowerBgBooming}
+        />
+        <Lottie
+          animationData={flowerboi}
+          className="Flowerboi"
+          style={flowerboiSpring}
+          animationStopped={!isFlowerboiDancing}
+        />
+      </MainLotties>
 
-      <Ducks>
-        <Lottie animationData={porcuboi} />
-        <Lottie animationData={duckyduck} />
-        <Lottie animationData={duckyduck} animationOffset={500} />
-      </Ducks>
+      <DancingLotties style={omit(['opacity'], dancersSpring)}>
+        <Lottie animationData={porcuboi} animationStopped={!isDancersVisible} />
+        <Lottie
+          animationData={duckyduck}
+          animationStopped={!isDancersVisible}
+        />
+      </DancingLotties>
 
-      <Text.Heading1>{section.title}</Text.Heading1>
+      <Title style={titleSpring}>{section.title}</Title>
+      <Button style={buttonSpring}>{section.button}</Button>
+      <a.div style={arrowSpring}>
+        <Lottie animationData={arrow} animationStopped={!isDancersVisible} />
+      </a.div>
     </StyledHero>
   )
 }

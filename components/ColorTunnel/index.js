@@ -21,7 +21,7 @@ const COLORS = [
   // "#FFD31A"
 ]
 
-const StyledColorTunnel = styled.div`
+const SColorTunnel = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -107,8 +107,8 @@ export const ColorTunnel = ({ ...restProps }) => {
   }, [addSpringListener])
 
   return (
-    <StyledColorTunnel {...restProps}>
+    <SColorTunnel {...restProps}>
       <canvas ref={canvasRef} />
-    </StyledColorTunnel>
+    </SColorTunnel>
   )
 }

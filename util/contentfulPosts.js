@@ -9,6 +9,9 @@ const client = require('contentful').createClient({
 })
 
 function fixItem(item) {
+  if (R.isNil(item)) {
+    return item
+  }
   if (Array.isArray(item)) {
     return item.map(fixItem)
   }
@@ -35,11 +38,32 @@ export async function getHomeSections() {
     include: 1,
   })
 
-  if (!items) {
+  const item = items[0]
+  if (R.isNil(item)) {
     console.log(`Error getting HomeSections.`)
   }
 
-  return fixItem(items[0].fields.sections).map((section) => ({
+  // if (R.isNil(item)) {
+  //   return [
+  //     {
+  //       contentType: 'heroSection',
+  //       link: 'hero',
+  //       title:
+  //         'Hoxhunt Summer Hunters internship program will be the runway of your career',
+  //       button: 'Apply now',
+  //     },
+  //     {
+  //       contentType: 'aboutSection',
+  //       link: 'about',
+  //       title: 'What is Hoxhunt?',
+  //       description:
+  //         'We help companies turn their employees into their strongest asset in cybersecurity with our gamified platform that trains employees against phishing in a fun and engaging way simulating real-life phishing attacks.',
+  //       button: 'Read more',
+  //     },
+  //   ]
+  // }
+
+  return fixItem(item.fields.sections).map((section) => ({
     ...R.omit(['post'], section),
     link: section.contentType.toLowerCase().replace('section', ''),
   }))
@@ -50,6 +74,7 @@ export async function getSection(contentType) {
     content_type: contentType,
     include: 1,
   })
+
   if (!items) {
     console.log(`Error getting Entries for ${contentType}.`)
   }

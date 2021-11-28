@@ -20,7 +20,17 @@ const Body = styled.p`
   opacity: 0.8;
 `
 
+const Button = styled.div`
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 36px;
+  letter-spacing: 0.01em;
+`
+
 export const Text = {
   Heading1,
   Body,
+  Button,
 }

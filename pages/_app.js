@@ -5,11 +5,11 @@ import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
 const GlobalStyle = createGlobalStyle`
  html, body {
      margin: 0;
-     background-color: ${({ theme }) => theme.palette[0]};
+     background-color: ${({ theme }) => theme.color.main.bg};
      font-family: Montserrat, sans-serif;
      font-size: 16px;
      line-height: 1.6;
-     color: ${({ theme }) => theme.palette[2]};
+     color: ${({ theme }) => theme.color.main.fg};
    }
 
    *, *::after, *::before {
@@ -18,14 +18,18 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const theme = {
-  palette: [
-    '#E5FBFF', // bg
-    '#171E3A', // card bg
-    '#101010', // fg
-    '#EE295C', // accent 1 pink
-    '#FFD166', // accent 2 gold
-    '#3459DC', //  accent 3 blue
-  ],
+  color: {
+    main: { bg: '#fff', fg: '#101010' },
+    section: {
+      hero: { bg: '#E5FBFF', fg: '#101010' },
+      about: { bg: '#fff', fg: '#101010' },
+      tracks: { bg: '#FFFAE5', fg: '#101010' },
+      alumni: { bg: '#fff', fg: '#101010' },
+      contacts: { bg: '#1D1D1B', fg: '#fff' },
+    },
+    button: { bg: '#ffd31a', fg: '#101010' },
+    debug: { bg: '#f0f', fg: '#fff' },
+  },
 }
 
 export default function App({ Component, pageProps }) {

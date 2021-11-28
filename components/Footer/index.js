@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   position: relative;
 `
 
-const StyledFooter = styled.footer`
+const SFooter = styled.footer`
   position: relative;
   min-height: 50vh;
   padding: 1rem;
@@ -51,9 +51,9 @@ export const Footer = ({ children, ...restProps }) => {
           style={yetiBeaverSpring}
         />
       </YetiBeaverArea>
-      <StyledFooter ref={biteRef} style={{ clipPath: biteClipPath }}>
+      <SFooter ref={biteRef} style={{ clipPath: biteClipPath }}>
         {children}
-      </StyledFooter>
+      </SFooter>
     </Wrapper>
   )
 }

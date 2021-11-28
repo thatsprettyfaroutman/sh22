@@ -3,18 +3,15 @@ import { getHomeSections } from '@util/contentfulPosts'
 import styled from 'styled-components'
 import { Text } from '@components/Text'
 import { Hero } from '@components/Hero'
+import { About } from '@components/About'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 
-const AppStyled = styled.main``
+const SApp = styled.main``
 
-const SECTION = {
+const SECTION_MAP = {
   hero: Hero,
-  about: ({ section }) => (
-    <Section>
-      <Text.Heading1>{section.title}</Text.Heading1>
-    </Section>
-  ),
+  about: About,
   tracks: ({ section }) => (
     <Section>
       <Text.Heading1>{section.title}</Text.Heading1>
@@ -41,20 +38,21 @@ export default function Home({ sections, ...restProps }) {
   console.log(sections)
 
   return (
-    <AppStyled {...restProps}>
+    <SApp {...restProps}>
       {sections.map((section) => {
-        const Section = SECTION[section.link]
+        const Section = SECTION_MAP[section.link]
         if (!Section) {
           return null
         }
-        return <Section key={section.id} section={section} />
+        return <Section key={section.contentType} section={section} />
       })}
-    </AppStyled>
+    </SApp>
   )
 }
 
 export async function getStaticProps() {
   const sections = await getHomeSections()
+  console.log(sections)
   return {
     props: {
       sections,
