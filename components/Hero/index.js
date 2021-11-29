@@ -101,8 +101,8 @@ export const Hero = ({ section, ...restProps }) => {
 
   const dancersSpring = useSpring({
     config: { duration: 5000, easing: easeCubicOut },
-    from: { y: 200, opacity: 0 },
-    y: isDancersVisible ? 0 : 200,
+    from: { y: 230, opacity: 0 },
+    y: isDancersVisible ? 0 : 230,
     opacity: isDancersVisible ? 1 : 0,
   })
 
