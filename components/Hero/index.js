@@ -1,10 +1,13 @@
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { a, useSpring, useTrail } from 'react-spring'
-import { easeCubicOut, easeCubicInOut } from 'd3-ease'
+import { easeCubicOut } from 'd3-ease'
 import lerp from 'lerp'
 import { omit } from 'ramda'
-import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
+import {
+  useInfiniteSpringContext,
+  START_BASS_BOOMING_AT_SECOND,
+} from '@contexts/infiniteSpring'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Button } from '@components/Button'
@@ -31,28 +34,11 @@ const StyledHero = styled(Section)`
 
 const MainLotties = styled(a.div)`
   position: relative;
-  /* height: 425px; */
-  /* width: 425px; */
-  /* min-width: 425px; */
-  /* border: 1px solid #f00; */
-  /* background-color: ${(p) => p.theme.color.debug.bg}; */
 
-  > .Flowerboi {
+  > .Hero__Flowerboi {
     position: absolute;
     top: 0;
-    /* top: 50%; */
-    /* left: 50%; */
-    /* pointer-events: none; */
-    /* margin: -265px 0 0 -298px; */
-    /* transform-origin: 298px 265px; */
   }
-
-  /* > .Flowerboibg {
-    width: 596px;
-  }
-  > .Flowerboi {
-    width: 596px;
-  } */
 `
 
 const DancingLotties = styled(a.div)`
@@ -88,11 +74,8 @@ const Arrow = styled(a.img).attrs({ src: '/images/arrow.svg' })`
 `
 
 export const Hero = ({ section, ...restProps }) => {
-  const { secondsPassed } = useInfiniteSpringContext()
-
-  const isFlowerBgBooming = secondsPassed >= 3
-  const isFlowerboiDancing = secondsPassed >= 4
-  const isDancersVisible = secondsPassed >= 3
+  const { secondsPassed, isBassBooming, isDancing } = useInfiniteSpringContext()
+  const isDancersVisible = secondsPassed >= START_BASS_BOOMING_AT_SECOND
 
   const trail = useTrail(4, {
     from: { p: 0 },
@@ -142,15 +125,15 @@ export const Hero = ({ section, ...restProps }) => {
       <MainLotties>
         <Lottie
           animationData={flowerboibg}
-          className="Flowerboibg"
+          className="Hero__Flowerboibg"
           style={flowerBgSpring}
-          animationStopped={!isFlowerBgBooming}
+          animationStopped={!isBassBooming}
         />
         <Lottie
           animationData={flowerboi}
-          className="Flowerboi"
+          className="Hero__Flowerboi"
           style={flowerboiSpring}
-          animationStopped={!isFlowerboiDancing}
+          animationStopped={!isDancing}
         />
       </MainLotties>
 

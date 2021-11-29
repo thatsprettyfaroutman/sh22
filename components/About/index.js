@@ -7,6 +7,7 @@ import { Lottie } from '@components/Lottie'
 import laptop from '@lotties/laptop.lottie.json'
 
 const StyledAbout = styled(Section)`
+  min-height: initial;
   position: relative;
   display: grid;
   grid-template-columns: auto auto;
@@ -15,7 +16,7 @@ const StyledAbout = styled(Section)`
     'description lottie'
     'button lottie';
   grid-gap: 48px;
-  padding: 0 48px;
+  padding: 192px 48px;
   align-content: center;
   justify-content: center;
   overflow: hidden;

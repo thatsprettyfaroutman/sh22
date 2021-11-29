@@ -3,6 +3,8 @@ import constate from 'constate'
 import { useSpring } from 'react-spring'
 
 const DURATION = 10000
+export const START_BASS_BOOMING_AT_SECOND = 3
+export const START_DANCING_AT_SECOND = 4
 
 const useInfiniteSpring = () => {
   const springListenersRef = useRef([])
@@ -38,7 +40,16 @@ const useInfiniteSpring = () => {
     }, []),
   })
 
-  return { infiniteSpring, secondsPassed, addSpringListener }
+  const isBassBooming = secondsPassed >= START_BASS_BOOMING_AT_SECOND
+  const isDancing = secondsPassed >= START_DANCING_AT_SECOND
+
+  return {
+    infiniteSpring,
+    secondsPassed,
+    addSpringListener,
+    isBassBooming,
+    isDancing,
+  }
 }
 
 const [provider, hook] = constate(useInfiniteSpring)
