@@ -108,12 +108,12 @@ export const Lottie = ({
 
   useIsomorphicLayoutEffect(() => {
     const resize = () => {
-      const el = ref.current
-      if (!el) {
-        return
-      }
+      // const el = ref.current
+      // if (!el) {
+      //   return
+      // }
 
-      const { clientWidth } = el
+      // const { clientWidth } = el
       const { w, h, crop } = animationData
       if (!crop) {
         // let scale = clientWidth / w
@@ -126,7 +126,10 @@ export const Lottie = ({
         // })
         return
       }
-      const scale = Math.min(1, clientWidth / crop.w)
+      // const scale = 1 //Math.min(1, clientWidth / crop.w)
+
+      const scale = window.innerWidth <= 768 ? 0.8 : 1
+
       // console.log(scale)
       // if (window.innerWidth < 768) {
       //   scale *= 0.75

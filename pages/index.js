@@ -2,23 +2,20 @@ import { getHomeSections } from '@util/contentfulPosts'
 
 import styled from 'styled-components'
 import { Text } from '@components/Text'
-import { Hero } from '@components/Hero'
-import { About } from '@components/About'
-import { Section } from '@components/Section'
-import { Footer } from '@components/Footer'
-
 import { SwingyFrame } from '@components/SwingyFrame'
+import { Section } from '@components/Section'
+
+import { Hero } from '@sections/Hero'
+import { About } from '@sections/About'
+import { Tracks } from '@sections/Tracks'
+import { Footer } from '@sections/Footer'
 
 const SApp = styled.main``
 
 const SECTION_MAP = {
   hero: Hero,
   about: About,
-  tracks: ({ section }) => (
-    <Section>
-      <Text.Heading1>{section.title}</Text.Heading1>
-    </Section>
-  ),
+  tracks: Tracks,
   alumn: ({ section }) => (
     <Section>
       <Text.Heading1>{section.title}</Text.Heading1>
@@ -27,6 +24,7 @@ const SECTION_MAP = {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          overflow: 'hidden',
         }}
       >
         <SwingyFrame />

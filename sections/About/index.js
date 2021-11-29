@@ -11,10 +11,6 @@ const StyledAbout = styled(Section)`
   position: relative;
   display: grid;
   grid-template-columns: auto auto;
-  grid-template-areas:
-    'title lottie'
-    'description lottie'
-    'button lottie';
   grid-gap: 48px;
   padding: 192px 48px;
   align-content: center;
@@ -29,7 +25,13 @@ const StyledAbout = styled(Section)`
     margin-bottom: auto;
   }
 
+  grid-template-areas:
+    'title lottie'
+    'description lottie'
+    'button lottie';
+
   @media (max-width: 768px) {
+    padding: 48px 16px;
     grid-template-columns: auto;
     justify-items: center;
     grid-template-areas:
@@ -59,8 +61,13 @@ const Description = styled(Text.Body)`
 
 const Laptop = styled(Lottie)`
   grid-area: lottie;
-  width: 320px;
-  height: 256px;
+  min-width: 320px;
+  @media (max-width: 768px) {
+    min-width: initial;
+  }
+  /* height: 256px; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
 `
 
 export const About = ({ section, ...restProps }) => {

@@ -22,18 +22,38 @@ import arrow from '@lotties/arrow.lottie.json'
 const StyledHero = styled(Section)`
   position: relative;
   display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 1fr auto auto auto;
   grid-gap: 48px;
-  padding: 32px;
-  align-content: center;
-  justify-content: center;
+  padding: 48px;
+  padding-bottom: 0;
   justify-items: center;
   overflow: hidden;
   background-color: ${(p) => p.theme.color.section.hero.bg};
   color: ${(p) => p.theme.color.section.hero.fg};
+
+  grid-template-areas:
+    '. flower .'
+    'title title title'
+    'dancerA button dancerB'
+    'dancerA arrow dancerB';
+
+  @media (max-width: 768px) {
+    padding-left: 16px;
+    padding-right: 16px;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      'flower flower flower'
+      'title title title'
+      'button button button'
+      'dancerA arrow dancerB';
+  }
 `
 
-const MainLotties = styled(a.div)`
+const Flower = styled(a.div)`
+  grid-area: flower;
   position: relative;
+  margin-top: auto;
 
   > .Hero__Flowerboi {
     position: absolute;
@@ -41,36 +61,63 @@ const MainLotties = styled(a.div)`
   }
 `
 
-const DancingLotties = styled(a.div)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+const DancerA = styled(Lottie)`
+  grid-area: dancerA;
+  margin-top: auto;
 
-  > * {
-    position: absolute;
-    left: 16px;
-    bottom: 0;
-  }
-
-  > :nth-child(2) {
-    left: auto;
-    right: 16px;
+  @media (max-width: 768px) {
+    margin-left: -100px;
   }
 `
 
+const DancerB = styled(Lottie)`
+  grid-area: dancerB;
+  align-self: end;
+  margin-top: auto;
+  @media (max-width: 768px) {
+    margin-right: -100px;
+  }
+`
+
+// const DancingLotties = styled(a.div)`
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+
+//   > * {
+//     position: absolute;
+//     left: 16px;
+//     bottom: 0;
+//   }
+
+//   > :nth-child(2) {
+//     left: auto;
+//     right: 16px;
+//   }
+// `
+
 const Title = styled(a(Text.Heading1))`
+  grid-area: title;
   position: relative;
   text-align: center;
   max-width: 700px;
 `
 
-const Arrow = styled(a.img).attrs({ src: '/images/arrow.svg' })`
-  position: relative;
-  display: block;
-  width: 46px;
-  height: auto;
-  margin-top: 48px;
+const ApplyButton = styled(Button)`
+  grid-area: button;
+`
+
+const Arrow = styled(a.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: arrow;
+  padding-bottom: 48px;
+
+  @media (max-width: 768px) {
+    padding-bottom: 0;
+  }
 `
 
 export const Hero = ({ section, ...restProps }) => {
@@ -122,7 +169,7 @@ export const Hero = ({ section, ...restProps }) => {
       {/* <ColorTunnel /> */}
       {/* <FlyingThings /> */}
 
-      <MainLotties>
+      <Flower>
         <Lottie
           animationData={flowerboibg}
           className="Hero__Flowerboibg"
@@ -135,25 +182,30 @@ export const Hero = ({ section, ...restProps }) => {
           style={flowerboiSpring}
           animationStopped={!isDancing}
         />
-      </MainLotties>
+      </Flower>
 
-      <DancingLotties style={omit(['opacity'], dancersSpring)}>
-        <Lottie animationData={porcuboi} animationStopped={!isDancersVisible} />
-        <Lottie
-          animationData={duckyduck}
-          animationStopped={!isDancersVisible}
-        />
-      </DancingLotties>
+      {/* <DancingLotties style={omit(['opacity'], dancersSpring)}> */}
+      <DancerA
+        animationData={porcuboi}
+        animationStopped={!isDancersVisible}
+        style={omit(['opacity'], dancersSpring)}
+      />
+      <DancerB
+        animationData={duckyduck}
+        animationStopped={!isDancersVisible}
+        style={omit(['opacity'], dancersSpring)}
+      />
+      {/* </DancingLotties> */}
 
       <Title style={titleSpring}>{section.title}</Title>
-      <Button style={buttonSpring}>{section.button}</Button>
-      <a.div style={arrowSpring}>
+      <ApplyButton style={buttonSpring}>{section.button}</ApplyButton>
+      <Arrow style={arrowSpring}>
         <Lottie
           animationData={arrow}
           animationStopped={!isDancersVisible}
           animationOffset={500}
         />
-      </a.div>
+      </Arrow>
     </StyledHero>
   )
 }
