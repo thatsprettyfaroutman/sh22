@@ -7,9 +7,8 @@ const StyledContacts = styled(Section)`
   min-height: initial;
   position: relative;
   display: grid;
-  grid-gap: 128px;
-  padding: 48px;
-  padding-bottom: 128px;
+  grid-gap: 72px;
+  padding: 128px 48px;
   align-content: center;
   overflow: hidden;
   min-height: 50vh;
