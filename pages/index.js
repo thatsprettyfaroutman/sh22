@@ -10,45 +10,52 @@ import { Hero } from '@sections/Hero'
 import { About } from '@sections/About'
 import { Tracks } from '@sections/Tracks'
 import { Alumni } from '@sections/Alumni'
+import { Contacts } from '@sections/Contacts'
 
-const SApp = styled.main``
+const StyledApp = styled.main``
 
 const SECTION_MAP = {
   hero: Hero,
   about: About,
   tracks: Tracks,
   alumni: Alumni,
-  contacts: ({ section }) => (
-    <Footer>
-      <Text.Heading1>{section.title}</Text.Heading1>
-      <p>1 some content</p>
-      <p>2 some content</p>
-      <p>3 some content</p>
-      <p>4 some content</p>
-      <p>5 some content</p>
-    </Footer>
-  ),
+  contacts: Contacts,
+  // contacts: ({ section }) => {
+  //   console.log({ section })
+
+  //   return (
+  //     <Footer>
+  //       {/* <Text.Heading1>{section.title}</Text.Heading1> */}
+  //       {/* <Text.Heading1>{section.title}</Text.Heading1>
+  //     <p>1 some content</p>
+  //     <p>2 some content</p>
+  //     <p>3 some content</p>
+  //     <p>4 some content</p>
+  //     <p>5 some content</p> */}
+  //       {/* <Contacts section={section} /> */}
+  //     </Footer>
+  //   )
+  // },
 }
 
 export default function Home({ sections, ...restProps }) {
-  console.log(sections)
-
   return (
-    <SApp {...restProps}>
+    <StyledApp {...restProps}>
       {sections.map((section) => {
+        console.log(section.contentType)
         const Section = SECTION_MAP[section.link]
         if (!Section) {
           return null
         }
         return <Section key={section.contentType} section={section} />
       })}
-    </SApp>
+    </StyledApp>
   )
 }
 
 export async function getStaticProps() {
   const sections = await getHomeSections()
-  console.log(sections)
+  // console.log(sections)
   return {
     props: {
       sections,

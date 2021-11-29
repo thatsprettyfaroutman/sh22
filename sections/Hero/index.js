@@ -17,37 +17,60 @@ import porcuboi from '@lotties/porcuboi.lottie.json'
 import duckyduck from '@lotties/duckyduck2.lottie.json'
 import flowerboi from '@lotties/flowerboi.lottie.json'
 import flowerboibg from '@lotties/flowerboibg.lottie.json'
-import arrow from '@lotties/arrow.lottie.json'
+import arrow from '@lotties/arrow2.lottie.json'
 
 const StyledHero = styled(Section)`
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: 1fr auto auto auto;
-  grid-gap: 48px;
+  align-content: center;
+
+  /* grid-template-columns: auto 1fr auto; */
+  /* grid-gap: 48px; */
   padding: 48px;
-  padding-bottom: 0;
-  justify-items: center;
+  /* padding-bottom: 0; */
   overflow: hidden;
   background-color: ${(p) => p.theme.color.section.hero.bg};
   color: ${(p) => p.theme.color.section.hero.fg};
 
-  grid-template-areas:
+  /* grid-template-areas:
+    '. . .'
     '. flower .'
     'title title title'
     'dancerA button dancerB'
-    'dancerA arrow dancerB';
+    'dancerA arrow dancerB'; */
 
   @media (max-width: 768px) {
     padding-left: 16px;
     padding-right: 16px;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-areas:
+    /* grid-template-columns: 1fr auto 1fr; */
+    /* grid-template-areas:
       'flower flower flower'
       'title title title'
       'button button button'
-      'dancerA arrow dancerB';
+      'dancerA arrow dancerB'; */
   }
+`
+
+const Top = styled.div`
+  display: grid;
+  grid-gap: 48px;
+  justify-items: center;
+  grid-template-areas:
+    'flower'
+    'title'
+    'button'
+    'arrow';
+`
+
+const Bot = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-gap: 48px;
+  grid-template-areas: 'dancerA  dancerB';
+  justify-content: space-between;
 `
 
 const Flower = styled(a.div)`
@@ -64,18 +87,16 @@ const Flower = styled(a.div)`
 const DancerA = styled(Lottie)`
   grid-area: dancerA;
   margin-top: auto;
-
   @media (max-width: 768px) {
-    margin-left: -100px;
+    margin-left: -50px;
   }
 `
 
 const DancerB = styled(Lottie)`
   grid-area: dancerB;
-  align-self: end;
   margin-top: auto;
   @media (max-width: 768px) {
-    margin-right: -100px;
+    margin-right: -50px;
   }
 `
 
@@ -113,11 +134,11 @@ const Arrow = styled(a.div)`
   justify-content: center;
   align-items: center;
   grid-area: arrow;
-  padding-bottom: 48px;
+  /* padding-bottom: 48px;
 
   @media (max-width: 768px) {
     padding-bottom: 0;
-  }
+  } */
 `
 
 export const Hero = ({ section, ...restProps }) => {
@@ -169,43 +190,43 @@ export const Hero = ({ section, ...restProps }) => {
       {/* <ColorTunnel /> */}
       {/* <FlyingThings /> */}
 
-      <Flower>
-        <Lottie
-          animationData={flowerboibg}
-          className="Hero__Flowerboibg"
-          style={flowerBgSpring}
-          animationStopped={!isBassBooming}
-        />
-        <Lottie
-          animationData={flowerboi}
-          className="Hero__Flowerboi"
-          style={flowerboiSpring}
-          animationStopped={!isDancing}
-        />
-      </Flower>
-
-      {/* <DancingLotties style={omit(['opacity'], dancersSpring)}> */}
-      <DancerA
-        animationData={porcuboi}
-        animationStopped={!isDancersVisible}
-        style={omit(['opacity'], dancersSpring)}
-      />
-      <DancerB
-        animationData={duckyduck}
-        animationStopped={!isDancersVisible}
-        style={omit(['opacity'], dancersSpring)}
-      />
-      {/* </DancingLotties> */}
-
-      <Title style={titleSpring}>{section.title}</Title>
-      <ApplyButton style={buttonSpring}>{section.button}</ApplyButton>
-      <Arrow style={arrowSpring}>
-        <Lottie
-          animationData={arrow}
+      <Top>
+        <Flower>
+          <Lottie
+            animationData={flowerboibg}
+            className="Hero__Flowerboibg"
+            style={flowerBgSpring}
+            animationStopped={!isBassBooming}
+          />
+          <Lottie
+            animationData={flowerboi}
+            className="Hero__Flowerboi"
+            style={flowerboiSpring}
+            animationStopped={!isDancing}
+          />
+        </Flower>
+        <Title style={titleSpring}>{section.title}</Title>
+        <ApplyButton style={buttonSpring}>{section.button}</ApplyButton>
+        <Arrow style={arrowSpring}>
+          <Lottie
+            animationData={arrow}
+            animationStopped={!isDancersVisible}
+            animationOffset={0}
+          />
+        </Arrow>
+      </Top>
+      <Bot>
+        <DancerA
+          animationData={porcuboi}
           animationStopped={!isDancersVisible}
-          animationOffset={500}
+          style={omit(['opacity'], dancersSpring)}
         />
-      </Arrow>
+        <DancerB
+          animationData={duckyduck}
+          animationStopped={!isDancersVisible}
+          style={omit(['opacity'], dancersSpring)}
+        />
+      </Bot>
     </StyledHero>
   )
 }

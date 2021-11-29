@@ -35,7 +35,7 @@ function fixItem(item) {
 export async function getHomeSections() {
   const { items } = await client.getEntries({
     content_type: 'homePage',
-    include: 1,
+    include: 2,
   })
 
   const item = items[0]
