@@ -2,8 +2,11 @@ import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Button } from '@components/Button'
+import { Lottie } from '@components/Lottie'
 
-const SAbout = styled(Section)`
+import laptop from '@lotties/laptop.lottie.json'
+
+const StyledAbout = styled(Section)`
   position: relative;
   display: grid;
   grid-template-columns: auto auto;
@@ -41,33 +44,31 @@ const SAbout = styled(Section)`
   }
 `
 
-const STitle = styled(Text.Heading1)`
+const Title = styled(Text.Heading1)`
   grid-area: title;
   position: relative;
   max-width: 700px;
 `
 
-const SDescription = styled(Text.Body)`
+const Description = styled(Text.Body)`
   grid-area: description;
   position: relative;
   max-width: 700px;
 `
 
-const SLaptopLottie = styled.div`
+const Laptop = styled(Lottie)`
   grid-area: lottie;
-  width: 380px;
-  max-width: 380px;
-  height: 330px;
-  background-color: #f0f;
+  width: 320px;
+  height: 256px;
 `
 
 export const About = ({ section, ...restProps }) => {
   return (
-    <SAbout {...restProps}>
-      <STitle>{section?.title}</STitle>
-      <SDescription>{section?.description}</SDescription>
+    <StyledAbout {...restProps}>
+      <Title>{section?.title}</Title>
+      <Description>{section?.description}</Description>
       <Button>{section?.button}</Button>
-      <SLaptopLottie />
-    </SAbout>
+      <Laptop animationData={laptop} />
+    </StyledAbout>
   )
 }
