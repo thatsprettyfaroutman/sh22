@@ -20,13 +20,13 @@ const LottieWrapper = styled.div`
     pointer-events: none;
   }
 
-  ${({ $size }) => {
-    if (!$size) {
+  ${({ $size: s }) => {
+    if (!s) {
       return
     }
     return css`
-      width: ${$size.w}px;
-      height: ${$size.h}px;
+      width: ${s.w}px;
+      height: ${s.h}px;
     `
   }};
 
@@ -34,7 +34,6 @@ const LottieWrapper = styled.div`
     if (!c) {
       return
     }
-
     return css`
       > svg {
         position: relative;
@@ -110,31 +109,40 @@ export const Lottie = ({
   useIsomorphicLayoutEffect(() => {
     const resize = () => {
       const el = ref.current
-      const wrapper = wrapperRef.current
-      if (!el || !wrapper) {
+      if (!el) {
         return
       }
 
       const { clientWidth } = el
-      const { clientWidth: wrapperWidth } = wrapper
-      const { w, h, crop, nm } = animationData
+      const { w, h, crop } = animationData
       if (!crop) {
+        // let scale = clientWidth / w
+        // if (window.innerWidth < 768) {
+        //   scale *= 0.5
+        // }
+        // setWrapperSize({
+        //   w: w * scale,
+        //   h: h * scale,
+        // })
         return
       }
-
-      const s1 = Math.min(1, clientWidth / crop.w)
-      console.log(s1)
+      const scale = Math.min(1, clientWidth / crop.w)
+      // console.log(scale)
+      // if (window.innerWidth < 768) {
+      //   scale *= 0.75
+      // }
+      // console.log('->', scale)
 
       setWrapperSize({
-        w: crop.w * s1,
-        h: crop.h * s1,
+        w: crop.w * scale,
+        h: crop.h * scale,
       })
 
       setCrop({
-        x: s1 * -crop.x,
-        y: s1 * -crop.y,
-        w: s1 * w,
-        h: s1 * h,
+        x: scale * -crop.x,
+        y: scale * -crop.y,
+        w: scale * w,
+        h: scale * h,
       })
     }
     resize()

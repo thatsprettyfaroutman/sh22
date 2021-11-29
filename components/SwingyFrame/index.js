@@ -5,6 +5,7 @@ import { useInView } from 'react-intersection-observer'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 
 const StyledSwingyFrame = styled(a.div)`
+  position: relative;
   transform-origin: 50% 10px;
 
   > div {
