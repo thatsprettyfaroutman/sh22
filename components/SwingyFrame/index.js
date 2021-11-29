@@ -4,6 +4,9 @@ import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { Bite } from '@components/Bite'
+import { Lottie } from '@components/Lottie'
+
+import swingygremlin from '@lotties/swingygremlin.lottie.json'
 
 const StyledSwingyFrame = styled(a.div)`
   position: relative;
@@ -23,21 +26,11 @@ const StyledSwingyFrame = styled(a.div)`
     }
   }
 
-  > div {
+  > .Lottie {
     position: absolute;
-    bottom: 0;
+    bottom: 3px;
     left: 50%;
-    width: 110px;
-    height: 160px;
-    margin-left: -55px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: #f0f;
-    color: #fff;
-    font-size: 300%;
+    margin-left: -137.5px;
   }
 `
 
@@ -77,7 +70,7 @@ export const SwingyFrame = ({ ...restProps }) => {
       }
     >
       <img src="/images/julesframe.png" alt="Jules" />
-      <div>{secondsPassed % 2}</div>
+      <Lottie animationData={swingygremlin} />
       <BiteMarks />
     </StyledSwingyFrame>
   )
