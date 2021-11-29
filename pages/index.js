@@ -7,6 +7,8 @@ import { About } from '@components/About'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 
+import { SwingyFrame } from '@components/SwingyFrame'
+
 const SApp = styled.main``
 
 const SECTION_MAP = {
@@ -20,6 +22,15 @@ const SECTION_MAP = {
   alumn: ({ section }) => (
     <Section>
       <Text.Heading1>{section.title}</Text.Heading1>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <SwingyFrame />
+      </div>
     </Section>
   ),
   contacts: ({ section }) => (

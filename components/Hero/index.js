@@ -31,25 +31,28 @@ const StyledHero = styled(Section)`
 
 const MainLotties = styled(a.div)`
   position: relative;
-  height: 425px;
-  width: 425px;
+  /* height: 425px; */
+  /* width: 425px; */
+  /* min-width: 425px; */
+  /* border: 1px solid #f00; */
   /* background-color: ${(p) => p.theme.color.debug.bg}; */
 
-  > * {
+  > .Flowerboi {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    pointer-events: none;
-    margin: -265px 0 0 -298px;
-    transform-origin: 298px 265px;
+    top: 0;
+    /* top: 50%; */
+    /* left: 50%; */
+    /* pointer-events: none; */
+    /* margin: -265px 0 0 -298px; */
+    /* transform-origin: 298px 265px; */
   }
 
-  > .Flowerboibg {
+  /* > .Flowerboibg {
     width: 596px;
   }
   > .Flowerboi {
     width: 596px;
-  }
+  } */
 `
 
 const DancingLotties = styled(a.div)`
@@ -60,30 +63,13 @@ const DancingLotties = styled(a.div)`
 
   > * {
     position: absolute;
-    left: 0;
+    left: 16px;
     bottom: 0;
-    margin-bottom: -80px;
-    width: 229px; // duckyduck width
   }
 
-  > :nth-child(1) {
-    width: 278px; // porcuboi width
-    transform: scale(0.72);
-    margin-bottom: -121px;
-  }
-
-  > :nth-child(1) {
-    /* margin-left: 110px; */
-  }
-
-  > :nth-child(2),
-  > :nth-child(3) {
+  > :nth-child(2) {
     left: auto;
-    right: 0;
-  }
-
-  > :nth-child(3) {
-    margin-right: 110px;
+    right: 16px;
   }
 `
 
@@ -178,9 +164,13 @@ export const Hero = ({ section, ...restProps }) => {
 
       <Title style={titleSpring}>{section.title}</Title>
       <Button style={buttonSpring}>{section.button}</Button>
-      <a.div style={arrowSpring}>
-        <Lottie animationData={arrow} animationStopped={!isDancersVisible} />
-      </a.div>
+      {/* <a.div style={arrowSpring}> */}
+      <Lottie
+        animationData={arrow}
+        // animationStopped={!isDancersVisible}
+        animationOffset={500}
+      />
+      {/* </a.div> */}
     </StyledHero>
   )
 }
