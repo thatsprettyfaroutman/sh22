@@ -12,7 +12,7 @@ const StyledSwingyFrame = styled(a.div)`
   position: relative;
   transform-origin: 50% 10px;
   pointer-events: none;
-  padding-bottom: 155px;
+  padding-bottom: 180px;
 
   > img {
     display: block;
@@ -28,12 +28,12 @@ const StyledSwingyFrame = styled(a.div)`
 
   > .Lottie {
     position: absolute;
-    bottom: 3px;
+    bottom: 8px;
     left: 50%;
     margin-left: -137.5px;
 
     @media (max-width: 768px) {
-      bottom: 33px;
+      bottom: 42px;
       margin-left: -110px;
     }
   }
@@ -41,7 +41,7 @@ const StyledSwingyFrame = styled(a.div)`
 
 const BiteMarks = styled(Bite.A)`
   position: absolute;
-  bottom: 250px;
+  bottom: 300px;
   left: -22px;
   transform: rotate(-90deg);
 
