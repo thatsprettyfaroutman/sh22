@@ -31,6 +31,11 @@ const StyledSwingyFrame = styled(a.div)`
     bottom: 3px;
     left: 50%;
     margin-left: -137.5px;
+
+    @media (max-width: 768px) {
+      bottom: 33px;
+      margin-left: -110px;
+    }
   }
 `
 
