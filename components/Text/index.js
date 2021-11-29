@@ -29,8 +29,20 @@ const Button = styled.div`
   letter-spacing: 0.01em;
 `
 
+const Tag = styled.div`
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.8;
+`
+
 export const Text = {
   Heading1,
   Body,
   Button,
+  Tag,
 }

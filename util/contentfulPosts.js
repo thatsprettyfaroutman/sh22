@@ -63,10 +63,16 @@ export async function getHomeSections() {
   //   ]
   // }
 
-  return fixItem(item.fields.sections).map((section) => ({
-    ...R.omit(['post'], section),
-    link: section.contentType.toLowerCase().replace('section', ''),
-  }))
+  return fixItem(item.fields.sections).map((section) => {
+    let link = section.contentType.toLowerCase().replace('section', '')
+    if (link === 'alumn') {
+      link = 'alumni'
+    }
+    return {
+      ...R.omit(['post'], section),
+      link,
+    }
+  })
 }
 
 export async function getSection(contentType) {

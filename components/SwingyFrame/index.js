@@ -3,10 +3,24 @@ import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
+import { Bite } from '@components/Bite'
 
 const StyledSwingyFrame = styled(a.div)`
   position: relative;
   transform-origin: 50% 10px;
+  pointer-events: none;
+
+  > img {
+    display: block;
+    margin: 0;
+    width: 356px;
+    height: 434px;
+
+    @media (max-width: 768px) {
+      width: ${356 * 0.8}px;
+      height: ${434 * 0.8}px;
+    }
+  }
 
   > div {
     position: absolute;
@@ -24,6 +38,17 @@ const StyledSwingyFrame = styled(a.div)`
     background-color: #f0f;
     color: #fff;
     font-size: 300%;
+  }
+`
+
+const BiteMarks = styled(Bite.A)`
+  position: absolute;
+  bottom: 100px;
+  left: -22px;
+  transform: rotate(-90deg);
+
+  > path {
+    fill: ${(p) => p.theme.color.section.alumni.bg};
   }
 `
 
@@ -47,8 +72,9 @@ export const SwingyFrame = ({ ...restProps }) => {
         }
       }
     >
-      <img src="/images/julesframe.svg" alt="Jules" />
+      <img src="/images/julesframe.png" alt="Jules" />
       <div>{secondsPassed % 2}</div>
+      <BiteMarks />
     </StyledSwingyFrame>
   )
 }

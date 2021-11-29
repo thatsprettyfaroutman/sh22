@@ -2,22 +2,22 @@ import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
-import { Lottie } from '@components/Lottie'
+import { SwingyFrame } from '@components/SwingyFrame'
 
-import laptop from '@lotties/laptop.lottie.json'
-
-const StyledAbout = styled(Section)`
+const StyledAlumni = styled(Section)`
   min-height: initial;
   position: relative;
   display: grid;
   grid-template-columns: auto auto;
   grid-gap: 24px;
+  grid-column-gap: 96px;
   padding: 192px 48px;
+  padding-bottom: 384px;
   align-content: center;
   justify-content: center;
   overflow: hidden;
-  background-color: ${(p) => p.theme.color.section.about.bg};
-  color: ${(p) => p.theme.color.section.about.fg};
+  background-color: ${(p) => p.theme.color.section.alumni.bg};
+  color: ${(p) => p.theme.color.section.alumni.fg};
 
   > a {
     grid-area: button;
@@ -26,24 +26,34 @@ const StyledAbout = styled(Section)`
   }
 
   grid-template-areas:
-    'title lottie'
-    'description lottie'
-    'button lottie';
+    '. frame'
+    'tag frame'
+    'title frame'
+    'button frame'
+    '. frame';
 
   @media (max-width: 768px) {
     padding: 48px 16px;
     grid-template-columns: auto;
     justify-items: center;
     grid-template-areas:
-      'lottie'
+      'frame'
+      'tag'
       'title'
-      'description'
       'button';
+
     text-align: center;
 
     > a {
       margin-right: initial;
     }
+  }
+`
+
+const Tag = styled(Text.Tag)`
+  grid-area: tag;
+  @media (max-width: 768px) {
+    margin-top: 192px;
   }
 `
 
@@ -53,30 +63,25 @@ const Title = styled(Text.Heading1)`
   max-width: 700px;
 `
 
-const Description = styled(Text.Body)`
-  grid-area: description;
-  position: relative;
-  max-width: 700px;
-`
+const Frame = styled(SwingyFrame)`
+  grid-area: frame;
 
-const Laptop = styled(Lottie)`
-  grid-area: lottie;
-  min-width: 320px;
-  @media (max-width: 768px) {
-    min-width: initial;
+  @media (max-width: 1024px) {
+    margin-right: -100px;
   }
-  /* height: 256px; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
 `
 
-export const About = ({ section, ...restProps }) => {
+export const Alumni = ({ section, ...restProps }) => {
   return (
-    <StyledAbout {...restProps}>
+    <StyledAlumni {...restProps}>
+      <Tag>{section?.tag}</Tag>
       <Title>{section?.title}</Title>
-      <Description>{section?.description}</Description>
       <ExternalLink href={section?.href}>{section?.button}</ExternalLink>
-      <Laptop animationData={laptop} />
-    </StyledAbout>
+      <Frame />
+    </StyledAlumni>
   )
 }

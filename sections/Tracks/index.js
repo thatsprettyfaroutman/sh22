@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Lottie } from '@components/Lottie'
+import { Bite } from '@components/Bite'
 
 import popsicle from '@lotties/popsicle.lottie.json'
 
@@ -9,11 +10,12 @@ const StyledTracks = styled(Section)`
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  grid-gap: 48px;
+  grid-gap: 24px;
   padding: 192px 48px;
   padding-bottom: 0;
   background-color: ${(p) => p.theme.color.section.tracks.bg};
   color: ${(p) => p.theme.color.section.tracks.fg};
+  overflow: hidden;
 
   grid-template-areas:
     '. title .'
@@ -29,6 +31,25 @@ const StyledTracks = styled(Section)`
       'title title'
       'content content'
       'dancerA dancerB';
+  }
+`
+
+const BiteMarksA = styled(Bite.A)`
+  position: absolute;
+  top: 0;
+  right: 160px;
+  > path {
+    fill: ${(p) => p.theme.color.section.about.bg};
+  }
+`
+
+const BiteMarksB = styled(Bite.B)`
+  position: absolute;
+  top: 700px;
+  left: -29px;
+  transform: rotate(-90deg);
+  > path {
+    fill: ${(p) => p.theme.color.section.about.bg};
   }
 `
 
@@ -67,6 +88,8 @@ const DancerB = styled(Lottie)`
 export const Tracks = ({ section, ...restProps }) => {
   return (
     <StyledTracks {...restProps}>
+      <BiteMarksA />
+      <BiteMarksB />
       <Title>{section?.title}</Title>
       <Content>
         TODO: tracks
