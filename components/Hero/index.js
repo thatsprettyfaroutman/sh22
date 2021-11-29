@@ -164,13 +164,13 @@ export const Hero = ({ section, ...restProps }) => {
 
       <Title style={titleSpring}>{section.title}</Title>
       <Button style={buttonSpring}>{section.button}</Button>
-      {/* <a.div style={arrowSpring}> */}
-      <Lottie
-        animationData={arrow}
-        // animationStopped={!isDancersVisible}
-        animationOffset={500}
-      />
-      {/* </a.div> */}
+      <a.div style={arrowSpring}>
+        <Lottie
+          animationData={arrow}
+          animationStopped={!isDancersVisible}
+          animationOffset={500}
+        />
+      </a.div>
     </StyledHero>
   )
 }
