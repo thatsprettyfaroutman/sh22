@@ -5,6 +5,7 @@ import { Lottie } from '@components/Lottie'
 import { Bite } from '@components/Bite'
 
 import popsicle from '@lotties/popsicle.lottie.json'
+import boots from '@lotties/boots.lottie.json'
 
 const StyledTracks = styled(Section)`
   position: relative;
@@ -19,6 +20,7 @@ const StyledTracks = styled(Section)`
 
   grid-template-areas:
     '. title .'
+    '. boots .'
     'dancerA content dancerB'
     'dancerA . dancerB';
 
@@ -29,6 +31,7 @@ const StyledTracks = styled(Section)`
     grid-gap: 16px;
     grid-template-areas:
       'title title'
+      'boots boots'
       'content content'
       'dancerA dancerB';
   }
@@ -58,6 +61,11 @@ const Title = styled(Text.Heading1)`
   position: relative;
   max-width: 700px;
   text-align: center;
+  justify-self: center;
+`
+
+const Boots = styled(Lottie)`
+  grid-area: boots;
   justify-self: center;
 `
 
@@ -91,6 +99,7 @@ export const Tracks = ({ section, ...restProps }) => {
       <BiteMarksA />
       <BiteMarksB />
       <Title>{section?.title}</Title>
+      <Boots animationData={boots} />
       <Content>
         <Text.Body>
           TODO: tracks
