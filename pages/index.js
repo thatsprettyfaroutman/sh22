@@ -20,22 +20,6 @@ const SECTION_MAP = {
   tracks: Tracks,
   alumni: Alumni,
   contacts: Contacts,
-  // contacts: ({ section }) => {
-  //   console.log({ section })
-
-  //   return (
-  //     <Footer>
-  //       {/* <Text.Heading1>{section.title}</Text.Heading1> */}
-  //       {/* <Text.Heading1>{section.title}</Text.Heading1>
-  //     <p>1 some content</p>
-  //     <p>2 some content</p>
-  //     <p>3 some content</p>
-  //     <p>4 some content</p>
-  //     <p>5 some content</p> */}
-  //       {/* <Contacts section={section} /> */}
-  //     </Footer>
-  //   )
-  // },
 }
 
 export default function Home({ sections, ...restProps }) {
@@ -55,7 +39,6 @@ export default function Home({ sections, ...restProps }) {
 
 export async function getStaticProps() {
   const sections = await getHomeSections()
-  // console.log(sections)
   return {
     props: {
       sections,

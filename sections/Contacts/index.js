@@ -70,8 +70,6 @@ export const Contacts = ({ section, ...restProps }) => {
         <Title>{section?.title}</Title>
         <Infos>
           {section?.contacts.map((info) => {
-            console.log(info)
-
             return (
               <Info key={info.name}>
                 <Text.Tag>{info.role}</Text.Tag>

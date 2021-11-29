@@ -67,6 +67,7 @@ const Bot = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  padding: 0 16px;
   display: grid;
   grid-gap: 48px;
   grid-template-areas: 'dancerA  dancerB';
@@ -88,7 +89,7 @@ const DancerA = styled(Lottie)`
   grid-area: dancerA;
   margin-top: auto;
   @media (max-width: 768px) {
-    margin-left: -50px;
+    margin-left: -75px;
   }
 `
 
@@ -96,7 +97,7 @@ const DancerB = styled(Lottie)`
   grid-area: dancerB;
   margin-top: auto;
   @media (max-width: 768px) {
-    margin-right: -50px;
+    margin-right: -75px;
   }
 `
 
