@@ -92,32 +92,17 @@ export const Tracks = ({ section, ...restProps }) => {
       <BiteMarksB />
       <Title>{section?.title}</Title>
       <Content>
-        TODO: tracks
-        <p>
+        <Text.Body>
+          TODO: tracks
+          <br />
+          <br />
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
           videbimus. Qui non moveatur et offensione turpitudinis et
           comprobatione honestatis? Quis istum dolorem timet? Terram, mihi
           crede, ea lanx et maria deprimet. Bonum negas esse divitias,
           praeposìtum esse dicis? Tum Piso: Atqui, Cicero, inquit, ista studia,
           si ad imitandos summos viros spectant, ingeniosorum sunt;
-        </p>
-        <p>
-          Duo enim genera quae erant, fecit tria. Videamus animi partes, quarum
-          est conspectus illustrior; Quamquam te quidem video minime esse
-          deterritum. Aperiendum est igitur, quid sit voluptas; Nobis aliter
-          videtur, recte secusne, postea; Hoc Hieronymus summum bonum esse
-          dixit. Terram, mihi crede, ea lanx et maria deprimet. At modo dixeras
-          nihil in istis rebus esse, quod interesset. Quae fere omnia
-          appellantur uno ingenii nomine, easque virtutes qui habent, ingeniosi
-          vocantur.
-        </p>
-        <p>
-          Duo Reges: constructio interrete. Si quicquam extra virtutem habeatur
-          in bonis. Tanta vis admonitionis inest in locis; Eam stabilem
-          appellas. Igitur ne dolorem quidem. Itaque contra est, ac dicitis;
-          Quae qui non vident, nihil umquam magnum ac cognitione dignum
-          amaverunt.
-        </p>
+        </Text.Body>
       </Content>
       {/* <Dancers>
         <div />

@@ -12,7 +12,7 @@ const StyledAlumni = styled(Section)`
   grid-gap: 24px;
   grid-column-gap: 96px;
   padding: 192px 48px;
-  padding-bottom: 384px;
+  padding-bottom: 192px;
   align-content: center;
   justify-content: center;
   overflow: hidden;
@@ -52,9 +52,6 @@ const StyledAlumni = styled(Section)`
 
 const Tag = styled(Text.Tag)`
   grid-area: tag;
-  @media (max-width: 768px) {
-    margin-top: 192px;
-  }
 `
 
 const Title = styled(Text.Heading1)`

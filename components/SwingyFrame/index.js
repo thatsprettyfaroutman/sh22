@@ -9,6 +9,7 @@ const StyledSwingyFrame = styled(a.div)`
   position: relative;
   transform-origin: 50% 10px;
   pointer-events: none;
+  padding-bottom: 155px;
 
   > img {
     display: block;
@@ -24,12 +25,11 @@ const StyledSwingyFrame = styled(a.div)`
 
   > div {
     position: absolute;
-    top: 100%;
+    bottom: 0;
     left: 50%;
     width: 110px;
     height: 160px;
     margin-left: -55px;
-    margin-top: -20px;
 
     display: flex;
     justify-content: center;
@@ -43,12 +43,16 @@ const StyledSwingyFrame = styled(a.div)`
 
 const BiteMarks = styled(Bite.A)`
   position: absolute;
-  bottom: 100px;
+  bottom: 250px;
   left: -22px;
   transform: rotate(-90deg);
 
   > path {
     fill: ${(p) => p.theme.color.section.alumni.bg};
+  }
+
+  @media (max-width: 768px) {
+    left: -24px;
   }
 `
 
