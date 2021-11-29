@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 import { Text } from '@components/Text'
-import { Lottie } from '@components/Lottie'
 
 const StyledContacts = styled(Section)`
   min-height: initial;

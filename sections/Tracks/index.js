@@ -4,13 +4,16 @@ import { Text } from '@components/Text'
 import { Lottie } from '@components/Lottie'
 import { Bite } from '@components/Bite'
 
-import popsicle from '@lotties/popsicle.lottie.json'
 import boots from '@lotties/boots.lottie.json'
+import snek from '@lotties/snek.lottie.json'
+import popsicle from '@lotties/popsicle.lottie.json'
 
 const StyledTracks = styled(Section)`
+  min-height: initial;
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  justify-content: center;
+  align-content: center;
   grid-gap: 24px;
   padding: 192px 48px;
   padding-bottom: 0;
@@ -18,22 +21,11 @@ const StyledTracks = styled(Section)`
   color: ${(p) => p.theme.color.section.tracks.fg};
   overflow: hidden;
 
-  grid-template-areas:
-    '. title .'
-    '. boots .'
-    'dancerA content dancerB'
-    'dancerA . dancerB';
-
   @media (max-width: 1024px) {
     padding: 48px 16px;
     padding-bottom: 0;
-    grid-template-columns: 1fr 1fr;
     grid-gap: 16px;
-    grid-template-areas:
-      'title title'
-      'boots boots'
-      'content content'
-      'dancerA dancerB';
+    padding-bottom: 210px;
   }
 `
 
@@ -57,7 +49,6 @@ const BiteMarksB = styled(Bite.B)`
 `
 
 const Title = styled(Text.Heading1)`
-  grid-area: title;
   position: relative;
   max-width: 700px;
   text-align: center;
@@ -65,12 +56,10 @@ const Title = styled(Text.Heading1)`
 `
 
 const Boots = styled(Lottie)`
-  grid-area: boots;
   justify-self: center;
 `
 
 const Content = styled.div`
-  grid-area: content;
   position: relative;
   max-width: 700px;
   padding-bottom: 192px;
@@ -79,6 +68,21 @@ const Content = styled.div`
 
   @media (max-width: 1024px) {
     padding-bottom: 0;
+  }
+`
+
+const Dancers = styled.div`
+  position: absolute;
+  display: grid;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 48px;
+  grid-template-areas: 'dancerA dancerB';
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
   }
 `
 
@@ -113,13 +117,10 @@ export const Tracks = ({ section, ...restProps }) => {
           si ad imitandos summos viros spectant, ingeniosorum sunt;
         </Text.Body>
       </Content>
-      {/* <Dancers>
-        <div />
-        <Lottie animationData={popsicle} />
-      </Dancers> */}
-
-      <DancerA animationData={popsicle} animationOffset={500} />
-      <DancerB animationData={popsicle} />
+      <Dancers>
+        <DancerA animationData={snek} />
+        <DancerB animationData={popsicle} />
+      </Dancers>
     </StyledTracks>
   )
 }
