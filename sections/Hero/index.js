@@ -100,24 +100,6 @@ const DancerB = styled(Lottie)`
   }
 `
 
-// const DancingLotties = styled(a.div)`
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-
-//   > * {
-//     position: absolute;
-//     left: 16px;
-//     bottom: 0;
-//   }
-
-//   > :nth-child(2) {
-//     left: auto;
-//     right: 16px;
-//   }
-// `
-
 const Title = styled(a(Text.Heading1))`
   grid-area: title;
   position: relative;
@@ -134,11 +116,6 @@ const Arrow = styled(a.div)`
   justify-content: center;
   align-items: center;
   grid-area: arrow;
-  /* padding-bottom: 48px;
-
-  @media (max-width: 768px) {
-    padding-bottom: 0;
-  } */
 `
 
 export const Hero = ({ section, ...restProps }) => {
@@ -211,7 +188,7 @@ export const Hero = ({ section, ...restProps }) => {
           <Lottie
             animationData={arrow}
             animationStopped={!isDancersVisible}
-            animationOffset={0}
+            animationOffset={500}
           />
         </Arrow>
       </Top>
