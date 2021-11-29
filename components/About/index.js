@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
-import { Button } from '@components/Button'
+import { ExternalLink } from '@components/ExternalLink'
 import { Lottie } from '@components/Lottie'
 
 import laptop from '@lotties/laptop.lottie.json'
@@ -22,7 +22,7 @@ const StyledAbout = styled(Section)`
   background-color: ${(p) => p.theme.color.section.about.bg};
   color: ${(p) => p.theme.color.section.about.fg};
 
-  > button {
+  > a {
     grid-area: button;
     margin-right: auto;
     margin-bottom: auto;
@@ -38,7 +38,7 @@ const StyledAbout = styled(Section)`
       'button';
     text-align: center;
 
-    > button {
+    > a {
       margin-right: initial;
     }
   }
@@ -67,7 +67,9 @@ export const About = ({ section, ...restProps }) => {
     <StyledAbout {...restProps}>
       <Title>{section?.title}</Title>
       <Description>{section?.description}</Description>
-      <Button>{section?.button}</Button>
+      <ExternalLink href="https://hoxhunt.com?sh22">
+        {section?.button}
+      </ExternalLink>
       <Laptop animationData={laptop} />
     </StyledAbout>
   )

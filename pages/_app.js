@@ -28,7 +28,7 @@ const theme = {
       contacts: { bg: '#1D1D1B', fg: '#fff' },
     },
     button: { bg: '#ffd31a', fg: '#101010' },
-    debug: { bg: '#f0f', fg: '#fff' },
+    link: { bg: 'transparent', fg: '#5462DB' },
   },
 }
 
