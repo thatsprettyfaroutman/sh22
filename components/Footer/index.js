@@ -25,10 +25,11 @@ export const Footer = ({ children, ...restProps }) => {
   const { ref: inViewRef, inView } = useInView()
   const [bitingStartedAtSecond, setBitingStartedAtSecond] = useState(-1)
   const [biteRef, getBiteProps] = useGetBiteProps(bitingStartedAtSecond)
-  const biteClipPath = useBiteClipPath(getBiteProps)
+  const biteClipPath = useBiteClipPath(getBiteProps, inView)
   const { spring: yetiBeaverSpring, isDoneEating } = useYetiBeaverSpring(
     getBiteProps,
-    yetibeaver
+    yetibeaver,
+    inView
   )
 
   useIsomorphicLayoutEffect(() => {

@@ -1,9 +1,9 @@
 import { useMemo, useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { a, useSpring, config } from 'react-spring'
-import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
+import { a } from 'react-spring'
 import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
 import { useWindowResize } from '@hooks/useWindowResize'
+import { useDanceProgress } from '@hooks/useDanceProgress'
 import { getLottieSize } from '@components/Lottie'
 
 const StyledYetiBeaverArea = styled(a.div)`
@@ -34,9 +34,9 @@ export const YetiBeaverArea = ({
   animationData,
   ...restProps
 }) => {
-  const { infiniteSpring } = useInfiniteSpringContext()
   const [isJamming, setIsJamming] = useState(false)
   const [beaverSize, setBeaverSize] = useState(null)
+  const danceProgress = useDanceProgress({ enabled: visible && isJamming })
 
   useWindowResize(
     useCallback(() => {
@@ -45,22 +45,14 @@ export const YetiBeaverArea = ({
     }, [animationData])
   )
 
-  const spring = useSpring({
-    config: { ...config.stiff, mass: 2 },
-    from: { y: 160 },
-    y: visible ? 0 : 160,
-  })
-
   const jammingSpring = useMemo(
     () =>
-      isJamming
+      danceProgress
         ? {
-            y: infiniteSpring.time.to(
-              (t) => Math.sin(((t % 500) / 500) * Math.PI * 2) * 2
-            ),
+            y: danceProgress.to((p) => p * 8),
           }
         : {},
-    [infiniteSpring, isJamming]
+    [danceProgress]
   )
 
   useSecondsPassedEffect(() => {
@@ -69,14 +61,7 @@ export const YetiBeaverArea = ({
 
   return (
     <StyledYetiBeaverArea {...restProps} $beaverSize={beaverSize}>
-      <Content
-        style={{
-          ...spring,
-          ...jammingSpring,
-        }}
-      >
-        {visible ? children : null}
-      </Content>
+      <Content style={jammingSpring}>{visible ? children : null}</Content>
     </StyledYetiBeaverArea>
   )
 }

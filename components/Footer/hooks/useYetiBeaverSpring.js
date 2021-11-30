@@ -7,11 +7,15 @@ import { getLottieSize } from '@components/Lottie'
 import { getBites } from '../lib'
 import { SECONDS_PER_BITE } from '../consts'
 
-export const useYetiBeaverSpring = (getBiteProps, animationData) => {
+export const useYetiBeaverSpring = (
+  getBiteProps,
+  animationData,
+  inView = true
+) => {
   const { secondsPassed } = useInfiniteSpringContext()
   const lastStyleRef = useRef({
     x: window.innerWidth,
-    y: (animationData?.crop?.h || 0) / 2,
+    y: (animationData?.crop?.h || 0) * 2,
   })
   const isDoneEatingRef = useRef(false)
 
@@ -56,6 +60,7 @@ export const useYetiBeaverSpring = (getBiteProps, animationData) => {
 
   const spring = useSpring({
     config: { duration: 1500, easing: easeCubicInOut },
+    immediate: !inView,
     ...style,
   })
 
