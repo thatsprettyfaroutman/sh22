@@ -9,7 +9,6 @@ import snek from '@lotties/snek.lottie.json'
 import popsicle from '@lotties/popsicle.lottie.json'
 
 const StyledTracks = styled(Section)`
-  min-height: initial;
   position: relative;
   display: grid;
   justify-content: center;
@@ -26,6 +25,10 @@ const StyledTracks = styled(Section)`
     padding-bottom: 0;
     grid-gap: 16px;
     padding-bottom: 210px;
+  }
+
+  @media (max-width: 768px) {
+    min-height: initial;
   }
 `
 
@@ -80,6 +83,7 @@ const Dancers = styled.div`
   padding: 0 48px;
   grid-template-areas: 'dancerA dancerB';
   justify-content: space-between;
+  pointer-events: none;
 
   @media (max-width: 768px) {
     padding: 0 16px;

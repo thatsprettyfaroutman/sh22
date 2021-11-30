@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import styled from 'styled-components'
 import { a, useSpring, useTrail } from 'react-spring'
 import { easeCubicOut } from 'd3-ease'
@@ -8,6 +8,7 @@ import {
   useInfiniteSpringContext,
   START_BASS_BOOMING_AT_SECOND,
 } from '@contexts/infiniteSpring'
+import { useSpringScroll } from '@hooks/useSpringScroll'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Button } from '@components/Button'
@@ -23,35 +24,18 @@ const StyledHero = styled(Section)`
   position: relative;
   display: grid;
   align-content: center;
-
-  /* grid-template-columns: auto 1fr auto; */
-  /* grid-gap: 48px; */
   padding: 48px;
-  /* padding-bottom: 0; */
   overflow: hidden;
   background-color: ${(p) => p.theme.color.section.hero.bg};
   color: ${(p) => p.theme.color.section.hero.fg};
 
-  /* grid-template-areas:
-    '. . .'
-    '. flower .'
-    'title title title'
-    'dancerA button dancerB'
-    'dancerA arrow dancerB'; */
-
   @media (max-width: 768px) {
     padding-left: 16px;
     padding-right: 16px;
-    /* grid-template-columns: 1fr auto 1fr; */
-    /* grid-template-areas:
-      'flower flower flower'
-      'title title title'
-      'button button button'
-      'dancerA arrow dancerB'; */
   }
 `
 
-const Top = styled.div`
+const MainContent = styled.div`
   display: grid;
   grid-gap: 48px;
   justify-items: center;
@@ -62,7 +46,7 @@ const Top = styled.div`
     'arrow';
 `
 
-const Bot = styled.div`
+const Dancers = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -72,6 +56,7 @@ const Bot = styled.div`
   grid-gap: 48px;
   grid-template-areas: 'dancerA  dancerB';
   justify-content: space-between;
+  pointer-events: none;
 `
 
 const Flower = styled(a.div)`
@@ -120,6 +105,7 @@ const Arrow = styled(a.div)`
 `
 
 export const Hero = ({ section, ...restProps }) => {
+  const scrollTo = useSpringScroll()
   const { secondsPassed, isBassBooming, isDancing } = useInfiniteSpringContext()
   const isDancersVisible = secondsPassed >= START_BASS_BOOMING_AT_SECOND
 
@@ -163,12 +149,17 @@ export const Hero = ({ section, ...restProps }) => {
     [trail]
   )
 
+  const handelApplyButtonClick = useCallback(() => {
+    const tracksSection = document.querySelector('[data-section-link="tracks"]')
+    scrollTo(tracksSection)
+  }, [scrollTo])
+
   return (
     <StyledHero {...restProps}>
       {/* <ColorTunnel /> */}
       {/* <FlyingThings /> */}
 
-      <Top>
+      <MainContent>
         <Flower>
           <Lottie
             animationData={flowerboibg}
@@ -184,16 +175,18 @@ export const Hero = ({ section, ...restProps }) => {
           />
         </Flower>
         <Title style={titleSpring}>{section.title}</Title>
-        <ApplyButton style={buttonSpring}>{section.button}</ApplyButton>
-        <Arrow style={arrowSpring}>
+        <ApplyButton style={buttonSpring} onClick={handelApplyButtonClick}>
+          {section.button}
+        </ApplyButton>
+        <Arrow style={arrowSpring} onClick={handelApplyButtonClick}>
           <Lottie
             animationData={arrow}
             animationStopped={!isDancersVisible}
             animationOffset={500}
           />
         </Arrow>
-      </Top>
-      <Bot>
+      </MainContent>
+      <Dancers>
         <DancerA
           animationData={porcuboi}
           animationStopped={!isDancersVisible}
@@ -204,7 +197,7 @@ export const Hero = ({ section, ...restProps }) => {
           animationStopped={!isDancersVisible}
           style={omit(['opacity'], dancersSpring)}
         />
-      </Bot>
+      </Dancers>
     </StyledHero>
   )
 }

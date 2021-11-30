@@ -26,7 +26,13 @@ export default function Home({ sections, ...restProps }) {
         if (!Section) {
           return null
         }
-        return <Section key={section.contentType} section={section} />
+        return (
+          <Section
+            key={section.contentType}
+            section={section}
+            data-section-link={section.link}
+          />
+        )
       })}
     </StyledApp>
   )
