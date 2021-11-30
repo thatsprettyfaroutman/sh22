@@ -78,6 +78,7 @@ export const Lottie = ({
   animationOffset = 0,
   animationStopped = false,
   animationDurationScale = 1,
+  onControlledAnimation,
   cropRect,
   ...restProps
 }) => {
@@ -106,6 +107,14 @@ export const Lottie = ({
       })
     lottieAnimationRef.current = lottieAnimation
 
+    if (typeof onControlledAnimation === 'function') {
+      // Animation is being controlled from outside
+      onControlledAnimation(lottieAnimation)
+      return () => {
+        onControlledAnimation(null)
+      }
+    }
+
     if (animationStopped || !inView) {
       return
     }
@@ -127,6 +136,7 @@ export const Lottie = ({
   }, [
     animationData,
     animationOffset,
+    onControlledAnimation,
     addSpringListener,
     animationStopped,
     animationDurationScale,

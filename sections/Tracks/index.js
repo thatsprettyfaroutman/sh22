@@ -3,6 +3,7 @@ import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Lottie } from '@components/Lottie'
 import { Bite } from '@components/Bite'
+import { MrEyez } from '@components/MrEyez'
 
 import boots from '@lotties/boots.lottie.json'
 import snek from '@lotties/snek.lottie.json'
@@ -74,6 +75,12 @@ const Content = styled.div`
   }
 `
 
+const StyledMrEyez = styled(MrEyez)`
+  position: absolute;
+  top: 64px;
+  left: 64px;
+`
+
 const Dancers = styled.div`
   position: absolute;
   display: grid;
@@ -104,6 +111,7 @@ const DancerB = styled(Lottie)`
 export const Tracks = ({ section, ...restProps }) => {
   return (
     <StyledTracks {...restProps}>
+      <StyledMrEyez />
       <BiteMarksA />
       <BiteMarksB />
       <Title>{section?.title}</Title>
