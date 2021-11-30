@@ -27,6 +27,7 @@ const theme = {
       alumni: { bg: '#fff', fg: '#101010' },
       contacts: { bg: '#1D1D1B', fg: '#fff' },
     },
+    track: { bg: '#fff', fg: '#1D1D1B' },
     footer: { bg: '#1D1D1B', fg: '#fff' },
     button: { bg: '#ffd31a', fg: '#101010' },
     link: { bg: 'transparent', fg: '#5462DB' },

@@ -5,6 +5,7 @@ import { Text } from '@components/Text'
 import { Lottie } from '@components/Lottie'
 import { Bite } from '@components/Bite'
 import { MrEyez } from '@components/MrEyez'
+import { Track } from '@components/Track'
 
 import boots from '@lotties/boots2.lottie.json'
 import snek from '@lotties/snek.lottie.json'
@@ -15,7 +16,7 @@ const StyledTracks = styled(Section)`
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-gap: 24px;
+  grid-gap: 48px;
   padding: 192px 48px;
   padding-bottom: 0;
   background-color: ${(p) => p.theme.color.section.tracks.bg};
@@ -67,10 +68,12 @@ const Boots = styled(Lottie)`
 
 const Content = styled.div`
   position: relative;
+  display: grid;
+  grid-gap: 16px;
   max-width: 700px;
   padding-bottom: 192px;
   text-align: center;
-  justify-self: center;
+  /* justify-self: center; */
 
   @media (max-width: 1024px) {
     padding-bottom: 0;
@@ -124,7 +127,10 @@ export const Tracks = ({ section, ...restProps }) => {
       <Title>{section?.title}</Title>
       <Boots animationData={useMemo(() => boots, [])} />
       <Content>
-        <Text.Body>
+        {section?.tracks.map((track, i) => (
+          <Track key={i} track={track} />
+        ))}
+        {/* <Text.Body>
           TODO: tracks
           <br />
           <br />
@@ -134,7 +140,7 @@ export const Tracks = ({ section, ...restProps }) => {
           crede, ea lanx et maria deprimet. Bonum negas esse divitias,
           praeposìtum esse dicis? Tum Piso: Atqui, Cicero, inquit, ista studia,
           si ad imitandos summos viros spectant, ingeniosorum sunt;
-        </Text.Body>
+        </Text.Body> */}
       </Content>
       <Dancers>
         <DancerA animationData={useMemo(() => snek, [])} />

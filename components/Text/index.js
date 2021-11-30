@@ -10,6 +10,16 @@ const Heading1 = styled.h1`
   letter-spacing: 1px;
 `
 
+const Heading2 = styled.h2`
+  margin: 0;
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 0.01em;
+`
+
 const Body = styled.p`
   margin: 0;
   font-family: Inter, sans-serif;
@@ -42,6 +52,7 @@ const Tag = styled.div`
 
 export const Text = {
   Heading1,
+  Heading2,
   Body,
   Button,
   Tag,
