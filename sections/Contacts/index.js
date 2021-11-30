@@ -76,6 +76,7 @@ export const Contacts = ({ section, ...restProps }) => {
       if (isBfodaas) {
         return
       }
+      setIsBfodaas(true)
       setTimeScale(1.487603)
       const iframe = document.createElement('iframe')
       iframe.setAttribute('width', '128')
@@ -91,7 +92,6 @@ export const Contacts = ({ section, ...restProps }) => {
         "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; 'allowfullscreen'"
       )
       e.target.appendChild(iframe)
-      setIsBfodaas(true)
     },
     [setTimeScale, isBfodaas]
   )
@@ -99,7 +99,7 @@ export const Contacts = ({ section, ...restProps }) => {
   return (
     <Footer>
       <StyledContacts {...restProps}>
-        <Title onClick={playBfodaas}>{section?.title}</Title>
+        <Title>{section?.title}</Title>
         <Infos>
           {section?.contacts.map((info) => {
             return (
@@ -116,6 +116,17 @@ export const Contacts = ({ section, ...restProps }) => {
             )
           })}
         </Infos>
+        <Text.Body
+          as="div"
+          onClick={playBfodaas}
+          style={{
+            opacity: isBfodaas ? 1 : 0.1,
+            cursor: 'pointer',
+            marginRight: 'auto',
+          }}
+        >
+          {!isBfodaas ? <span style={{ pointerEvents: 'none' }}>♫</span> : null}
+        </Text.Body>
       </StyledContacts>
     </Footer>
   )
