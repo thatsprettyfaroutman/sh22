@@ -16,6 +16,7 @@ export const MrEyez = ({ ...restProps }) => {
   const { ref, inView } = useInView()
   const [isHovering, setIsHovering] = useState(false)
   const [lottieAnimation, setLottieAnimation] = useState(null)
+  const [isMoving, setIsMoving] = useState(false)
   const [irises, setIrises] = useState([])
   const lastPositionsRef = useRef([])
 
@@ -48,7 +49,8 @@ export const MrEyez = ({ ...restProps }) => {
   )
 
   useEffect(() => {
-    if (!lottieAnimation || isHovering || !irises.length) {
+    if (!lottieAnimation || isHovering || !irises.length || !inView) {
+      setIsMoving(false)
       return
     }
     const mouseMove = ({ clientX, clientY }) => {
@@ -64,12 +66,13 @@ export const MrEyez = ({ ...restProps }) => {
         pos.y = Math.cos(angle) * 10
         el.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`
       })
+      setIsMoving(true)
     }
     window.addEventListener('mousemove', mouseMove)
     return () => {
       window.removeEventListener('mousemove', mouseMove)
     }
-  }, [lottieAnimation, irises, isHovering])
+  }, [lottieAnimation, irises, isHovering, inView])
 
   useSpring({
     config: { duration: 1000, easing: easeCubicInOut },
@@ -90,9 +93,9 @@ export const MrEyez = ({ ...restProps }) => {
     useMemo(
       () =>
         irises.map(({ el }, i) =>
-          isHovering
+          isHovering || !isMoving
             ? {
-                reset: true,
+                reset: isHovering,
                 from: { ...lastPositionsRef.current[i], p: 1 },
                 x: 0,
                 y: 0,
@@ -112,7 +115,7 @@ export const MrEyez = ({ ...restProps }) => {
                 },
               }
         ),
-      [irises, isHovering]
+      [irises, isHovering, isMoving]
     )
   )
 
