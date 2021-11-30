@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
+import { a } from 'react-spring'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
+import { useDanceProgress } from '@hooks/useDanceProgress'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 import { Text } from '@components/Text'
@@ -70,6 +72,7 @@ const Info = styled.div`
 export const Contacts = ({ section, ...restProps }) => {
   const [isBfodaas, setIsBfodaas] = useState(false)
   const { setTimeScale } = useInfiniteSpringContext()
+  const danceProgress = useDanceProgress()
 
   const playBfodaas = useCallback(
     (e) => {
@@ -116,16 +119,20 @@ export const Contacts = ({ section, ...restProps }) => {
             )
           })}
         </Infos>
-        <Text.Body
-          as="div"
+        <a.div
           onClick={playBfodaas}
           style={{
             opacity: isBfodaas ? 1 : 0.1,
             marginRight: 'auto',
+            ...(danceProgress ? { y: danceProgress.to((p) => p * -8) } : {}),
           }}
         >
-          {!isBfodaas ? <span style={{ pointerEvents: 'none' }}>♫</span> : null}
-        </Text.Body>
+          <Text.Body as="div">
+            {!isBfodaas ? (
+              <span style={{ pointerEvents: 'none' }}>♫</span>
+            ) : null}
+          </Text.Body>
+        </a.div>
       </StyledContacts>
     </Footer>
   )
