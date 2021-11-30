@@ -40,8 +40,9 @@ export const Footer = ({ children, ...restProps }) => {
   }, [inView, bitingStartedAtSecond, secondsPassed])
 
   return (
-    <Wrapper {...restProps} ref={inViewRef}>
+    <Wrapper {...restProps}>
       <YetiBeaverArea
+        ref={inViewRef}
         animationData={yetibeaver}
         visible={bitingStartedAtSecond !== -1}
         isYetiJamming={isDoneEating}

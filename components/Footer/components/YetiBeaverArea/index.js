@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback, forwardRef } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
@@ -27,41 +27,51 @@ const StyledYetiBeaverArea = styled(a.div)`
 
 const Content = styled(a.div)``
 
-export const YetiBeaverArea = ({
-  visible = true,
-  isYetiJamming = false,
-  children,
-  animationData,
-  ...restProps
-}) => {
-  const [isJamming, setIsJamming] = useState(false)
-  const [beaverSize, setBeaverSize] = useState(null)
-  const danceProgress = useDanceProgress({ enabled: visible && isJamming })
+export const YetiBeaverArea = forwardRef(
+  (
+    {
+      visible = true,
+      isYetiJamming = false,
+      children,
+      animationData,
+      ...restProps
+    },
+    forwardedRef
+  ) => {
+    const [isJamming, setIsJamming] = useState(false)
+    const [beaverSize, setBeaverSize] = useState(null)
+    const danceProgress = useDanceProgress({ enabled: visible && isJamming })
 
-  useWindowResize(
-    useCallback(() => {
-      const { size } = getLottieSize(animationData)
-      setBeaverSize(size)
-    }, [animationData])
-  )
+    useWindowResize(
+      useCallback(() => {
+        const { size } = getLottieSize(animationData)
+        setBeaverSize(size)
+      }, [animationData])
+    )
 
-  const jammingSpring = useMemo(
-    () =>
-      danceProgress
-        ? {
-            y: danceProgress.to((p) => p * 8),
-          }
-        : {},
-    [danceProgress]
-  )
+    const jammingSpring = useMemo(
+      () =>
+        danceProgress
+          ? {
+              y: danceProgress.to((p) => p * 8),
+            }
+          : {},
+      [danceProgress]
+    )
 
-  useSecondsPassedEffect(() => {
-    setIsJamming(isYetiJamming)
-  })
+    useSecondsPassedEffect(() => {
+      setIsJamming(isYetiJamming)
+    })
 
-  return (
-    <StyledYetiBeaverArea {...restProps} $beaverSize={beaverSize}>
-      <Content style={jammingSpring}>{visible ? children : null}</Content>
-    </StyledYetiBeaverArea>
-  )
-}
+    return (
+      <StyledYetiBeaverArea
+        ref={forwardedRef}
+        {...restProps}
+        $beaverSize={beaverSize}
+      >
+        <Content style={jammingSpring}>{visible ? children : null}</Content>
+      </StyledYetiBeaverArea>
+    )
+  }
+)
+YetiBeaverArea.displayName = 'YetiBeaverArea'
