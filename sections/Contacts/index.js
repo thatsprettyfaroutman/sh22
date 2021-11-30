@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
@@ -62,10 +63,28 @@ const Info = styled.div`
 `
 
 export const Contacts = ({ section, ...restProps }) => {
+  const playBfodaas = useCallback((e) => {
+    const iframe = document.createElement('iframe')
+    iframe.setAttribute('width', '200')
+    iframe.setAttribute('height', '200')
+    iframe.setAttribute(
+      'src',
+      'https://www.youtube.com/embed/_zP_NN2dOa4?controls=0&autoplay=1'
+    )
+    iframe.setAttribute('title', 'YouTube video player')
+    iframe.setAttribute('frameborder', '0')
+    iframe.setAttribute(
+      'allow',
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; 'allowfullscreen'"
+    )
+
+    e.target.appendChild(iframe)
+  }, [])
+
   return (
     <Footer>
       <StyledContacts {...restProps}>
-        <Title>{section?.title}</Title>
+        <Title onClick={playBfodaas}>{section?.title}</Title>
         <Infos>
           {section?.contacts.map((info) => {
             return (
