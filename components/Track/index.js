@@ -20,6 +20,10 @@ const StyledTrack = styled.div`
     color: ${(p) => p.theme.color.track.fg};
     border: 3px solid ${(p) => p.theme.color.track.fg};
     pointer-events: none;
+
+    @media (max-width: 780px) {
+      grid-template-columns: 1fr auto;
+    }
   }
 `
 
@@ -27,6 +31,11 @@ const TrackIcon = styled.div`
   width: 64px;
   height: 64px;
   background-color: #f0f;
+
+  @media (max-width: 780px) {
+    grid-column: 1/3;
+    margin-right: auto;
+  }
 `
 
 export const Track = ({ track, onClick, ...restProps }) => {
