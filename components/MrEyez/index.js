@@ -1,57 +1,75 @@
 import window from 'handle-window-undefined'
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import styled from 'styled-components'
+import { useInView } from 'react-intersection-observer'
 import { easeCubicInOut } from 'd3-ease'
-import { useSpring, a } from 'react-spring'
-import { Lottie, getLottieSize } from '@components/Lottie'
+import { useSpring, useSprings, a } from 'react-spring'
+import { useWindowResize } from '@hooks/useWindowResize'
+import { Lottie } from '@components/Lottie'
 import mreyez from '@lotties/mreyez.lottie.json'
 
 const StyledMrEyez = styled.div`
-  /* border: 1px solid #f0f; */
+  transform: rotate(-14deg);
 `
 
 export const MrEyez = ({ ...restProps }) => {
+  const { ref, inView } = useInView()
   const [isHovering, setIsHovering] = useState(false)
   const [lottieAnimation, setLottieAnimation] = useState(null)
+  const [irises, setIrises] = useState([])
   const lastPositionsRef = useRef([])
 
-  const irises = useMemo(() => {
-    if (!lottieAnimation) {
-      return []
-    }
-    return [
-      lottieAnimation.wrapper.querySelector('g > g:nth-child(8) > g > path'),
-      lottieAnimation.wrapper.querySelector('g > g:nth-child(3) > g > path'),
-    ]
-      .filter(Boolean)
-      .map((el) => {
-        const rect = el.getBoundingClientRect()
-        return { el, x: rect.x + window.scrollX, y: rect.y + window.scrollY }
-      })
-  }, [lottieAnimation])
+  useWindowResize(
+    useCallback(() => {
+      if (!lottieAnimation || !inView) {
+        return
+      }
+      setIrises(
+        [
+          lottieAnimation.wrapper.querySelector(
+            'g > g:nth-child(8) > g > path'
+          ),
+          lottieAnimation.wrapper.querySelector(
+            'g > g:nth-child(3) > g > path'
+          ),
+        ]
+          .filter(Boolean)
+          .map((el) => {
+            const rect = el.getBoundingClientRect()
+            return {
+              el,
+              x: rect.x + window.scrollX,
+              y: rect.y + window.scrollY,
+            }
+          })
+      )
+    }, [lottieAnimation, inView]),
+    { scroll: true }
+  )
 
   useEffect(() => {
-    console.log(lottieAnimation)
-    if (!lottieAnimation) {
+    if (!lottieAnimation || isHovering || !irises.length) {
       return
     }
     const mouseMove = ({ clientX, clientY }) => {
       const normalX = clientX + window.scrollX
       const normalY = clientY + window.scrollY
       irises.forEach(({ el, x, y }, i) => {
+        if (!lastPositionsRef.current[i]) {
+          lastPositionsRef.current[i] = { x: 0, y: 0 }
+        }
+        const pos = lastPositionsRef.current[i]
         const angle = Math.atan2(normalX - x, normalY - y)
-        const toX = Math.sin(angle) * 10
-        const toY = Math.cos(angle) * 10
-        lastPositionsRef.current[i] = { x: toX, y: toY }
-        el.style.transform = `translate3d(${toX}px, ${toY}px, 0)`
+        pos.x = Math.sin(angle) * 10
+        pos.y = Math.cos(angle) * 10
+        el.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`
       })
     }
-
     window.addEventListener('mousemove', mouseMove)
     return () => {
       window.removeEventListener('mousemove', mouseMove)
     }
-  }, [lottieAnimation, irises])
+  }, [lottieAnimation, irises, isHovering])
 
   useSpring({
     config: { duration: 1000, easing: easeCubicInOut },
@@ -67,8 +85,40 @@ export const MrEyez = ({ ...restProps }) => {
     ),
   })
 
+  useSprings(
+    irises.length,
+    useMemo(
+      () =>
+        irises.map(({ el }, i) =>
+          isHovering
+            ? {
+                reset: true,
+                from: { ...lastPositionsRef.current[i], p: 1 },
+                x: 0,
+                y: 0,
+                p: 0,
+                onChange: ({ value: { x, y } }) => {
+                  el.style.transform = `translate3d(${x}px, ${y}px, 0)`
+                },
+              }
+            : {
+                reset: false,
+                p: 1,
+                onChange: ({ value: { p } }) => {
+                  const pos = lastPositionsRef.current[i]
+                  el.style.transform = `translate3d(${pos.x * p}px, ${
+                    pos.y * p
+                  }px, 0)`
+                },
+              }
+        ),
+      [irises, isHovering]
+    )
+  )
+
   return (
     <StyledMrEyez
+      ref={ref}
       {...restProps}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

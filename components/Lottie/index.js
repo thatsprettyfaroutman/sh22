@@ -1,5 +1,5 @@
 import window from 'handle-window-undefined'
-import { useRef, useCallback, useState } from 'react'
+import { useRef, useCallback, useState, useEffect } from 'react'
 import lottie from 'lottie-web'
 import styled, { css } from 'styled-components'
 import { a } from 'react-spring'
@@ -88,7 +88,6 @@ export const Lottie = ({
   const { addSpringListener } = useInfiniteSpringContext()
   const [crop, setCrop] = useState(null)
   const [wrapperSize, setWrapperSize] = useState(null)
-
   const lottieAnimationRef = useRef()
 
   useIsomorphicLayoutEffect(() => {

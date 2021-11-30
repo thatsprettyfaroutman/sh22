@@ -190,12 +190,18 @@ export const Hero = ({ section, ...restProps }) => {
         <DancerA
           animationData={porcuboi}
           animationStopped={!isDancersVisible}
-          style={omit(['opacity'], dancersSpring)}
+          style={useMemo(
+            () => omit(['opacity'], dancersSpring),
+            [dancersSpring]
+          )}
         />
         <DancerB
           animationData={duckyduck}
           animationStopped={!isDancersVisible}
-          style={omit(['opacity'], dancersSpring)}
+          style={useMemo(
+            () => omit(['opacity'], dancersSpring),
+            [dancersSpring]
+          )}
         />
       </Dancers>
     </StyledHero>

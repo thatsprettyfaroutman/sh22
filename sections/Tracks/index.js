@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
@@ -30,6 +31,7 @@ const StyledTracks = styled(Section)`
 
   @media (max-width: 768px) {
     min-height: initial;
+    padding-top: 80px;
   }
 `
 
@@ -77,8 +79,13 @@ const Content = styled.div`
 
 const StyledMrEyez = styled(MrEyez)`
   position: absolute;
-  top: 64px;
+  top: 164px;
   left: 64px;
+
+  @media (max-width: 768px) {
+    top: 16px;
+    left: 16px;
+  }
 `
 
 const Dancers = styled.div`
@@ -115,7 +122,7 @@ export const Tracks = ({ section, ...restProps }) => {
       <BiteMarksA />
       <BiteMarksB />
       <Title>{section?.title}</Title>
-      <Boots animationData={boots} />
+      <Boots animationData={useMemo(() => boots, [])} />
       <Content>
         <Text.Body>
           TODO: tracks
@@ -130,8 +137,8 @@ export const Tracks = ({ section, ...restProps }) => {
         </Text.Body>
       </Content>
       <Dancers>
-        <DancerA animationData={snek} />
-        <DancerB animationData={popsicle} />
+        <DancerA animationData={useMemo(() => snek, [])} />
+        <DancerB animationData={useMemo(() => popsicle, [])} />
       </Dancers>
     </StyledTracks>
   )
