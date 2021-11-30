@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import { a, useSpring } from 'react-spring'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
+import { Bite } from '@components/Bite'
 
 const StyledTrack = styled.div`
   background-color: ${(p) => p.theme.color.track.fg};
   border-radius: 8px;
 
   > div {
+    position: relative;
     display: grid;
     grid-template-columns: auto 1fr auto;
     grid-gap: 24px;
@@ -35,6 +37,20 @@ const TrackIcon = styled.div`
   @media (max-width: 780px) {
     grid-column: 1/3;
     margin-right: auto;
+  }
+`
+
+const BiteMarks = styled(Bite.B)`
+  display: none;
+  div:last-child > div > & {
+    position: absolute;
+    display: block;
+    bottom: -3px;
+    right: 250px;
+    transform: rotate(180deg);
+    > path {
+      fill: ${(p) => p.theme.color.track.fg};
+    }
   }
 `
 
@@ -74,6 +90,7 @@ export const Track = ({ track, onClick, ...restProps }) => {
         <TrackIcon />
         <Text.Heading2>{track.title}</Text.Heading2>
         <ExternalLink href="#">Apply</ExternalLink>
+        <BiteMarks />
       </a.div>
     </StyledTrack>
   )

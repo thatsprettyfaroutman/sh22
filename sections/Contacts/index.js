@@ -121,7 +121,6 @@ export const Contacts = ({ section, ...restProps }) => {
           onClick={playBfodaas}
           style={{
             opacity: isBfodaas ? 1 : 0.1,
-            cursor: 'pointer',
             marginRight: 'auto',
           }}
         >
