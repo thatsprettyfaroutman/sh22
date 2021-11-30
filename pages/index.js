@@ -1,10 +1,6 @@
 import { getHomeSections } from '@util/contentfulPosts'
 
 import styled from 'styled-components'
-import { Text } from '@components/Text'
-import { SwingyFrame } from '@components/SwingyFrame'
-import { Section } from '@components/Section'
-import { Footer } from '@components/Footer'
 
 import { Hero } from '@sections/Hero'
 import { About } from '@sections/About'
@@ -26,7 +22,6 @@ export default function Home({ sections, ...restProps }) {
   return (
     <StyledApp {...restProps}>
       {sections.map((section) => {
-        console.log(section.contentType)
         const Section = SECTION_MAP[section.link]
         if (!Section) {
           return null

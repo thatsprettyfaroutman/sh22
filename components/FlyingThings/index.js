@@ -1,9 +1,10 @@
 import window from 'handle-window-undefined'
-import { useRef, useEffect, useMemo } from 'react'
+import { useRef, useEffect, useMemo, useCallback } from 'react'
 import styled from 'styled-components'
 import { range } from 'ramda'
 import { a } from 'react-spring'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
+import { useWindowResize } from '@hooks/useWindowResize'
 import lerp from 'lerp'
 
 const POPSICLE_WIDTH = 83
@@ -50,15 +51,11 @@ export const FlyingThings = ({ ...restProps }) => {
   const { infiniteSpring } = useInfiniteSpringContext()
   const distanceRef = useRef(getDistance())
 
-  useEffect(() => {
-    const resize = () => {
+  useWindowResize(
+    useCallback(() => {
       distanceRef.current = getDistance()
-    }
-    window.addEventListener('resize', resize)
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
+    }, [])
+  )
 
   // const p = infiniteSpring.time.to((t) => (t % 5000) / 5000);
   // const p2 = infiniteSpring.time.to((t) => ((t + 1000) % 5000) / 5000);

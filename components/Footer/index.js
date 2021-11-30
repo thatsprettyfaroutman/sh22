@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer'
 import { Lottie } from '@components/Lottie'
 import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
-import yetiBeaver from '@lotties/yetibeaver2.lottie.json'
+import yetibeaver from '@lotties/yetibeaver2.lottie.json'
 import { useGetBiteProps } from './hooks/useGetBiteProps'
 import { useBiteClipPath } from './hooks/useBiteClipPath'
 import { useYetiBeaverSpring } from './hooks/useYetiBeaverSpring'
@@ -16,8 +16,8 @@ const Wrapper = styled.div`
 
 const StyledFooter = styled.footer`
   position: relative;
-  background-color: #1d1d1b;
-  color: #fff;
+  background-color: ${(p) => p.theme.color.footer.bg};
+  color: ${(p) => p.theme.color.footer.fg};
 `
 
 export const Footer = ({ children, ...restProps }) => {
@@ -26,8 +26,10 @@ export const Footer = ({ children, ...restProps }) => {
   const [bitingStartedAtSecond, setBitingStartedAtSecond] = useState(-1)
   const [biteRef, getBiteProps] = useGetBiteProps(bitingStartedAtSecond)
   const biteClipPath = useBiteClipPath(getBiteProps)
-  const { spring: yetiBeaverSpring, isDoneEating } =
-    useYetiBeaverSpring(getBiteProps)
+  const { spring: yetiBeaverSpring, isDoneEating } = useYetiBeaverSpring(
+    getBiteProps,
+    yetibeaver
+  )
 
   useIsomorphicLayoutEffect(() => {
     if (!inView || bitingStartedAtSecond !== -1) {
@@ -39,11 +41,12 @@ export const Footer = ({ children, ...restProps }) => {
   return (
     <Wrapper {...restProps} ref={inViewRef}>
       <YetiBeaverArea
+        animationData={yetibeaver}
         visible={bitingStartedAtSecond !== -1}
         isYetiJamming={isDoneEating}
       >
         <Lottie
-          animationData={yetiBeaver}
+          animationData={yetibeaver}
           animationOffset={3000}
           animationStopped={isDoneEating}
           style={yetiBeaverSpring}

@@ -1,12 +1,13 @@
-import { useRef, useMemo, useState } from 'react'
+import window from 'handle-window-undefined'
+import { useRef, useCallback, useState } from 'react'
 import lottie from 'lottie-web'
 import styled, { css } from 'styled-components'
 import { a } from 'react-spring'
-import debounce from 'lodash.debounce'
 import mergeRefs from 'react-merge-refs'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
+import { useWindowResize } from '@hooks/useWindowResize'
 
 const StyledLottie = styled(a.div)`
   position: relative;
@@ -45,6 +46,32 @@ const LottieWrapper = styled.div`
     `
   }};
 `
+
+export const getLottieSize = (animationData) => {
+  if (!animationData) {
+    throw new Error('getLottieSize, `animationData` not defined')
+  }
+  const { w, h, crop } = animationData
+  if (!crop) {
+    throw new Error(
+      'getLottieSize, `animationData.crop` not defined. { x: number, y: number, w: number, height: number } expected'
+    )
+  }
+  const scale = window.innerWidth <= 768 ? 0.8 : 1
+  return {
+    scale,
+    size: {
+      w: crop.w * scale,
+      h: crop.h * scale,
+    },
+    crop: {
+      x: scale * -crop.x,
+      y: scale * -crop.y,
+      w: scale * w,
+      h: scale * h,
+    },
+  }
+}
 
 export const Lottie = ({
   animationData,
@@ -106,34 +133,17 @@ export const Lottie = ({
     inView,
   ])
 
-  useIsomorphicLayoutEffect(() => {
-    const resize = () => {
-      const { w, h, crop } = animationData
-      if (!crop) {
-        return
+  useWindowResize(
+    useCallback(() => {
+      try {
+        const { size, crop } = getLottieSize(animationData)
+        setWrapperSize(size)
+        setCrop(crop)
+      } catch (err) {
+        console.error(err)
       }
-      // const scale = 1 //Math.min(1, clientWidth / crop.w)
-      const scale = window.innerWidth <= 768 ? 0.8 : 1
-
-      setWrapperSize({
-        w: crop.w * scale,
-        h: crop.h * scale,
-      })
-
-      setCrop({
-        x: scale * -crop.x,
-        y: scale * -crop.y,
-        w: scale * w,
-        h: scale * h,
-      })
-    }
-    resize()
-    const debouncedResize = debounce(resize, 120)
-    window.addEventListener('resize', debouncedResize)
-    return () => {
-      window.removeEventListener('resize', debouncedResize)
-    }
-  }, [animationData])
+    }, [animationData])
+  )
 
   return (
     <StyledLottie

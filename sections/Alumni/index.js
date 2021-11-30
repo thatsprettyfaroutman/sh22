@@ -70,6 +70,7 @@ const Frame = styled(SwingyFrame)`
 
   @media (max-width: 768px) {
     margin-right: 0;
+    margin-bottom: -96px;
   }
 `
 
