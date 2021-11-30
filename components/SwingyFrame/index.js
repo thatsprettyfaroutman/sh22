@@ -60,7 +60,9 @@ export const SwingyFrame = ({ ...restProps }) => {
 
   const p = useMemo(
     () =>
-      inView ? infiniteSpring.time.to((t) => (t % 2000) / 2000) : undefined,
+      inView
+        ? infiniteSpring.time.to((t) => ((t - 100) % 2000) / 2000)
+        : undefined,
     [infiniteSpring, inView]
   )
 
@@ -75,7 +77,7 @@ export const SwingyFrame = ({ ...restProps }) => {
       }
     >
       <img src="/images/julesframe.png" alt="Jules" />
-      <Lottie animationData={swingygremlin} />
+      <Lottie animationData={swingygremlin} animationOffset={1000} />
       <BiteMarks />
     </StyledSwingyFrame>
   )
