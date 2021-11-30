@@ -6,7 +6,7 @@ import { Lottie } from '@components/Lottie'
 import { Bite } from '@components/Bite'
 import { MrEyez } from '@components/MrEyez'
 
-import boots from '@lotties/boots.lottie.json'
+import boots from '@lotties/boots2.lottie.json'
 import snek from '@lotties/snek.lottie.json'
 import popsicle from '@lotties/popsicle.lottie.json'
 
