@@ -9,6 +9,7 @@ export const useDanceProgress = (props) => {
     ...props,
   }
   const { infiniteSpring, isDancing } = useInfiniteSpringContext()
+
   const danceProgress = useMemo(
     () =>
       enabled && isDancing

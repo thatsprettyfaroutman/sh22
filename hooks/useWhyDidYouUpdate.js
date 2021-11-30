@@ -16,7 +16,7 @@ export const useWhyDidYouUpdate = (name, props) => {
         // If previous is different from current
         if (previousProps.current[key] !== props[key]) {
           // Add to changesObj
-          changesObj = [previousProps.current[key], props[key]]
+          changesObj = [key, previousProps.current[key], props[key]]
         }
       })
       // If changesObj not empty then output to console

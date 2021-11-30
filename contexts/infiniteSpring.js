@@ -1,15 +1,18 @@
 import { useRef, useCallback, useState, useMemo } from 'react'
 import constate from 'constate'
 import { useSpring } from 'react-spring'
-import { useFreezeValue } from '@hooks/useFreezeValue'
+import { useFreezeValueUnless } from '@hooks/useFreezeValue'
 
-const DURATION = 10000
+const ONE_SECOND = 1000
+const HALF_SECOND = ONE_SECOND * 0.5
+const DURATION = 10 * ONE_SECOND
 export const START_BASS_BOOMING_AT_SECOND = 3
 export const START_DANCING_AT_SECOND = 4
 
 const useInfiniteSpring = () => {
   const springListenersRef = useRef([])
   const [secondsPassed, setSecondsPassed] = useState(0)
+  const [timeScale, setTimeScale] = useState(1)
 
   const addSpringListener = useCallback((fn) => {
     springListenersRef.current.push(fn)
@@ -24,11 +27,11 @@ const useInfiniteSpring = () => {
   const secondsPassedLockRef = useRef(false)
 
   const handleChange = useCallback(({ value: { time } }) => {
-    const currentSecond = time % 1000
-    if (!secondsPassedLockRef.current && currentSecond < 500) {
+    const currentSecond = time % ONE_SECOND
+    if (!secondsPassedLockRef.current && currentSecond < HALF_SECOND) {
       secondsPassedLockRef.current = true
       setSecondsPassed((c) => c + 1)
-    } else if (secondsPassedLockRef.current && currentSecond > 500) {
+    } else if (secondsPassedLockRef.current && currentSecond > HALF_SECOND) {
       secondsPassedLockRef.current = false
     }
     for (let i = 0; i < springListenersRef.current.length; i++) {
@@ -36,20 +39,29 @@ const useInfiniteSpring = () => {
     }
   }, [])
 
-  const [infiniteSpring] = useSpring(
+  const infiniteSpring = useSpring({
+    loop: true,
+    config: { duration: DURATION * timeScale },
+    from: { time: 0 },
+    time: DURATION,
+    onChange: handleChange,
+  })
+
+  const lastTimeScaleRef = useRef(timeScale)
+  const freezedInfiniteSpring = useFreezeValueUnless(
+    infiniteSpring,
     useCallback(
-      () => ({
-        loop: true,
-        config: { duration: DURATION },
-        from: { time: 0 },
-        time: DURATION,
-        onChange: handleChange,
-      }),
-      [handleChange]
+      (a, b) => {
+        const timeScaleChanged = lastTimeScaleRef.current !== timeScale
+        if (timeScaleChanged) {
+          lastTimeScaleRef.current = timeScale
+          return true
+        }
+        return false
+      },
+      [timeScale]
     )
   )
-
-  const freezedInfiniteSpring = useFreezeValue(infiniteSpring)
 
   const isBassBooming = useMemo(
     () => secondsPassed >= START_BASS_BOOMING_AT_SECOND,
@@ -66,6 +78,7 @@ const useInfiniteSpring = () => {
     addSpringListener,
     isBassBooming,
     isDancing,
+    setTimeScale,
   }
 }
 

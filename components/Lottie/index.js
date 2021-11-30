@@ -1,5 +1,5 @@
 import window from 'handle-window-undefined'
-import { useRef, useCallback, useState, useEffect } from 'react'
+import { useRef, useCallback, useState } from 'react'
 import lottie from 'lottie-web'
 import styled, { css } from 'styled-components'
 import { a } from 'react-spring'

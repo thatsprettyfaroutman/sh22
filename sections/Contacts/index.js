@@ -1,5 +1,6 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import styled from 'styled-components'
+import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 import { Text } from '@components/Text'
@@ -28,6 +29,10 @@ const Title = styled(Text.Heading1)`
   max-width: 700px;
   @media (max-width: 768px) {
     text-align: center;
+  }
+
+  > iframe {
+    margin-left: 32px;
   }
 `
 
@@ -63,23 +68,33 @@ const Info = styled.div`
 `
 
 export const Contacts = ({ section, ...restProps }) => {
-  const playBfodaas = useCallback((e) => {
-    const iframe = document.createElement('iframe')
-    iframe.setAttribute('width', '200')
-    iframe.setAttribute('height', '200')
-    iframe.setAttribute(
-      'src',
-      'https://www.youtube.com/embed/_zP_NN2dOa4?controls=0&autoplay=1'
-    )
-    iframe.setAttribute('title', 'YouTube video player')
-    iframe.setAttribute('frameborder', '0')
-    iframe.setAttribute(
-      'allow',
-      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; 'allowfullscreen'"
-    )
+  const [isBfodaas, setIsBfodaas] = useState(false)
+  const { setTimeScale } = useInfiniteSpringContext()
 
-    e.target.appendChild(iframe)
-  }, [])
+  const playBfodaas = useCallback(
+    (e) => {
+      if (isBfodaas) {
+        return
+      }
+      setTimeScale(1.487603)
+      const iframe = document.createElement('iframe')
+      iframe.setAttribute('width', '128')
+      iframe.setAttribute('height', '128')
+      iframe.setAttribute(
+        'src',
+        'https://www.youtube.com/embed/_zP_NN2dOa4?controls=0&autoplay=1'
+      )
+      iframe.setAttribute('title', 'YouTube video player')
+      iframe.setAttribute('frameborder', '0')
+      iframe.setAttribute(
+        'allow',
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; 'allowfullscreen'"
+      )
+      e.target.appendChild(iframe)
+      setIsBfodaas(true)
+    },
+    [setTimeScale, isBfodaas]
+  )
 
   return (
     <Footer>
