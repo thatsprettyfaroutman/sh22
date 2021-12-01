@@ -39,16 +39,16 @@ const themeLight = {
 
 const themeDark = {
   color: {
-    main: { bg: '#101010', fg: '#fff' },
+    main: { bg: '#000008', fg: '#fff' },
     section: {
-      hero: { bg: '#101010', fg: '#E5FBFF' },
-      about: { bg: '#181818', fg: '#fff' },
-      tracks: { bg: '#080808', fg: '#FFFAE5' },
-      alumni: { bg: '#101010', fg: '#fff' },
-      contacts: { bg: '#fff', fg: '#1D1D1B' },
+      hero: { bg: '#000010', fg: '#E5FBFF' },
+      about: { bg: '#000008', fg: '#fff' },
+      tracks: { bg: '#100010', fg: '#FFFAE5' },
+      alumni: { bg: '#000008', fg: '#fff' },
+      contacts: { bg: 'transparent', fg: 'transparent' },
     },
-    track: { bg: '#101010', fg: '#fff' },
-    footer: { bg: '#1d1d1b', fg: '#fff' },
+    track: { bg: '#100010', fg: '#fff' },
+    footer: { bg: '#000820', fg: '#fff' },
     button: { bg: '#101010', fg: '#ffd31a' },
     link: { bg: 'transparent', fg: '#5462DB' },
   },
