@@ -50,10 +50,21 @@ const Tag = styled.div`
   opacity: 0.8;
 `
 
+const Small = styled.div`
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 36px;
+  letter-spacing: 0.01em;
+  opacity: 0.7;
+`
+
 export const Text = {
   Heading1,
   Heading2,
   Body,
   Button,
   Tag,
+  Small,
 }

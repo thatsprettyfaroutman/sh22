@@ -62,6 +62,13 @@ const Title = styled(Text.Heading1)`
   justify-self: center;
 `
 
+const Body = styled(Text.Body)`
+  position: relative;
+  max-width: 700px;
+  text-align: center;
+  justify-self: center;
+`
+
 const Boots = styled(Lottie)`
   justify-self: center;
 `
@@ -125,6 +132,7 @@ export const Tracks = ({ section, ...restProps }) => {
       <BiteMarksA />
       <BiteMarksB />
       <Title>{section?.title}</Title>
+      <Body>{section?.body}</Body>
       <Boots animationData={useMemo(() => boots, [])} />
       <Content>
         {section?.tracks.map((track, i) => (

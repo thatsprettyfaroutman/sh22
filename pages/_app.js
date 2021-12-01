@@ -47,7 +47,7 @@ const themeDark = {
       alumni: { bg: '#101010', fg: '#fff' },
       contacts: { bg: '#fff', fg: '#1D1D1B' },
     },
-    track: { bg: '#1D1D1B', fg: '#fff' },
+    track: { bg: '#101010', fg: '#fff' },
     footer: { bg: '#1d1d1b', fg: '#fff' },
     button: { bg: '#101010', fg: '#ffd31a' },
     link: { bg: 'transparent', fg: '#5462DB' },
