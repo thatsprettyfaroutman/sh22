@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useRouter } from 'next/router'
 import styled, { css } from 'styled-components'
 import { a, useSpring } from 'react-spring'
 import lerp from 'lerp'
@@ -21,6 +22,8 @@ const LOTTIE_MAP = {
   DATA: dataLottie,
   DEVELOPER: developerLottie,
   MANAGER: managerLottie,
+  DESIGNER: managerLottie,
+  SALES: dataLottie,
 }
 
 const PUPIL_SELECTOR_MAP = {
@@ -39,6 +42,14 @@ const PUPIL_SELECTOR_MAP = {
   MANAGER: [
     'div > svg > g > g:nth-child(7) > g > path',
     'div > svg > g > g:nth-child(9) > g > path',
+  ],
+  DESIGNER: [
+    'div > svg > g > g:nth-child(7) > g > path',
+    'div > svg > g > g:nth-child(9) > g > path',
+  ],
+  SALES: [
+    'div > svg > g > g:nth-child(4) > g > path',
+    'div > svg > g > g:nth-child(6) > g > path',
   ],
 }
 
@@ -125,6 +136,7 @@ const BiteMarksOuter = styled(BiteMarks)`
 `
 
 export const Track = ({ track, onClick, ...restProps }) => {
+  const router = useRouter()
   const [el, setEl] = useState(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isPushed, setIsPushed] = useState(false)
@@ -192,12 +204,12 @@ export const Track = ({ track, onClick, ...restProps }) => {
           isOpen
             ? () => {
                 setIsPushed(true)
-                if (typeof onClick === 'function') {
-                  setTimeout(onClick, 120)
-                }
+                setTimeout(() => {
+                  router.push(`/track/${track.type.toLowerCase()}`)
+                }, 120)
               }
             : null,
-        [isOpen, onClick]
+        [isOpen, onClick, track?.type, router]
       )}
     >
       <a.div style={contentSpring}>

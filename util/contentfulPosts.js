@@ -43,26 +43,6 @@ export async function getHomeSections() {
     console.log(`Error getting HomeSections.`)
   }
 
-  // if (R.isNil(item)) {
-  //   return [
-  //     {
-  //       contentType: 'heroSection',
-  //       link: 'hero',
-  //       title:
-  //         'Hoxhunt Summer Hunters internship program will be the runway of your career',
-  //       button: 'Apply now',
-  //     },
-  //     {
-  //       contentType: 'aboutSection',
-  //       link: 'about',
-  //       title: 'What is Hoxhunt?',
-  //       description:
-  //         'We help companies turn their employees into their strongest asset in cybersecurity with our gamified platform that trains employees against phishing in a fun and engaging way simulating real-life phishing attacks.',
-  //       button: 'Read more',
-  //     },
-  //   ]
-  // }
-
   return fixItem(item.fields.sections).map((section) => {
     let link = section.contentType.toLowerCase().replace('section', '')
     if (link === 'alumn') {
