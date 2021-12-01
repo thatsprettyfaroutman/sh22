@@ -42,15 +42,25 @@ const TrackIcon = styled.div`
 
 const BiteMarks = styled(Bite.B)`
   display: none;
+  > path {
+    fill: ${(p) => p.theme.color.track.fg};
+  }
   div:last-child > div > & {
     position: absolute;
     display: block;
-    bottom: -3px;
+    bottom: -1px;
     right: 250px;
     transform: rotate(180deg);
-    > path {
-      fill: ${(p) => p.theme.color.track.fg};
-    }
+  }
+`
+
+const BiteMarksOuter = styled(BiteMarks)`
+  > path {
+    fill: ${(p) => p.theme.color.section.tracks.bg};
+  }
+  div:last-child > div > & {
+    bottom: -10px;
+    transform: rotate(180deg) scale(0.95, 1.4);
   }
 `
 
@@ -91,6 +101,7 @@ export const Track = ({ track, onClick, ...restProps }) => {
         <Text.Heading2>{track.title}</Text.Heading2>
         <ExternalLink href="#">Apply</ExternalLink>
         <BiteMarks />
+        <BiteMarksOuter />
       </a.div>
     </StyledTrack>
   )

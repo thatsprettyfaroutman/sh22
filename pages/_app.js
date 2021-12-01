@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Head from 'next/head'
+import useDarkMode from 'use-dark-mode'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
 import { ThemeColorProvider } from '@contexts/themeColor'
 
@@ -18,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
    }
 `
 
-const theme = {
+const themeLight = {
   color: {
     main: { bg: '#fff', fg: '#101010' },
     section: {
@@ -35,7 +37,34 @@ const theme = {
   },
 }
 
+const themeDark = {
+  color: {
+    main: { bg: '#101010', fg: '#fff' },
+    section: {
+      hero: { bg: '#101010', fg: '#E5FBFF' },
+      about: { bg: '#181818', fg: '#fff' },
+      tracks: { bg: '#080808', fg: '#FFFAE5' },
+      alumni: { bg: '#101010', fg: '#fff' },
+      contacts: { bg: '#fff', fg: '#1D1D1B' },
+    },
+    track: { bg: '#1D1D1B', fg: '#fff' },
+    footer: { bg: '#1d1d1b', fg: '#fff' },
+    button: { bg: '#101010', fg: '#ffd31a' },
+    link: { bg: 'transparent', fg: '#5462DB' },
+  },
+}
+
 export default function App({ Component, pageProps }) {
+  const { value } = useDarkMode(false, { storageKey: null, onChange: null })
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const theme = mounted && value ? themeDark : themeLight
+
   return (
     <>
       <Head>
@@ -48,7 +77,10 @@ export default function App({ Component, pageProps }) {
         <GlobalStyle />
         <ThemeColorProvider>
           <InfiniteSpringProvider>
-            <Component {...pageProps} />
+            <Component
+              {...pageProps}
+              style={{ visibility: !mounted ? 'hidden' : undefined }}
+            />
           </InfiniteSpringProvider>
         </ThemeColorProvider>
       </ThemeProvider>

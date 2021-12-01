@@ -25,7 +25,8 @@
     "react-merge-refs": "1.1.0",
     "react-spring": "9.3.2",
     "react-use-measure": "2.0.4",
-    "styled-components": "5.3.3"
+    "styled-components": "5.3.3",
+    "use-dark-mode": "2.3.1"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "4.0.0-beta.4",

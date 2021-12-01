@@ -64,6 +64,10 @@ const Info = styled.div`
     text-decoration: none;
   }
 
+  .dark-mode & > a {
+    color: ${(p) => p.theme.color.button.fg};
+  }
+
   @media (max-width: 768px) {
     text-align: center;
   }
