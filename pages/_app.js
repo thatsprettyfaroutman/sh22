@@ -1,6 +1,7 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Head from 'next/head'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
+import { ThemeColorProvider } from '@contexts/themeColor'
 
 const GlobalStyle = createGlobalStyle`
  html, body {
@@ -45,9 +46,11 @@ export default function App({ Component, pageProps }) {
       </Head>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <InfiniteSpringProvider>
-          <Component {...pageProps} />
-        </InfiniteSpringProvider>
+        <ThemeColorProvider>
+          <InfiniteSpringProvider>
+            <Component {...pageProps} />
+          </InfiniteSpringProvider>
+        </ThemeColorProvider>
       </ThemeProvider>
     </>
   )
