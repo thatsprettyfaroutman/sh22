@@ -45,9 +45,6 @@ export const useSpringScroll = (scrollElement = window) => {
         if (typeof to !== 'number' && to.getBoundingClientRect) {
           const elTop = !isNil(el.scrollY) ? el.scrollY : el.scrollTop || 0
           const toTop = to.getBoundingClientRect().top
-          console.log(elTop, toTop)
-          // to = elTop
-
           to = toTop + elTop
         }
 
