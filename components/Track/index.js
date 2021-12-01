@@ -204,10 +204,10 @@ export const Track = ({ track, onClick, ...restProps }) => {
           isOpen
             ? () => {
                 setIsPushed(true)
-                setTimeout(() => {
-                  // router.push(`/track/${track.type.toLowerCase()}`)
-                  window.location = `/track/${track.type.toLowerCase()}`
-                }, 120)
+                // setTimeout(() => {
+                // router.push(`/track/${track.type.toLowerCase()}`)
+                window.location = `/track/${track.type.toLowerCase()}`
+                // }, 120)
               }
             : null,
         [isOpen, onClick, track?.type, router]
