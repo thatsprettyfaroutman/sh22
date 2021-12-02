@@ -8,7 +8,8 @@
       "@util/*": ["util/*"],
       "@contexts/*": ["contexts/*"],
       "@hooks/*": ["hooks/*"],
-      "@lotties/*": ["lotties/*"]
+      "@lotties/*": ["lotties/*"],
+      "@helpers/*": ["helpers/*"]
     }
   }
 }

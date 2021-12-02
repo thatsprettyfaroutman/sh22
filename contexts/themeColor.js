@@ -3,14 +3,14 @@ import constate from 'constate'
 import { useSpring } from 'react-spring'
 import chroma from 'chroma-js'
 
-const useThemeColor = () => {
+const useThemeColor = ({ theme }) => {
   const [sectionOrder, setSectionOrder] = useState([])
   const [sectionMap, setSectionMap] = useState({})
 
-  const setSection = useCallback((name, inView, color) => {
+  const setSection = useCallback((name, inView) => {
     setSectionMap((state) => {
       const nextState = { ...state }
-      nextState[name] = { name, inView, color }
+      nextState[name] = { name, inView }
       return nextState
     })
   }, [])
@@ -56,14 +56,24 @@ const useThemeColor = () => {
       return
     }
 
+    const color = theme?.color?.section?.[topSection.name]?.bg
+
+    if (!color) {
+      console.error(
+        `useThemeColor, \`theme.color.section.${topSection.name}.bg\` not found`
+      )
+      return
+    }
+
     setThemeColor({
-      themeColor: chroma(topSection.color).css('rgba'),
+      themeColor: chroma(color).css('rgba'),
     })
   }, [sectionOrder, sectionMap, setThemeColor])
 
   return {
     setSectionOrder,
     setSection,
+    theme,
   }
 }
 

@@ -138,17 +138,6 @@ export const Tracks = ({ section, ...restProps }) => {
         {section?.tracks.map((track, i) => (
           <Track key={i} track={track} />
         ))}
-        {/* <Text.Body>
-          TODO: tracks
-          <br />
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-          videbimus. Qui non moveatur et offensione turpitudinis et
-          comprobatione honestatis? Quis istum dolorem timet? Terram, mihi
-          crede, ea lanx et maria deprimet. Bonum negas esse divitias,
-          praeposìtum esse dicis? Tum Piso: Atqui, Cicero, inquit, ista studia,
-          si ad imitandos summos viros spectant, ingeniosorum sunt;
-        </Text.Body> */}
       </Content>
       <Dancers>
         <DancerA animationData={useMemo(() => snek, [])} />

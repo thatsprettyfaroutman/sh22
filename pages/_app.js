@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Head from 'next/head'
-import useDarkMode from 'use-dark-mode'
+// Use this to detect dark mode from os
+// import useDarkMode from 'use-dark-mode'
+import { useDarkMode } from '@hooks/useDarkMode'
+import { combineComponents } from '@helpers/combineComponents'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
 import { ThemeColorProvider } from '@contexts/themeColor'
+
+const Providers = combineComponents(
+  ThemeProvider,
+  InfiniteSpringProvider,
+  ThemeColorProvider
+)
 
 const GlobalStyle = createGlobalStyle`
  html, body {
@@ -55,15 +64,14 @@ const themeDark = {
 }
 
 export default function App({ Component, pageProps }) {
-  const { value } = useDarkMode(false, { storageKey: null, onChange: null })
-
+  // Use this to detect dark mode from os
+  // const { value:enabled } = useDarkMode(false, { storageKey: null, onChange: null })
+  const [enabled] = useDarkMode()
   const [mounted, setMounted] = useState(false)
-
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  const theme = mounted && value ? themeDark : themeLight
+  const theme = mounted && enabled ? themeDark : themeLight
 
   return (
     <>
@@ -73,17 +81,10 @@ export default function App({ Component, pageProps }) {
           rel="stylesheet"
         />
       </Head>
-      <ThemeProvider theme={theme}>
+      <Providers theme={theme}>
         <GlobalStyle />
-        <ThemeColorProvider>
-          <InfiniteSpringProvider>
-            <Component
-              {...pageProps}
-              style={{ visibility: !mounted ? 'hidden' : undefined }}
-            />
-          </InfiniteSpringProvider>
-        </ThemeColorProvider>
-      </ThemeProvider>
+        <Component {...pageProps} />
+      </Providers>
     </>
   )
 }

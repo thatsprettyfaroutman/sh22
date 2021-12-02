@@ -1,11 +1,7 @@
-import window from 'handle-window-undefined'
-import { useRef, useState } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
-import Head from 'next/head'
-import { useInView, InView } from 'react-intersection-observer'
-import mergeRefs from 'react-merge-refs'
+import { useInView } from 'react-intersection-observer'
 import { useThemeColorContext } from '@contexts/themeColor'
-import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 
 const StyledSection = styled.section`
   /* min-height: min(800px, calc(100vh - 64px)); */
@@ -14,21 +10,12 @@ const StyledSection = styled.section`
 `
 
 export const Section = ({ name, ...restProps }) => {
-  const ref = useRef()
   const { ref: inViewRef, inView } = useInView()
   const { setSection } = useThemeColorContext()
 
-  useIsomorphicLayoutEffect(() => {
-    const el = ref.current
-    if (!el) {
-      return
-    }
-    const color = window
-      .getComputedStyle(el)
-      .getPropertyValue('background-color')
+  useEffect(() => {
+    setSection(name, inView)
+  }, [setSection, name, inView])
 
-    setSection(name, inView, color)
-  }, [inView, name, setSection])
-
-  return <StyledSection ref={mergeRefs([ref, inViewRef])} {...restProps} />
+  return <StyledSection ref={inViewRef} {...restProps} />
 }
