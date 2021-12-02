@@ -1,9 +1,10 @@
 import { getHomeSections } from '@util/contentfulPosts'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { useThemeColorContext } from '@contexts/themeColor'
+import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
 
 import { Hero } from '@sections/Hero'
 import { About } from '@sections/About'
@@ -23,6 +24,9 @@ const SECTION_MAP = {
 
 export default function Home({ sections, ...restProps }) {
   const { setSectionOrder } = useThemeColorContext()
+  useConsoleNavigation(
+    useMemo(() => sections.find((x) => x.link === 'tracks')?.tracks, [sections])
+  )
 
   useEffect(() => {
     setSectionOrder(sections.map((x) => x.link))

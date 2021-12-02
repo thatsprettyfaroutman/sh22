@@ -1,3 +1,4 @@
+import window from 'handle-window-undefined'
 import { useState, useEffect } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Head from 'next/head'
