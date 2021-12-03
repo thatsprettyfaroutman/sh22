@@ -1,6 +1,17 @@
 import styled from 'styled-components'
 import { media } from '@styles/theme'
 
+// TODO: HeadingMega phone
+const HeadingMega = styled.h1`
+  margin: 0;
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 64px;
+  line-height: 77px;
+  letter-spacing: 1px;
+`
+
 const Heading1 = styled.h1`
   margin: 0;
   font-family: Inter, sans-serif;
@@ -85,6 +96,7 @@ const Small = styled.div`
 `
 
 export const Text = {
+  HeadingMega,
   Heading1,
   Heading2,
   Body,

@@ -13,8 +13,6 @@ export const SCALE = {
   phone: 0.6,
 }
 
-console.log(SCALE)
-
 export const themeLight = {
   breakpoints: BREAKPOINT,
   scale: SCALE,
@@ -32,6 +30,8 @@ export const themeLight = {
     footer: { bg: '#1D1D1B', fg: '#ffffff' },
     button: { bg: '#ffd31a', fg: '#101010' },
     link: { bg: chroma('#5462DB').alpha(0).css('rgba'), fg: '#5462DB' },
+
+    trackHead: { bg: '#FFFAE5', fg: '#1D1D1B' },
   },
 }
 
@@ -52,6 +52,8 @@ export const themeDark = {
     footer: { bg: '#000820', fg: '#ffffff' },
     button: { bg: '#101010', fg: '#ffd31a' },
     link: { bg: chroma('#5462DB').alpha(0).css('rgba'), fg: '#5462DB' },
+
+    trackHead: { bg: '#FFFAE5', fg: '#1D1D1B' },
   },
 }
 
@@ -79,5 +81,3 @@ export const scale = Object.keys(SCALE)
     acc[key] = scaleFn
     return acc
   }, {})
-
-console.log(scale)

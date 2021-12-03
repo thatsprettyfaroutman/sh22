@@ -35,7 +35,7 @@ export const Button = ({
   const [isPushed, setIsPushed] = useState(false)
   const { ref, inView } = useInView()
   const danceProgress = useDanceProgress({
-    enabled: inView && !isDanceLocked && !isPushed,
+    enabled: isDancing && inView && !isDanceLocked && !isPushed,
   })
 
   const contentSpring = useSpring({

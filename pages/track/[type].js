@@ -1,7 +1,24 @@
 import { getSection } from '@util/contentfulPosts'
 
+import styled from 'styled-components'
+
+import { TrackHead } from '@components/TrackHead'
+
+// TODO: visuals
+// TODO: console nav
+
+const StyledTrack = styled.div`
+  display: grid;
+`
+
 export default function Track({ track, ...restProps }) {
-  return <div {...restProps}>track page {track.type}</div>
+  console.log(track)
+
+  return (
+    <StyledTrack {...restProps}>
+      <TrackHead track={track} />
+    </StyledTrack>
+  )
 }
 
 export async function getStaticPaths() {

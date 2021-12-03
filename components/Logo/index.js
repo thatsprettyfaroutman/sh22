@@ -20,7 +20,15 @@ const StyledLogo = styled.svg`
 
 export const Logo = (props) => {
   return (
-    <StyledLogo width={132} height={28} fill="none" {...props}>
+    <StyledLogo
+      onClick={() => {
+        window.location = '/'
+      }}
+      width={132}
+      height={28}
+      fill="none"
+      {...props}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

@@ -18,7 +18,7 @@ import managerLottie from '@lotties/track-manager.lottie.json'
 
 const lerpInOut = (x, y, alpha) => lerp(x, lerp(y * 4, x, alpha), alpha)
 
-const LOTTIE_MAP = {
+export const TRACK_LOTTIE_MAP = {
   ANALYST: analystLottie,
   DATA: dataLottie,
   DEVELOPER: developerLottie,
@@ -27,7 +27,7 @@ const LOTTIE_MAP = {
   SALES: dataLottie,
 }
 
-const PUPIL_SELECTOR_MAP = {
+export const TRACK_LOTTIE_PUPIL_SELECTOR_MAP = {
   ANALYST: [
     'div > svg > g > g:nth-child(3) > g > path',
     'div > svg > g > g:nth-child(5) > g > path',
@@ -163,13 +163,13 @@ export const Track = ({ track, onClick, ...restProps }) => {
     return () => clearTimeout(t)
   }, [isPushed])
 
-  const lottieAnimationData = LOTTIE_MAP[track?.type]
+  const lottieAnimationData = TRACK_LOTTIE_MAP[track?.type]
 
   const pupils = useMemo(() => {
     if (!el) {
       return
     }
-    return PUPIL_SELECTOR_MAP[track?.type]
+    return TRACK_LOTTIE_PUPIL_SELECTOR_MAP[track?.type]
       ?.map((selector) => {
         const pupil = el.querySelector(selector)
         return pupil
