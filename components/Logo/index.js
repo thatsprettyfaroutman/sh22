@@ -9,6 +9,12 @@ const StyledLogo = styled.svg`
   > path {
     fill: ${(p) => p.theme.color.logo.fg};
   }
+
+  @media (max-width: 767px) {
+    top: 16px;
+    left: 50%;
+    margin-left: -66px;
+  }
 `
 
 export const Logo = (props) => {

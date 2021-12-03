@@ -24,15 +24,10 @@ const StyledHero = styled(Section)`
   position: relative;
   display: grid;
   align-content: center;
-  padding: 48px;
+  padding: 48px 0;
   overflow: hidden;
   background-color: ${(p) => p.theme.color.section.hero.bg};
   color: ${(p) => p.theme.color.section.hero.fg};
-
-  @media (max-width: 768px) {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
 `
 
 const MainContent = styled.div`
@@ -44,6 +39,10 @@ const MainContent = styled.div`
     'title'
     'button'
     'arrow';
+
+  @media (max-width: 767px) {
+    grid-gap: 24px;
+  }
 `
 
 const Dancers = styled.div`
@@ -63,6 +62,12 @@ const Flower = styled(a.div)`
   grid-area: flower;
   position: relative;
   margin-top: auto;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   > .Hero__Flowerboi {
     position: absolute;
@@ -91,6 +96,10 @@ const Title = styled(a(Text.Heading1))`
   position: relative;
   text-align: center;
   max-width: 700px;
+  padding: 0 48px;
+  @media (max-width: 767px) {
+    padding: 0 8px;
+  }
 `
 
 const ApplyButton = styled(Button)`
