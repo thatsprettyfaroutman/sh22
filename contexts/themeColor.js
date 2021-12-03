@@ -68,7 +68,7 @@ const useThemeColor = ({ theme }) => {
     setThemeColor({
       themeColor: chroma(color).css('rgba'),
     })
-  }, [sectionOrder, sectionMap, setThemeColor])
+  }, [sectionOrder, sectionMap, setThemeColor, theme])
 
   return {
     setSectionOrder,
