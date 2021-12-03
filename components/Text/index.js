@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { media } from '@styles/theme'
 
 const Heading1 = styled.h1`
   margin: 0;
@@ -8,7 +9,7 @@ const Heading1 = styled.h1`
   font-size: 32px;
   line-height: 36px;
   letter-spacing: 1px;
-  @media (max-width: 767px) {
+  ${media.phone} {
     font-size: 22px;
     line-height: 32px;
   }
@@ -22,7 +23,7 @@ const Heading2 = styled.h2`
   font-size: 24px;
   line-height: 36px;
   letter-spacing: 0.01em;
-  @media (max-width: 767px) {
+  ${media.phone} {
     font-size: 18px;
     line-height: 28px;
   }
@@ -36,7 +37,7 @@ const Body = styled.p`
   font-size: 20px;
   line-height: 36px;
   opacity: 0.8;
-  @media (max-width: 767px) {
+  ${media.phone} {
     font-size: 16px;
     line-height: 26px;
   }
@@ -49,7 +50,7 @@ const Button = styled.div`
   font-size: 16px;
   line-height: 36px;
   letter-spacing: 0.01em;
-  @media (max-width: 767px) {
+  ${media.phone} {
     line-height: 26px;
   }
 `
@@ -63,7 +64,7 @@ const Tag = styled.div`
   letter-spacing: 1px;
   text-transform: uppercase;
   opacity: 0.8;
-  @media (max-width: 767px) {
+  ${media.phone} {
     font-size: 12px;
     line-height: 19px;
   }
@@ -77,7 +78,7 @@ const Small = styled.div`
   line-height: 36px;
   letter-spacing: 0.01em;
   opacity: 0.7;
-  @media (max-width: 767px) {
+  ${media.phone} {
     font-size: 10px;
     line-height: 16px;
   }

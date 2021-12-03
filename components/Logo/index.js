@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { media } from '@styles/theme'
 
 const StyledLogo = styled.svg`
   position: absolute;
@@ -10,7 +11,7 @@ const StyledLogo = styled.svg`
     fill: ${(p) => p.theme.color.logo.fg};
   }
 
-  @media (max-width: 767px) {
+  ${media.phone} {
     top: 16px;
     left: 50%;
     margin-left: -66px;

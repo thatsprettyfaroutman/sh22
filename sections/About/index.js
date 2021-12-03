@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+
+import { media } from '@styles/theme'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
@@ -30,8 +32,8 @@ const StyledAbout = styled(Section)`
     'description lottie'
     'button lottie';
 
-  @media (max-width: 768px) {
-    padding: 48px 16px;
+  ${media.tablet} {
+    padding: 96px 16px;
     grid-template-columns: auto;
     justify-items: center;
     grid-template-areas:
@@ -62,12 +64,9 @@ const Description = styled(Text.Body)`
 const Laptop = styled(Lottie)`
   grid-area: lottie;
   min-width: 320px;
-  @media (max-width: 768px) {
+  ${media.tablet} {
     min-width: initial;
   }
-  /* height: 256px; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
 `
 
 export const About = ({ section, ...restProps }) => {

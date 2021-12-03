@@ -2,11 +2,18 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
+import { media, scale } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { Bite } from '@components/Bite'
 import { Lottie } from '@components/Lottie'
 
 import swingygremlin from '@lotties/swingygremlin.lottie.json'
+
+const WIDTH = 356
+const HEIGHT = 434
+
+const GREMLIN_WIDTH = swingygremlin.crop.w
+const GREMLIN_WIDTH_HALF = GREMLIN_WIDTH * 0.5
 
 const StyledSwingyFrame = styled(a.div)`
   position: relative;
@@ -17,24 +24,34 @@ const StyledSwingyFrame = styled(a.div)`
   > img {
     display: block;
     margin: 0;
-    width: 356px;
-    height: 434px;
+    width: ${WIDTH}px;
+    height: ${HEIGHT}px;
 
-    @media (max-width: 768px) {
-      width: ${356 * 0.8}px;
-      height: ${434 * 0.8}px;
+    ${media.tablet} {
+      width: ${scale.tablet(WIDTH)}px;
+      height: ${scale.tablet(HEIGHT)}px;
+    }
+
+    ${media.phone} {
+      width: ${scale.phone(WIDTH)}px;
+      height: ${scale.phone(HEIGHT)}px;
     }
   }
 
   > .Lottie {
     position: absolute;
-    bottom: 8px;
+    bottom: 0;
     left: 50%;
-    margin-left: -137.5px;
+    margin-left: -${GREMLIN_WIDTH_HALF}px;
+    margin-bottom: 7px;
 
-    @media (max-width: 768px) {
-      bottom: 42px;
-      margin-left: -110px;
+    ${media.tablet} {
+      margin-left: -${scale.tablet(GREMLIN_WIDTH_HALF)}px;
+      margin-bottom: 42px;
+    }
+    ${media.phone} {
+      margin-left: -${scale.phone(GREMLIN_WIDTH_HALF)}px;
+      margin-bottom: 77px;
     }
   }
 `
@@ -49,7 +66,7 @@ const BiteMarks = styled(Bite.A)`
     fill: ${(p) => p.theme.color.section.alumni.bg};
   }
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     left: -24px;
   }
 `

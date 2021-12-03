@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+
+import { media } from '@styles/theme'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
@@ -32,7 +34,7 @@ const StyledAlumni = styled(Section)`
     'button frame'
     '. frame';
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     padding: 48px 16px;
     padding-bottom: 128px;
     grid-template-columns: auto;
@@ -64,11 +66,11 @@ const Title = styled(Text.Heading1)`
 const Frame = styled(SwingyFrame)`
   grid-area: frame;
 
-  @media (max-width: 1024px) {
+  ${media.tabletWide} {
     margin-right: -100px;
   }
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     margin-right: 0;
     margin-bottom: -96px;
   }

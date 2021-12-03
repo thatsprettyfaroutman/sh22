@@ -5,6 +5,7 @@ import { a, useSpring } from 'react-spring'
 import lerp from 'lerp'
 import { easeSinOut } from 'd3-ease'
 
+import { media } from '@styles/theme'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
 import { Bite } from '@components/Bite'
@@ -71,7 +72,7 @@ const StyledTrack = styled.div`
     border: 3px solid ${(p) => p.theme.color.track.fg};
     pointer-events: none;
 
-    @media (max-width: 768px) {
+    ${media.tablet} {
       grid-template-columns: 1fr auto;
 
       ${(p) =>

@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 import styled from 'styled-components'
+
+import { media } from '@styles/theme'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Lottie } from '@components/Lottie'
@@ -23,16 +25,15 @@ const StyledTracks = styled(Section)`
   color: ${(p) => p.theme.color.section.tracks.fg};
   overflow: hidden;
 
-  @media (max-width: 1024px) {
-    padding: 48px 16px;
+  ${media.tabletWide} {
+    padding: 96px 16px;
     padding-bottom: 0;
-    grid-gap: 16px;
+    grid-gap: 32px;
     padding-bottom: 210px;
   }
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     min-height: initial;
-    padding-top: 80px;
   }
 `
 
@@ -80,9 +81,8 @@ const Content = styled.div`
   max-width: 700px;
   padding-bottom: 192px;
   text-align: center;
-  /* justify-self: center; */
 
-  @media (max-width: 1024px) {
+  ${media.tabletWide} {
     padding-bottom: 0;
   }
 `
@@ -92,7 +92,7 @@ const StyledMrEyez = styled(MrEyez)`
   top: 164px;
   left: 64px;
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     top: 16px;
     left: 16px;
   }
@@ -109,7 +109,7 @@ const Dancers = styled.div`
   justify-content: space-between;
   pointer-events: none;
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     padding: 0 16px;
   }
 `

@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
+
+import { media } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useDanceProgress } from '@hooks/useDanceProgress'
 import { Section } from '@components/Section'
@@ -20,7 +22,7 @@ const StyledContacts = styled(Section)`
   margin-left: auto;
   margin-right: auto;
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     padding: 96px 16px;
     grid-gap: 96px;
   }
@@ -29,7 +31,8 @@ const StyledContacts = styled(Section)`
 const Title = styled(Text.Heading1)`
   position: relative;
   max-width: 700px;
-  @media (max-width: 768px) {
+
+  ${media.tablet} {
     text-align: center;
   }
 
@@ -43,7 +46,7 @@ const Infos = styled(Text.Heading1)`
   display: flex;
   gap: 128px;
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -68,7 +71,7 @@ const Info = styled.div`
     color: ${(p) => p.theme.color.button.fg};
   }
 
-  @media (max-width: 768px) {
+  ${media.tablet} {
     text-align: center;
   }
 `

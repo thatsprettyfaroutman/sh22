@@ -5,6 +5,8 @@ import styled, { css } from 'styled-components'
 import { a } from 'react-spring'
 import mergeRefs from 'react-merge-refs'
 import { useInView } from 'react-intersection-observer'
+
+import { BREAKPOINT, SCALE } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 import { useWindowResize } from '@hooks/useWindowResize'
@@ -57,7 +59,14 @@ export const getLottieSize = (animationData) => {
       'getLottieSize, `animationData.crop` not defined. { x: number, y: number, w: number, height: number } expected'
     )
   }
-  const scale = window.innerWidth <= 768 ? 0.8 : 1
+
+  const scale =
+    window.innerWidth <= BREAKPOINT.phone
+      ? SCALE.phone
+      : window.innerWidth <= BREAKPOINT.tablet
+      ? SCALE.tablet
+      : 1
+
   return {
     scale,
     size: {

@@ -82,7 +82,7 @@ const useInfiniteSpring = () => {
   }
 }
 
-const [provider, hook] = constate(useInfiniteSpring)
+const [provider, useInfiniteSpringContext] = constate(useInfiniteSpring)
 
 export const InfiniteSpringProvider = provider
-export const useInfiniteSpringContext = hook
+export { useInfiniteSpringContext }

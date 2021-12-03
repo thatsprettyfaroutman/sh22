@@ -8,6 +8,8 @@ import {
   useInfiniteSpringContext,
   START_BASS_BOOMING_AT_SECOND,
 } from '@contexts/infiniteSpring'
+
+import { media } from '@styles/theme'
 import { useSpringScroll } from '@hooks/useSpringScroll'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
@@ -40,7 +42,7 @@ const MainContent = styled.div`
     'button'
     'arrow';
 
-  @media (max-width: 767px) {
+  ${media.phone} {
     grid-gap: 24px;
   }
 `
@@ -78,7 +80,8 @@ const Flower = styled(a.div)`
 const DancerA = styled(Lottie)`
   grid-area: dancerA;
   margin-top: auto;
-  @media (max-width: 768px) {
+
+  ${media.phone} {
     margin-left: -75px;
   }
 `
@@ -86,7 +89,8 @@ const DancerA = styled(Lottie)`
 const DancerB = styled(Lottie)`
   grid-area: dancerB;
   margin-top: auto;
-  @media (max-width: 768px) {
+
+  ${media.phone} {
     margin-right: -75px;
   }
 `
@@ -97,7 +101,8 @@ const Title = styled(a(Text.Heading1))`
   text-align: center;
   max-width: 700px;
   padding: 0 48px;
-  @media (max-width: 767px) {
+
+  ${media.phone} {
     padding: 0 8px;
   }
 `

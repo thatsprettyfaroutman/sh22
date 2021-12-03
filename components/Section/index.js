@@ -2,13 +2,12 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useInView } from 'react-intersection-observer'
 import { useThemeColorContext } from '@contexts/themeColor'
+import { media } from '@styles/theme'
 
 const StyledSection = styled.section`
-  /* min-height: min(800px, calc(100vh - 64px)); */
-  /* min-height: min(1024px, 100vh); */
   min-height: max(768px, 100vh);
 
-  @media (max-width: 767px) {
+  ${media.phone} {
     min-height: max(667px, 100vh);
   }
 `

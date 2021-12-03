@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { a, useSpring } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
+
 import { useDanceProgress } from '@hooks/useDanceProgress'
+import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
 import { Text } from '@components/Text'
 
 const Wrapper = styled(a.div)``
@@ -29,15 +31,30 @@ export const Button = ({
   ...restProps
 }) => {
   const [isHovering, setIsHovering] = useState(false)
+  const [isDanceLocked, setIsDanceLocked] = useState(false)
   const [isPushed, setIsPushed] = useState(false)
   const { ref, inView } = useInView()
   const danceProgress = useDanceProgress({
-    enabled: inView && !isHovering && !isPushed,
+    enabled: inView && !isDanceLocked && !isPushed,
   })
 
   const contentSpring = useSpring({
     config: { tension: 400 },
     y: isPushed ? 0 : isHovering ? -8 : -4,
+  })
+
+  useEffect(() => {
+    if (isHovering) {
+      setIsDanceLocked(true)
+    }
+  }, [isHovering])
+
+  // Release hover state when the time is right to prevent major glitching
+  useSecondsPassedEffect(() => {
+    if (!isDanceLocked || isHovering) {
+      return
+    }
+    setIsDanceLocked(false)
   })
 
   // Release pushed state in 1s
@@ -63,12 +80,7 @@ export const Button = ({
             setTimeout(onClick, 120)
           }
         }}
-        style={
-          danceProgress && {
-            y: danceProgress.to((p) => p * 8),
-            // rotate: danceProgress.to((p) => lerp(-1, 4, p)),
-          }
-        }
+        style={danceProgress && { y: danceProgress.to((p) => p * 8) }}
       >
         <Content style={contentSpring}>{children}</Content>
       </StyledButton>
