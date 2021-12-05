@@ -1,15 +1,17 @@
-import window from 'handle-window-undefined'
 import { useRef, useCallback, useState } from 'react'
-import lottie from 'lottie-web'
 import styled, { css } from 'styled-components'
 import { a } from 'react-spring'
 import mergeRefs from 'react-merge-refs'
 import { useInView } from 'react-intersection-observer'
 
-import { BREAKPOINT, SCALE } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 import { useWindowResize } from '@hooks/useWindowResize'
+
+import { getLottieSize } from './lib'
+import { useStoredLottieAnimation } from './hooks/useStoredLottieAnimation'
+
+export * from './lib'
 
 const StyledLottie = styled(a.div)`
   position: relative;
@@ -49,39 +51,6 @@ const LottieWrapper = styled.div`
   }};
 `
 
-export const getLottieSize = (animationData) => {
-  if (!animationData) {
-    throw new Error('getLottieSize, `animationData` not defined')
-  }
-  const { w, h, crop } = animationData
-  if (!crop) {
-    throw new Error(
-      'getLottieSize, `animationData.crop` not defined. { x: number, y: number, w: number, height: number } expected'
-    )
-  }
-
-  const scale =
-    window.innerWidth <= BREAKPOINT.phone
-      ? SCALE.phone
-      : window.innerWidth <= BREAKPOINT.tablet
-      ? SCALE.tablet
-      : 1
-
-  return {
-    scale,
-    size: {
-      w: crop.w * scale,
-      h: crop.h * scale,
-    },
-    crop: {
-      x: scale * -crop.x,
-      y: scale * -crop.y,
-      w: scale * w,
-      h: scale * h,
-    },
-  }
-}
-
 export const Lottie = ({
   animationData,
   animationOffset = 0,
@@ -93,27 +62,17 @@ export const Lottie = ({
 }) => {
   const ref = useRef()
   const { ref: inViewRef, inView } = useInView()
-  const wrapperRef = useRef()
   const { addSpringListener } = useInfiniteSpringContext()
   const [crop, setCrop] = useState(null)
   const [wrapperSize, setWrapperSize] = useState(null)
-  const lottieAnimationRef = useRef()
+  const { ref: lottieRef, lottieAnimation } =
+    useStoredLottieAnimation(animationData)
 
   useIsomorphicLayoutEffect(() => {
     const el = ref?.current
-    if (!el || !animationData) {
+    if (!el || !lottieAnimation) {
       return
     }
-
-    const lottieAnimation =
-      lottieAnimationRef.current ||
-      lottie.loadAnimation({
-        animationData,
-        container: wrapperRef.current,
-        renderer: 'svg',
-        autoplay: false,
-      })
-    lottieAnimationRef.current = lottieAnimation
 
     if (typeof onControlledAnimation === 'function') {
       // Animation is being controlled from outside
@@ -142,7 +101,7 @@ export const Lottie = ({
       unlisten()
     }
   }, [
-    animationData,
+    lottieAnimation,
     animationOffset,
     onControlledAnimation,
     addSpringListener,
@@ -169,7 +128,7 @@ export const Lottie = ({
       ref={mergeRefs([ref, inViewRef])}
       className={`Lottie ${restProps.className || ''}`}
     >
-      <LottieWrapper ref={wrapperRef} $size={wrapperSize} $crop={crop} />
+      <LottieWrapper ref={lottieRef} $size={wrapperSize} $crop={crop} />
     </StyledLottie>
   )
 }

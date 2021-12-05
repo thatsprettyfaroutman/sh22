@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import styled, { css } from 'styled-components'
 import { a, useSpring } from 'react-spring'
-import lerp from 'lerp'
 import { easeSinOut } from 'd3-ease'
 
 import { media } from '@styles/theme'
@@ -11,136 +9,18 @@ import { ExternalLink } from '@components/ExternalLink'
 import { Bite } from '@components/Bite'
 import { Lottie } from '@components/Lottie'
 
-import analystLottie from '@lotties/track-analyst.lottie.json'
-import dataLottie from '@lotties/track-data.lottie.json'
-import developerLottie from '@lotties/track-developer.lottie.json'
-import managerLottie from '@lotties/track-manager.lottie.json'
+import { lerpInOut } from './lib'
+import { TRACK_LOTTIE_MAP, TRACK_LOTTIE_PUPIL_SELECTOR_MAP } from './consts'
+import * as Styled from './styles'
 
-const lerpInOut = (x, y, alpha) => lerp(x, lerp(y * 4, x, alpha), alpha)
-
-export const TRACK_LOTTIE_MAP = {
-  ANALYST: analystLottie,
-  DATA: dataLottie,
-  DEVELOPER: developerLottie,
-  MANAGER: managerLottie,
-  DESIGNER: managerLottie,
-  SALES: dataLottie,
-}
-
-export const TRACK_LOTTIE_PUPIL_SELECTOR_MAP = {
-  ANALYST: [
-    'div > svg > g > g:nth-child(3) > g > path',
-    'div > svg > g > g:nth-child(5) > g > path',
-  ],
-  DATA: [
-    'div > svg > g > g:nth-child(4) > g > path',
-    'div > svg > g > g:nth-child(6) > g > path',
-  ],
-  DEVELOPER: [
-    'div > svg > g > g:nth-child(4) > g > path',
-    'div > svg > g > g:nth-child(6) > g > path',
-  ],
-  MANAGER: [
-    'div > svg > g > g:nth-child(7) > g > path',
-    'div > svg > g > g:nth-child(9) > g > path',
-  ],
-  DESIGNER: [
-    'div > svg > g > g:nth-child(7) > g > path',
-    'div > svg > g > g:nth-child(9) > g > path',
-  ],
-  SALES: [
-    'div > svg > g > g:nth-child(4) > g > path',
-    'div > svg > g > g:nth-child(6) > g > path',
-  ],
-}
-
-const StyledTrack = styled.div`
-  background-color: ${(p) => p.theme.color.track.fg};
-  border-radius: 8px;
-
-  > div {
-    position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 24px;
-    padding: 24px 32px;
-    align-items: center;
-    justify-items: start;
-    border-radius: inherit;
-    background-color: ${(p) => p.theme.color.track.bg};
-    color: ${(p) => p.theme.color.track.fg};
-    border: 3px solid ${(p) => p.theme.color.track.fg};
-    pointer-events: none;
-
-    ${media.tablet} {
-      grid-template-columns: 1fr auto;
-
-      ${(p) =>
-        !p.$isOpen &&
-        css`
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-
-          > :nth-child(3) {
-            margin-top: -24px;
-          }
-        `};
-    }
-  }
-`
-
-const TrackIcon = styled(a.div)`
-  display: flex;
-  align-items: center;
-  min-width: 70px;
-  min-height: 70px;
-
-  :empty {
-    background-color: ${(p) => p.theme.color.track.fg};
-    opacity: 0.05;
-  }
-
-  @media (max-width: 780px) {
-    grid-column: 1/3;
-    margin-right: auto;
-  }
-`
-
-const Title = styled(Text.Heading2)`
-  text-align: left;
-`
-
-const BiteMarks = styled(Bite.B)`
-  display: none;
-  > path {
-    fill: ${(p) => p.theme.color.track.fg};
-  }
-  div:last-child > div > & {
-    position: absolute;
-    display: block;
-    bottom: -1px;
-    right: 20%;
-    transform: rotate(180deg);
-  }
-`
-
-const BiteMarksOuter = styled(BiteMarks)`
-  > path {
-    fill: ${(p) => p.theme.color.section.tracks.bg};
-  }
-  div:last-child > div > & {
-    bottom: -10px;
-    transform: rotate(180deg) scale(0.95, 1.4);
-  }
-`
+export * from './consts'
 
 export const Track = ({ track, onClick, ...restProps }) => {
   const router = useRouter()
   const [el, setEl] = useState(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isPushed, setIsPushed] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const isOpen = useMemo(
     () => new Date(track.opensAt) <= new Date(),
@@ -162,6 +42,13 @@ export const Track = ({ track, onClick, ...restProps }) => {
     }, 1000)
     return () => clearTimeout(t)
   }, [isPushed])
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setMounted(true)
+    }, 1000)
+    return () => clearTimeout(t)
+  }, [])
 
   const lottieAnimationData = TRACK_LOTTIE_MAP[track?.type]
 
@@ -193,8 +80,16 @@ export const Track = ({ track, onClick, ...restProps }) => {
     onChange: handleEyeMovement,
   })
 
+  const href = useMemo(() => `/track/${track.type.toLowerCase()}`, [track.type])
+
+  const opensAtDate = useMemo(
+    () => track?.opensAt.split('-').reverse().join('.'),
+    [track.opensAt]
+  )
+
   return (
-    <StyledTrack
+    <Styled.Track
+      href={href}
       $isOpen={isOpen}
       ref={setEl}
       {...restProps}
@@ -203,19 +98,19 @@ export const Track = ({ track, onClick, ...restProps }) => {
       onClick={useMemo(
         () =>
           isOpen
-            ? () => {
+            ? (e) => {
+                e.preventDefault()
                 setIsPushed(true)
-                // setTimeout(() => {
-                // router.push(`/track/${track.type.toLowerCase()}`)
-                window.location = `/track/${track.type.toLowerCase()}`
-                // }, 120)
+                router.push(href, undefined, {
+                  shallow: true,
+                })
               }
             : null,
         [isOpen, onClick, track?.type, router]
       )}
     >
       <a.div style={contentSpring}>
-        <TrackIcon
+        <Styled.TrackIcon
           style={{
             y: iconSpring.p.to((p, dp) => lerpInOut(0, -5, p)),
           }}
@@ -226,22 +121,15 @@ export const Track = ({ track, onClick, ...restProps }) => {
               animationStopped={!isHovering}
             />
           )}
-        </TrackIcon>
-        <Title>{track.title}</Title>
-        {isOpen ? (
-          <ExternalLink href="#">Apply</ExternalLink>
-        ) : (
-          <Text.Small>
-            Application period starts on{' '}
-            {useMemo(
-              () => track?.opensAt.split('-').reverse().join('.'),
-              [track.opensAt]
-            )}
-          </Text.Small>
+        </Styled.TrackIcon>
+        <Styled.Title>{track.title}</Styled.Title>
+        {isOpen && mounted && <ExternalLink>Apply</ExternalLink>}
+        {!isOpen && (
+          <Text.Small>Application period starts on {opensAtDate}</Text.Small>
         )}
-        <BiteMarks />
-        <BiteMarksOuter />
+        <Styled.BiteMarks />
+        <Styled.BiteMarksOuter />
       </a.div>
-    </StyledTrack>
+    </Styled.Track>
   )
 }

@@ -6,7 +6,7 @@
   "w": 300,
   "h": 300,
   "crop": { "x": 117, "y": 125, "w": 67, "h": 58 },
-  "nm": "manager",
+  "nm": "track-manager",
   "ddd": 0,
   "assets": [],
   "layers": [

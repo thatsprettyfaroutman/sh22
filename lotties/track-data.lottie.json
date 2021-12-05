@@ -6,7 +6,7 @@
   "w": 300,
   "h": 300,
   "crop": { "x": 119, "y": 125, "w": 62, "h": 57 },
-  "nm": "data",
+  "nm": "track-data",
   "ddd": 0,
   "assets": [],
   "layers": [

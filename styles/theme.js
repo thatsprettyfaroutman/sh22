@@ -53,7 +53,7 @@ export const themeDark = {
     button: { bg: '#101010', fg: '#ffd31a' },
     link: { bg: chroma('#5462DB').alpha(0).css('rgba'), fg: '#5462DB' },
 
-    trackHead: { bg: '#FFFAE5', fg: '#1D1D1B' },
+    trackHead: { bg: '#100010', fg: '#FFFAE5' },
   },
 }
 

@@ -4,8 +4,8 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import chroma from 'chroma-js'
 import Head from 'next/head'
 // Use this to detect dark mode from os
-import useDarkMode from 'use-dark-mode'
-// import { useDarkMode } from '@hooks/useDarkMode'
+// import useDarkMode from 'use-dark-mode'
+import { useDarkMode } from '@hooks/useDarkMode'
 import { themeDark, themeLight } from '@styles/theme'
 import { combineComponents } from '@helpers/combineComponents'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
@@ -35,11 +35,11 @@ const GlobalStyle = createGlobalStyle`
 
 export default function App({ Component, pageProps }) {
   // Use this to detect dark mode from os
-  const { value: enabled } = useDarkMode(false, {
-    storageKey: null,
-    onChange: null,
-  })
-  // const [enabled] = useDarkMode()
+  // const { value: enabled } = useDarkMode(false, {
+  //   storageKey: null,
+  //   onChange: null,
+  // })
+  const [enabled] = useDarkMode()
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
