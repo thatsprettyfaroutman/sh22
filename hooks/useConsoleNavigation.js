@@ -1,43 +1,72 @@
 import { useEffect } from 'react'
 
-export const useConsoleNavigation = (tracks, currentTrack) => {
-  // init
-  useEffect(() => {
-    setTimeout(() => {
-      if (process.env.NODE_ENV === 'production') {
-        console.clear()
-      }
-      console.log(
-        '%c ',
-        `
-  background-image: url(${window.location}/images/pixel-porcuboi.gif),url(${
-          window.location
-        }/images/pixel-duckyduck.gif);
-  padding-bottom: 64px;
-  padding-left: ${64 * 2}px;
-  margin: 20px;
-  background-size: contain;
-  background-position: -12px 0, 60px 0;
-  background-repeat: no-repeat;
-`,
-        `
+const SH_BANNER = `
        __   ___  ___
   ___ / /  |_  ||_  |
  (_-</ _ \\/ __// __/
 /___/_//_/____/____/
 
 SUMMER HUNTERS 2022
+`
 
-So, you found the magical key-combination
-that opens up the console! Excellent job!
+export const useConsoleNavigation = (tracks, currentTrack) => {
+  // init
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (process.env.NODE_ENV === 'production') {
+        console.clear()
+      }
+      console.log(
+        '%c ',
+        ` background-image: url(${
+          window.location.origin
+        }/images/pixel-porcuboi.gif), url(${
+          window.location.origin
+        }/images/pixel-duckyduck.gif);
+          padding-bottom: 64px;
+          padding-left: ${64 * 2}px;
+          margin: 20px;
+          background-size: contain;
+          background-position: -12px 0, 60px 0;
+          background-repeat: no-repeat;
+        `,
+        `
 
-Try typing:
+${
+  currentTrack
+    ? `Congratulations!
+
+You've chosen the \`${currentTrack.title}\` track
+    
+${currentTrack.description}
+
+To apply for this track, type:
+
+-> apply()
+
+To see other tracks, type:
 
 -> tracks()
 
 `
+    : `So, you found the magical key-combination
+that opens up the console! Excellent job!
+
+Try typing:
+
+-> tracks()`
+}
+
+${SH_BANNER}
+
+
+`
       )
     }, 1000)
+
+    return () => {
+      clearTimeout(t)
+    }
   }, [])
 
   useEffect(() => {
@@ -64,4 +93,16 @@ ${track.title}
       return '🦔 Completed -- tracks()'
     }
   }, [tracks])
+
+  useEffect(() => {
+    if (!currentTrack) {
+      return
+    }
+    window.apply = () => {
+      setTimeout(() => {
+        window.location = currentTrack.href
+      }, 1000)
+      return `🦔 Executing -- apply()`
+    }
+  }, [currentTrack])
 }

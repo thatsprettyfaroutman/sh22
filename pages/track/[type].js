@@ -1,7 +1,9 @@
 import { getSection } from '@util/contentfulPosts'
 
 import styled from 'styled-components'
+import { pick } from 'ramda'
 
+import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
 import { TrackHead } from '@sections/TrackHead'
 import { TrackBody } from '@sections/TrackBody'
 import { Contacts } from '@sections/Contacts'
@@ -11,7 +13,14 @@ import { Contacts } from '@sections/Contacts'
 
 const StyledTrack = styled.div``
 
-export default function Track({ track, contactsSection, ...restProps }) {
+export default function Track({
+  track,
+  trackList,
+  contactsSection,
+  ...restProps
+}) {
+  useConsoleNavigation(trackList, track)
+
   return (
     <StyledTrack {...restProps}>
       <TrackHead track={track} />
@@ -42,6 +51,7 @@ export async function getStaticProps({ params: { type } }) {
 
   return {
     props: {
+      trackList: tracks.map(pick(['title', 'link', 'opensAt'])),
       track: tracks.find((x) => x.type.toLowerCase() === type),
       contactsSection,
     },
