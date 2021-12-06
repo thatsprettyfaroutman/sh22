@@ -100,6 +100,10 @@ ${track.title}
     }
     window.apply = () => {
       setTimeout(() => {
+        if (!currentTrack.href) {
+          console.error('🦔 Unable to execute -- apply()')
+          return
+        }
         window.location = currentTrack.href
       }, 1000)
       return `🦔 Executing -- apply()`
