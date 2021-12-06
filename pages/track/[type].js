@@ -51,7 +51,7 @@ export async function getStaticProps({ params: { type } }) {
 
   return {
     props: {
-      trackList: tracks.map(pick(['title', 'link', 'opensAt'])),
+      trackList: tracks.map(pick(['type', 'title', 'link', 'opensAt'])),
       track: tracks.find((x) => x.type.toLowerCase() === type),
       contactsSection,
     },
