@@ -20,16 +20,26 @@ const StyledFooter = styled.footer`
   color: ${(p) => p.theme.color.footer.fg};
 `
 
-export const Footer = ({ children, ...restProps }) => {
+export const Footer = ({
+  children,
+  isEatingDisabled = false,
+  ...restProps
+}) => {
   const { secondsPassed } = useInfiniteSpringContext()
   const { ref: inViewRef, inView } = useInView()
   const [bitingStartedAtSecond, setBitingStartedAtSecond] = useState(-1)
-  const [biteRef, getBiteProps] = useGetBiteProps(bitingStartedAtSecond)
-  const biteClipPath = useBiteClipPath(getBiteProps, inView)
+  const [biteRef, getBiteProps] = useGetBiteProps(
+    bitingStartedAtSecond,
+    !isEatingDisabled
+  )
+  const biteClipPath = useBiteClipPath(
+    getBiteProps,
+    inView && !isEatingDisabled
+  )
   const { spring: yetiBeaverSpring, isDoneEating } = useYetiBeaverSpring(
     getBiteProps,
     yetibeaver,
-    inView
+    inView && !isEatingDisabled
   )
 
   useIsomorphicLayoutEffect(() => {
@@ -41,19 +51,21 @@ export const Footer = ({ children, ...restProps }) => {
 
   return (
     <Wrapper {...restProps}>
-      <YetiBeaverArea
-        ref={inViewRef}
-        animationData={yetibeaver}
-        visible={bitingStartedAtSecond !== -1}
-        isYetiJamming={isDoneEating}
-      >
-        <Lottie
+      {isEatingDisabled ? null : (
+        <YetiBeaverArea
+          ref={inViewRef}
           animationData={yetibeaver}
-          animationOffset={3000}
-          animationStopped={isDoneEating}
-          style={yetiBeaverSpring}
-        />
-      </YetiBeaverArea>
+          visible={bitingStartedAtSecond !== -1}
+          isYetiJamming={isDoneEating}
+        >
+          <Lottie
+            animationData={yetibeaver}
+            animationOffset={3000}
+            animationStopped={isDoneEating}
+            style={yetiBeaverSpring}
+          />
+        </YetiBeaverArea>
+      )}
       <StyledFooter ref={biteRef} style={{ clipPath: biteClipPath }}>
         {children}
       </StyledFooter>

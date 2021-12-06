@@ -7,7 +7,9 @@ import { useDanceProgress } from '@hooks/useDanceProgress'
 import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
 import { Text } from '@components/Text'
 
-const Wrapper = styled(a.div)``
+const Wrapper = styled(a.div)`
+  display: block;
+`
 
 const StyledButton = styled(a.button)`
   padding: 0;

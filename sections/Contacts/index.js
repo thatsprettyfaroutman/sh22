@@ -17,7 +17,6 @@ const StyledContacts = styled(Section)`
   padding: 128px 48px;
   align-content: center;
   overflow: hidden;
-  min-height: 50vh;
   max-width: 1250px;
   margin-left: auto;
   margin-right: auto;
@@ -41,7 +40,7 @@ const Title = styled(Text.Heading1)`
   }
 `
 
-const Infos = styled(Text.Heading1)`
+const Infos = styled.div`
   position: relative;
   display: flex;
   gap: 128px;
@@ -76,7 +75,12 @@ const Info = styled.div`
   }
 `
 
-export const Contacts = ({ section, ...restProps }) => {
+export const Contacts = ({
+  section,
+  isBfodaasDisabled = false,
+  isFooterEatingDisabled = false,
+  ...restProps
+}) => {
   const [isBfodaas, setIsBfodaas] = useState(false)
   const { setTimeScale } = useInfiniteSpringContext()
   const danceProgress = useDanceProgress()
@@ -107,7 +111,7 @@ export const Contacts = ({ section, ...restProps }) => {
   )
 
   return (
-    <Footer>
+    <Footer isEatingDisabled={isFooterEatingDisabled}>
       <StyledContacts {...restProps}>
         <Title>{section?.title}</Title>
         <Infos>
@@ -126,20 +130,22 @@ export const Contacts = ({ section, ...restProps }) => {
             )
           })}
         </Infos>
-        <a.div
-          onClick={playBfodaas}
-          style={{
-            opacity: isBfodaas ? 1 : 0.1,
-            marginRight: 'auto',
-            ...(danceProgress ? { y: danceProgress.to((p) => p * -8) } : {}),
-          }}
-        >
-          <Text.Body as="div">
-            {!isBfodaas ? (
-              <span style={{ pointerEvents: 'none' }}>♫</span>
-            ) : null}
-          </Text.Body>
-        </a.div>
+        {isBfodaasDisabled ? null : (
+          <a.div
+            onClick={playBfodaas}
+            style={{
+              opacity: isBfodaas ? 1 : 0.1,
+              marginRight: 'auto',
+              ...(danceProgress ? { y: danceProgress.to((p) => p * -8) } : {}),
+            }}
+          >
+            <Text.Body as="div">
+              {!isBfodaas ? (
+                <span style={{ pointerEvents: 'none' }}>♫</span>
+              ) : null}
+            </Text.Body>
+          </a.div>
+        )}
       </StyledContacts>
     </Footer>
   )

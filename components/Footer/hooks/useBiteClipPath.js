@@ -6,13 +6,13 @@ import { getBitePathA, getBitePathB, rand, getBites } from '../lib'
 // Rand to make bites randomized, but so same coordinates has the same bite
 const getBitePathFn = (i = 0) => (rand(i) < 0.5 ? getBitePathA : getBitePathB)
 
-export const useBiteClipPath = (getBiteProps, inView = true) => {
+export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
   const { secondsPassed } = useInfiniteSpringContext()
   const bites = getBites(secondsPassed)
 
   return useMemo(() => {
     const biteProps = getBiteProps(bites)
-    if (!biteProps || !biteProps.isBitingStarted || !inView) {
+    if (!biteProps || !biteProps.isBitingStarted || !isEnabled) {
       return
     }
 
@@ -102,5 +102,5 @@ export const useBiteClipPath = (getBiteProps, inView = true) => {
         ]
 
     return `path('${coords.join(',')}')`
-  }, [bites, getBiteProps, inView])
+  }, [bites, getBiteProps, isEnabled])
 }

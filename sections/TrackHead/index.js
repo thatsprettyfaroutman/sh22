@@ -1,15 +1,17 @@
 import styled from 'styled-components'
 
 import { media } from '@styles/theme'
+import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { TRACK_LOTTIE_MAP } from '@components/Track'
 import { Lottie } from '@components/Lottie'
 import { Button } from '@components/Button'
 
-const StyledTrackHead = styled.div`
+const StyledTrackHead = styled(Section)`
+  min-height: initial;
   display: grid;
-  background-color: ${(p) => p.theme.color.trackHead.bg};
-  color: ${(p) => p.theme.color.trackHead.fg};
+  background-color: ${(p) => p.theme.color.section.trackHead.bg};
+  color: ${(p) => p.theme.color.section.trackHead.fg};
 `
 
 const Content = styled.div`
@@ -23,18 +25,18 @@ const Content = styled.div`
   ${media.tablet} {
     padding: 96px 16px;
     grid-template-columns: auto;
-    justify-items: center;
-    text-align: center;
   }
 `
 
 const Title = styled(Text.HeadingMega)``
 
-const Description = styled(Text.Body)`
+const Description = styled.div`
   max-width: 700px;
 `
 
-const ApplyButton = styled(Button)`
+const ApplyButtonWrapper = styled.a`
+  display: block;
+  margin-right: auto;
   margin-top: 24px;
 `
 
@@ -46,8 +48,14 @@ export const TrackHead = ({ track, ...restProps }) => {
       <Content>
         {lottieAnimationData && <Lottie animationData={lottieAnimationData} />}
         <Title>{track.title}</Title>
-        <Description>{track.description}</Description>
-        <ApplyButton isDancing={false}>Apply for this track</ApplyButton>
+        <Description>
+          <Text.Markdown children={track.description} />
+        </Description>
+        {track?.href ? (
+          <ApplyButtonWrapper href={track.href}>
+            <Button isDancing={false}>Apply for this track</Button>
+          </ApplyButtonWrapper>
+        ) : null}
       </Content>
     </StyledTrackHead>
   )

@@ -1,19 +1,26 @@
-import styled from 'styled-components'
+import ReactMarkdown from 'react-markdown'
+import styled, { css } from 'styled-components'
+
 import { media } from '@styles/theme'
 
-// TODO: HeadingMega phone
-const HeadingMega = styled.h1`
-  margin: 0;
+const headingMegaStyle = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 64px;
   line-height: 77px;
   letter-spacing: 1px;
+  ${media.phone} {
+    font-size: 32px;
+    line-height: 36px;
+  }
+`
+const HeadingMega = styled.h1`
+  margin: 0;
+  ${headingMegaStyle};
 `
 
-const Heading1 = styled.h1`
-  margin: 0;
+const heading1Style = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -25,9 +32,12 @@ const Heading1 = styled.h1`
     line-height: 32px;
   }
 `
-
-const Heading2 = styled.h2`
+const Heading1 = styled.h1`
   margin: 0;
+  ${heading1Style};
+`
+
+const heading2Style = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -39,9 +49,12 @@ const Heading2 = styled.h2`
     line-height: 28px;
   }
 `
-
-const Body = styled.p`
+const Heading2 = styled.h2`
   margin: 0;
+  ${heading2Style};
+`
+
+const bodyStyle = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -53,8 +66,12 @@ const Body = styled.p`
     line-height: 26px;
   }
 `
+const Body = styled.p`
+  margin: 0;
+  ${bodyStyle};
+`
 
-const Button = styled.div`
+const buttonStyle = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -65,8 +82,11 @@ const Button = styled.div`
     line-height: 26px;
   }
 `
+const Button = styled.div`
+  ${buttonStyle};
+`
 
-const Tag = styled.div`
+const tagStyle = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -80,8 +100,11 @@ const Tag = styled.div`
     line-height: 19px;
   }
 `
+const Tag = styled.div`
+  ${tagStyle};
+`
 
-const Small = styled.div`
+const smallStyle = css`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -94,6 +117,41 @@ const Small = styled.div`
     line-height: 16px;
   }
 `
+const Small = styled.div`
+  ${smallStyle};
+`
+
+const Markdown = styled(ReactMarkdown)`
+  font-family: Inter, sans-serif;
+
+  > * {
+    margin: 0;
+  }
+
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  > h1 {
+    :not(:first-child) {
+      margin-top: 64px;
+    }
+    ${heading1Style};
+  }
+
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6 {
+    margin-top: 32px;
+    ${heading2Style};
+  }
+
+  > p {
+    ${bodyStyle};
+  }
+`
 
 export const Text = {
   HeadingMega,
@@ -103,4 +161,5 @@ export const Text = {
   Button,
   Tag,
   Small,
+  Markdown,
 }

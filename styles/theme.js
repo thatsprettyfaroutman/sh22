@@ -25,13 +25,13 @@ export const themeLight = {
       tracks: { bg: '#FFFAE5', fg: '#101010' },
       alumni: { bg: '#ffffff', fg: '#101010' },
       contacts: { bg: '#1D1D1B', fg: '#ffffff' },
+      trackHead: { bg: '#FFFAE5', fg: '#1D1D1B' },
+      trackBody: { bg: '#ffffff', fg: '#101010' },
     },
     track: { bg: '#ffffff', fg: '#1D1D1B' },
     footer: { bg: '#1D1D1B', fg: '#ffffff' },
     button: { bg: '#ffd31a', fg: '#101010' },
     link: { bg: chroma('#5462DB').alpha(0).css('rgba'), fg: '#5462DB' },
-
-    trackHead: { bg: '#FFFAE5', fg: '#1D1D1B' },
   },
 }
 
@@ -47,13 +47,13 @@ export const themeDark = {
       tracks: { bg: '#100010', fg: '#FFFAE5' },
       alumni: { bg: '#000008', fg: '#ffffff' },
       contacts: { bg: '#000820', fg: '#ffffff' },
+      trackHead: { bg: '#100010', fg: '#FFFAE5' },
+      trackBody: { bg: '#000008', fg: '#ffffff' },
     },
     track: { bg: '#100010', fg: '#ffffff' },
     footer: { bg: '#000820', fg: '#ffffff' },
     button: { bg: '#101010', fg: '#ffd31a' },
     link: { bg: chroma('#5462DB').alpha(0).css('rgba'), fg: '#5462DB' },
-
-    trackHead: { bg: '#100010', fg: '#FFFAE5' },
   },
 }
 

@@ -70,7 +70,7 @@ export const BiteMarks = styled(Bite.B)`
   > path {
     fill: ${(p) => p.theme.color.track.fg};
   }
-  div:last-child > div > & {
+  a:last-child > div > & {
     position: absolute;
     display: block;
     bottom: -1px;
@@ -83,7 +83,7 @@ export const BiteMarksOuter = styled(BiteMarks)`
   > path {
     fill: ${(p) => p.theme.color.section.tracks.bg};
   }
-  div:last-child > div > & {
+  a:last-child > div > & {
     bottom: -10px;
     transform: rotate(180deg) scale(0.95, 1.4);
   }

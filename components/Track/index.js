@@ -20,7 +20,6 @@ export const Track = ({ track, onClick, ...restProps }) => {
   const [el, setEl] = useState(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isPushed, setIsPushed] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   const isOpen = useMemo(
     () => new Date(track.opensAt) <= new Date(),
@@ -42,13 +41,6 @@ export const Track = ({ track, onClick, ...restProps }) => {
     }, 1000)
     return () => clearTimeout(t)
   }, [isPushed])
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setMounted(true)
-    }, 1000)
-    return () => clearTimeout(t)
-  }, [])
 
   const lottieAnimationData = TRACK_LOTTIE_MAP[track?.type]
 
@@ -123,8 +115,9 @@ export const Track = ({ track, onClick, ...restProps }) => {
           )}
         </Styled.TrackIcon>
         <Styled.Title>{track.title}</Styled.Title>
-        {isOpen && mounted && <ExternalLink>Apply</ExternalLink>}
-        {!isOpen && (
+        {isOpen ? (
+          <ExternalLink>Apply</ExternalLink>
+        ) : (
           <Text.Small>Application period starts on {opensAtDate}</Text.Small>
         )}
         <Styled.BiteMarks />

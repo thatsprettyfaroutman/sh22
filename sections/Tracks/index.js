@@ -74,7 +74,7 @@ const Boots = styled(Lottie)`
   justify-self: center;
 `
 
-const Content = styled.div`
+const TrackList = styled.div`
   position: relative;
   display: grid;
   grid-gap: 16px;
@@ -89,12 +89,12 @@ const Content = styled.div`
 
 const StyledMrEyez = styled(MrEyez)`
   position: absolute;
-  top: 164px;
+  top: 132px;
   left: 64px;
 
   ${media.tablet} {
-    top: 16px;
-    left: 16px;
+    top: 32px;
+    left: 32px;
   }
 `
 
@@ -132,13 +132,13 @@ export const Tracks = ({ section, ...restProps }) => {
       <BiteMarksA />
       <BiteMarksB />
       <Title>{section?.title}</Title>
-      <Body>{section?.body}</Body>
       <Boots animationData={useMemo(() => boots, [])} />
-      <Content>
+      <TrackList>
         {section?.tracks.map((track, i) => (
           <Track key={i} track={track} />
         ))}
-      </Content>
+      </TrackList>
+      <Body>{section?.body}</Body>
       <Dancers>
         <DancerA animationData={useMemo(() => snek, [])} />
         <DancerB animationData={useMemo(() => popsicle, [])} />

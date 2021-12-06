@@ -4,14 +4,17 @@ import { multiply } from 'ramda'
 import { BITE_WIDTH, BITE_HEIGHT } from '../consts'
 import { getBites } from '../lib'
 
-export const useGetBiteProps = (bitingStartedAtSecond = -1, inView = true) => {
+export const useGetBiteProps = (
+  bitingStartedAtSecond = -1,
+  isEnabled = true
+) => {
   const [ref, bounds] = useMeasure({
     debounce: 120,
   })
 
   const getBiteProps = useCallback(
     (bites) => {
-      if (!bounds.width || !inView) {
+      if (!bounds.width || !isEnabled) {
         return
       }
 
@@ -54,7 +57,7 @@ export const useGetBiteProps = (bitingStartedAtSecond = -1, inView = true) => {
         isBitingStarted: bitingStartedAtSecond !== -1,
       }
     },
-    [bounds, bitingStartedAtSecond, inView]
+    [bounds, bitingStartedAtSecond, isEnabled]
   )
 
   return [ref, getBiteProps]

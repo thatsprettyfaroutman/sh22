@@ -10,7 +10,7 @@ import { SECONDS_PER_BITE } from '../consts'
 export const useYetiBeaverSpring = (
   getBiteProps,
   animationData,
-  inView = true
+  isEnabled = true
 ) => {
   const { secondsPassed } = useInfiniteSpringContext()
   const lastStyleRef = useRef({
@@ -60,7 +60,7 @@ export const useYetiBeaverSpring = (
 
   const spring = useSpring({
     config: { duration: 1500, easing: easeCubicInOut },
-    immediate: !inView,
+    immediate: !isEnabled,
     ...style,
   })
 
