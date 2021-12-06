@@ -56,6 +56,7 @@ export const Lottie = ({
   animationOffset = 0,
   animationStopped = false,
   animationDurationScale = 1,
+  overrideScale,
   onControlledAnimation,
   cropRect,
   ...restProps
@@ -113,13 +114,13 @@ export const Lottie = ({
   useWindowResize(
     useCallback(() => {
       try {
-        const { size, crop } = getLottieSize(animationData)
+        const { size, crop } = getLottieSize(animationData, overrideScale)
         setWrapperSize(size)
         setCrop(crop)
       } catch (err) {
         console.error(err)
       }
-    }, [animationData])
+    }, [animationData, overrideScale])
   )
 
   return (

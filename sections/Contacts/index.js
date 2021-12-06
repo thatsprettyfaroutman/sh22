@@ -2,12 +2,15 @@ import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 
-import { media } from '@styles/theme'
+import { media, scale, SCALE } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useDanceProgress } from '@hooks/useDanceProgress'
 import { Section } from '@components/Section'
 import { Footer } from '@components/Footer'
 import { Text } from '@components/Text'
+import { Lottie } from '@components/Lottie'
+
+import tv from '@lotties/tv.lottie.json'
 
 const StyledContacts = styled(Section)`
   min-height: initial;
@@ -75,6 +78,34 @@ const Info = styled.div`
   }
 `
 
+const BfodaasTv = styled.div`
+  position: relative;
+  justify-self: center;
+  margin-top: 48px;
+`
+
+const BfodaasTvScreen = styled(a.div)`
+  position: absolute;
+  /* top: 50px;
+  left: 70px;
+  width: 120px;
+  height: 120px; */
+
+  /* ${media.tablet} {
+    top: ${scale.tablet(50)}px;
+    left: ${scale.tablet(70)}px;
+    width: ${scale.tablet(120)}px;
+    height: ${scale.tablet(120)}px;
+  } */
+
+  /* ${media.phone} { */
+  top: ${scale.phone(50)}px;
+  left: ${scale.phone(70)}px;
+  width: ${scale.phone(120)}px;
+  height: ${scale.phone(120)}px;
+  /* } */
+`
+
 export const Contacts = ({
   section,
   isBfodaasDisabled = false,
@@ -93,8 +124,8 @@ export const Contacts = ({
       setIsBfodaas(true)
       setTimeScale(1.487603)
       const iframe = document.createElement('iframe')
-      iframe.setAttribute('width', '128')
-      iframe.setAttribute('height', '128')
+      iframe.setAttribute('width', '100%')
+      iframe.setAttribute('height', '100%')
       iframe.setAttribute(
         'src',
         'https://www.youtube.com/embed/_zP_NN2dOa4?controls=0&autoplay=1'
@@ -106,6 +137,20 @@ export const Contacts = ({
         "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; 'allowfullscreen'"
       )
       e.target.appendChild(iframe)
+
+      const lottieTestScreen = e.target.parentNode.querySelector(
+        'svg > g > g:nth-child(4)'
+      )
+      if (lottieTestScreen) {
+        lottieTestScreen.style.display = 'none'
+      }
+
+      const lottieScreenBackground = e.target.parentNode.querySelector(
+        'svg > g > g:nth-child(5) > g > path'
+      )
+      if (lottieScreenBackground) {
+        lottieScreenBackground.style.fillOpacity = '1'
+      }
     },
     [setTimeScale, isBfodaas]
   )
@@ -131,20 +176,15 @@ export const Contacts = ({
           })}
         </Infos>
         {isBfodaasDisabled ? null : (
-          <a.div
-            onClick={playBfodaas}
-            style={{
-              opacity: isBfodaas ? 1 : 0.1,
-              marginRight: 'auto',
-              ...(danceProgress ? { y: danceProgress.to((p) => p * -8) } : {}),
-            }}
-          >
-            <Text.Body as="div">
-              {!isBfodaas ? (
-                <span style={{ pointerEvents: 'none' }}>♫</span>
-              ) : null}
-            </Text.Body>
-          </a.div>
+          <BfodaasTv>
+            <Lottie animationData={tv} overrideScale={SCALE.phone} />
+            <BfodaasTvScreen
+              onClick={playBfodaas}
+              style={{
+                ...(danceProgress ? { y: danceProgress.to((p) => p * 8) } : {}),
+              }}
+            />
+          </BfodaasTv>
         )}
       </StyledContacts>
     </Footer>

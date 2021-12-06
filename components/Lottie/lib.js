@@ -1,7 +1,9 @@
 import window from 'handle-window-undefined'
+import { isNil } from 'ramda'
+
 import { BREAKPOINT, SCALE } from '@styles/theme'
 
-export const getLottieSize = (animationData) => {
+export const getLottieSize = (animationData, overrideScale) => {
   if (!animationData) {
     throw new Error('getLottieSize, `animationData` not defined')
   }
@@ -12,12 +14,13 @@ export const getLottieSize = (animationData) => {
     )
   }
 
-  const scale =
-    window.innerWidth <= BREAKPOINT.phone
-      ? SCALE.phone
-      : window.innerWidth <= BREAKPOINT.tablet
-      ? SCALE.tablet
-      : 1
+  const scale = !isNil(overrideScale)
+    ? overrideScale
+    : window.innerWidth <= BREAKPOINT.phone
+    ? SCALE.phone
+    : window.innerWidth <= BREAKPOINT.tablet
+    ? SCALE.tablet
+    : 1
 
   return {
     scale,
