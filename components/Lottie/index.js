@@ -116,8 +116,6 @@ export const Lottie = ({
     getLottieSize(animationData, overrideScale).size
   )
 
-  console.log(crop, wrapperSize)
-
   const { ref: lottieRef, lottieAnimation } =
     useStoredLottieAnimation(animationData)
 
