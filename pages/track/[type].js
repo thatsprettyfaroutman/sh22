@@ -49,9 +49,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { type } }) {
-  const { tracks } = await getSection('tracksSection')
-  const contactsSection = await getSection('sectionContacts')
-  const tracksSection = await getSection('tracksSection')
+  const [contactsSection, tracksSection] = await Promise.all([
+    getSection('sectionContacts'),
+    getSection('tracksSection'),
+  ])
+
+  const { tracks } = tracksSection
 
   return {
     props: {
