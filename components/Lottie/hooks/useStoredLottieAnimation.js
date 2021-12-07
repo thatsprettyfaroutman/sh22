@@ -6,11 +6,11 @@ import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 const LOTTIE_STORE_ID = 'lottie-store'
 const LOTTIE_ANIMATION_STORE = {}
 
-const getLottieStoreDiv = () => {
-  let div = document.getElementById(LOTTIE_STORE_ID)
+const getStoreDiv = (id = LOTTIE_STORE_ID) => {
+  let div = document.getElementById(id)
   if (!div) {
     div = document.createElement('div')
-    div.id = LOTTIE_STORE_ID
+    div.id = id
     div.style.display = 'none'
     div.style.position = 'absolute'
     div.style.top = '0px'
@@ -24,10 +24,6 @@ const getLottieStoreDiv = () => {
 }
 
 export const useStoredLottieAnimation = (animationData) => {
-  const ref = useRef()
-  const lottieAnimationRef = useRef()
-  const [inittedLottieAnimation, setInittedLottieAnimation] = useState()
-
   // Generate random enough id for storing purposes so
   // the lotties dont break on navigation
   const animationId = useRef(
@@ -36,15 +32,19 @@ export const useStoredLottieAnimation = (animationData) => {
       .join('')}`
   )
 
+  const ref = useRef()
+  const lottieAnimationRef = useRef()
+  const [inittedLottieAnimation, setInittedLottieAnimation] = useState()
+
   const storeLottieAnimation = useCallback(() => {
     if (!inittedLottieAnimation) {
       return
     }
-    const lottieStoreDiv = getLottieStoreDiv()
+    const lottieStoreDiv = getStoreDiv()
     if (!lottieStoreDiv) {
       return
     }
-    const lottieElement = ref.current?.children?.[0]
+    const lottieElement = ref.current?.querySelector('svg')
     if (!lottieElement) {
       return
     }
@@ -54,7 +54,7 @@ export const useStoredLottieAnimation = (animationData) => {
   }, [inittedLottieAnimation])
 
   const getStoredLottieAnimation = useCallback(() => {
-    const lottieStoreDiv = getLottieStoreDiv()
+    const lottieStoreDiv = getStoreDiv()
     if (!lottieStoreDiv) {
       return
     }

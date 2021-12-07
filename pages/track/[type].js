@@ -25,9 +25,9 @@ export default function Track({
 
   return (
     <StyledTrack {...restProps}>
-      <TrackHead track={track} />
+      <TrackHead track={track} key={track.type} />
       <TrackBody track={track} />
-      <Tracks isSimple section={tracksSection} />
+      <Tracks isSimple section={tracksSection} omitTrack={track} />
       <Contacts
         section={contactsSection}
         isBfodaasDisabled

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { media } from '@styles/theme'
+import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { Lottie } from '@components/Lottie'
@@ -76,6 +77,9 @@ const Body = styled(Text.Body)`
 
 const Boots = styled(Lottie)`
   justify-self: center;
+  .no-js & {
+    ${NO_JS_ANIM.danceRolly};
+  }
 `
 
 const TrackList = styled.div`
@@ -94,6 +98,10 @@ const StyledMrEyez = styled(MrEyez)`
   ${media.tablet} {
     top: 32px;
     left: 32px;
+  }
+
+  .no-js & {
+    ${NO_JS_ANIM.danceRolly};
   }
 `
 
@@ -116,26 +124,40 @@ const Dancers = styled.div`
 const DancerA = styled(Lottie)`
   grid-area: dancerA;
   margin-top: auto;
+  .no-js & {
+    ${NO_JS_ANIM.dance};
+    margin-bottom: 5px;
+  }
 `
 
 const DancerB = styled(Lottie)`
   grid-area: dancerB;
   margin-top: auto;
   justify-self: end;
+  .no-js & {
+    ${NO_JS_ANIM.danceRolly};
+  }
 `
 
-export const Tracks = ({ section, isSimple = false, ...restProps }) => {
+export const Tracks = ({
+  section,
+  isSimple = false,
+  omitTrack,
+  ...restProps
+}) => {
   return (
-    <StyledTracks {...restProps}>
+    <StyledTracks {...restProps} id="tracks">
       {!isSimple && <StyledMrEyez />}
       {!isSimple && <BiteMarksA />}
       {!isSimple && <BiteMarksB />}
       <Title>{section?.title}</Title>
       <Boots animationData={boots} />
       <TrackList>
-        {section?.tracks.map((track, i) => (
-          <Track key={i} track={track} />
-        ))}
+        {section?.tracks
+          .filter((t) => (omitTrack ? t.type !== omitTrack.type : true))
+          .map((track) => (
+            <Track key={track.type} track={track} />
+          ))}
       </TrackList>
       <Body>{section?.body}</Body>
       {!isSimple && (

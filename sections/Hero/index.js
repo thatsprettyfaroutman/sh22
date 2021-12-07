@@ -1,5 +1,5 @@
-import { useMemo, useCallback } from 'react'
-import styled from 'styled-components'
+import { useMemo, useCallback, useEffect } from 'react'
+import styled, { css, keyframes } from 'styled-components'
 import { a, useSpring, useTrail } from 'react-spring'
 import { easeCubicOut } from 'd3-ease'
 import lerp from 'lerp'
@@ -10,6 +10,7 @@ import {
 } from '@contexts/infiniteSpring'
 
 import { media } from '@styles/theme'
+import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { useSpringScroll } from '@hooks/useSpringScroll'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
@@ -21,6 +22,14 @@ import duckyduck from '@lotties/duckyduck2.lottie.json'
 import flowerboi from '@lotties/flowerboi.lottie.json'
 import flowerboibg from '@lotties/flowerboibg.lottie.json'
 import arrow from '@lotties/arrow2.lottie.json'
+
+const getNoJsAnimationDelay = (() => {
+  let delay = 0
+  return () => {
+    delay += 240
+    return `${delay}ms`
+  }
+})()
 
 const StyledHero = styled(Section)`
   position: relative;
@@ -47,19 +56,6 @@ const MainContent = styled.div`
   }
 `
 
-const Dancers = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0 16px;
-  display: grid;
-  grid-gap: 48px;
-  grid-template-areas: 'dancerA  dancerB';
-  justify-content: space-between;
-  pointer-events: none;
-`
-
 const Flower = styled(a.div)`
   grid-area: flower;
   position: relative;
@@ -74,6 +70,47 @@ const Flower = styled(a.div)`
   > .Hero__Flowerboi {
     position: absolute;
     top: 0;
+  }
+
+  .no-js & {
+    > .Hero__Flowerboibg,
+    > .Hero__Flowerboi {
+      ${NO_JS_ANIM.appearScale};
+      animation-delay: ${getNoJsAnimationDelay()};
+    }
+    > .Hero__Flowerboibg {
+      > * {
+        ${NO_JS_ANIM.danceScale};
+      }
+    }
+
+    > .Hero__Flowerboi {
+      animation-delay: ${getNoJsAnimationDelay()};
+      > * {
+        ${NO_JS_ANIM.dance};
+      }
+    }
+  }
+`
+
+const Dancers = styled(a.div)`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+  display: grid;
+  grid-gap: 48px;
+  grid-template-areas: 'dancerA  dancerB';
+  justify-content: space-between;
+  pointer-events: none;
+
+  .no-js & {
+    ${NO_JS_ANIM.appearSlow};
+    animation-delay: 2s;
+    > * {
+      ${NO_JS_ANIM.dance};
+    }
   }
 `
 
@@ -105,10 +142,23 @@ const Title = styled(a(Text.Heading1))`
   ${media.phone} {
     padding: 0 8px;
   }
+
+  .no-js & {
+    ${NO_JS_ANIM.appear};
+    animation-delay: ${getNoJsAnimationDelay()};
+  }
 `
 
-const ApplyButton = styled(Button)`
+const ApplyButtonWrapper = styled(a.a)`
   grid-area: button;
+
+  .no-js & {
+    ${NO_JS_ANIM.appear};
+    animation-delay: ${getNoJsAnimationDelay()};
+    > :not(:hover) {
+      ${NO_JS_ANIM.dance};
+    }
+  }
 `
 
 const Arrow = styled(a.div)`
@@ -116,6 +166,16 @@ const Arrow = styled(a.div)`
   justify-content: center;
   align-items: center;
   grid-area: arrow;
+  opacity: 0;
+
+  .no-js & {
+    ${NO_JS_ANIM.appearBelow};
+    animation-delay: 2s;
+    animation-fill-mode: both;
+    > * {
+      ${NO_JS_ANIM.dance};
+    }
+  }
 `
 
 export const Hero = ({ section, ...restProps }) => {
@@ -123,28 +183,53 @@ export const Hero = ({ section, ...restProps }) => {
   const { secondsPassed, isBassBooming, isDancing } = useInfiniteSpringContext()
   const isDancersVisible = secondsPassed >= START_BASS_BOOMING_AT_SECOND
 
-  const trail = useTrail(4, {
-    from: { p: 0 },
-    p: 1,
-  })
+  const [trail, trailApi] = useTrail(
+    4,
+    useCallback(() => ({ p: 1 }), [])
+  )
+  useEffect(() => {
+    trailApi.start({ from: { p: 0 }, p: 1 })
+  }, [trailApi])
 
-  const dancersSpring = useSpring({
+  const [dancersSpring, setDancersSpring] = useSpring(() => ({
     config: { duration: 5000, easing: easeCubicOut },
-    from: { y: 230, opacity: 0 },
-    y: isDancersVisible ? 0 : 230,
-    opacity: isDancersVisible ? 1 : 0,
-  })
-
-  const arrowSpring = useSpring({
-    config: { duration: 1000, easing: easeCubicOut },
-    from: { y: 32, opacity: 0 },
     y: 0,
     opacity: 1,
-    delay: 6000,
-  })
+  }))
+  useEffect(() => {
+    setDancersSpring({
+      reset: true,
+      from: { y: 230, opacity: 0 },
+      y: isDancersVisible ? 0 : 230,
+      opacity: isDancersVisible ? 1 : 0,
+    })
+  }, [setDancersSpring, isDancersVisible])
+
+  const [arrowSpring, setArrowSpring] = useSpring(() => ({
+    config: { duration: 1000, easing: easeCubicOut },
+    y: 0,
+    // opacity: 1,
+  }))
+  useEffect(() => {
+    setArrowSpring({
+      opacity: 0,
+      immediate: true,
+    })
+    const t = setTimeout(() => {
+      setArrowSpring({
+        reset: true,
+        from: { y: 32, opacity: 0 },
+        y: 0,
+        opacity: 1,
+        immediate: false,
+      })
+    }, 6000)
+    return () => {
+      clearTimeout(t)
+    }
+  }, [setArrowSpring])
 
   const flowerBgSpring = useMemo(() => ({ scale: trail[0].p }), [trail])
-
   const flowerboiSpring = useMemo(() => ({ scale: trail[1].p }), [trail])
 
   const titleSpring = useMemo(
@@ -163,10 +248,16 @@ export const Hero = ({ section, ...restProps }) => {
     [trail]
   )
 
-  const handelApplyButtonClick = useCallback(() => {
-    const tracksSection = document.querySelector('[data-section-link="tracks"]')
-    scrollTo(tracksSection)
-  }, [scrollTo])
+  const handelApplyButtonClick = useCallback(
+    (e) => {
+      e.preventDefault()
+      const tracksSection = document.querySelector(
+        '[data-section-link="tracks"]'
+      )
+      scrollTo(tracksSection)
+    },
+    [scrollTo]
+  )
 
   return (
     <StyledHero {...restProps}>
@@ -189,9 +280,13 @@ export const Hero = ({ section, ...restProps }) => {
           />
         </Flower>
         <Title style={titleSpring}>{section.title}</Title>
-        <ApplyButton style={buttonSpring} onClick={handelApplyButtonClick}>
-          {section.button}
-        </ApplyButton>
+        <ApplyButtonWrapper
+          href="#tracks"
+          onClick={handelApplyButtonClick}
+          style={buttonSpring}
+        >
+          <Button isDancing>{section.button}</Button>
+        </ApplyButtonWrapper>
         <Arrow style={arrowSpring} onClick={handelApplyButtonClick}>
           <Lottie
             animationData={arrow}
@@ -200,22 +295,16 @@ export const Hero = ({ section, ...restProps }) => {
           />
         </Arrow>
       </MainContent>
-      <Dancers>
+      <Dancers
+        style={useMemo(() => omit(['opacity'], dancersSpring), [dancersSpring])}
+      >
         <DancerA
           animationData={porcuboi}
           animationStopped={!isDancersVisible}
-          style={useMemo(
-            () => omit(['opacity'], dancersSpring),
-            [dancersSpring]
-          )}
         />
         <DancerB
           animationData={duckyduck}
           animationStopped={!isDancersVisible}
-          style={useMemo(
-            () => omit(['opacity'], dancersSpring),
-            [dancersSpring]
-          )}
         />
       </Dancers>
     </StyledHero>

@@ -16,6 +16,7 @@ const StyledButton = styled(a.button)`
   border: none;
   transform-origin: 50% 50%;
   background-color: ${(p) => p.theme.color.button.fg};
+  cursor: pointer;
 `
 
 const Content = styled(a(Text.Button))`

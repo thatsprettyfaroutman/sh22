@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import { a } from 'react-spring'
 
 import { media } from '@styles/theme'
+import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { Text } from '@components/Text'
 import { Bite } from '@components/Bite'
 
@@ -40,6 +41,21 @@ export const Track = styled.a`
             margin-top: -24px;
           }
         `};
+    }
+  }
+
+  .no-js & {
+    > div {
+      transition: transform 120ms ease-in-out;
+      transform: translate3d(0, -4px, 0) !important;
+    }
+    :hover > div {
+      transform: translate3d(0, -8px, 0) !important;
+
+      > :first-child {
+        ${NO_JS_ANIM.danceRolly};
+        animation-delay: 0s;
+      }
     }
   }
 `

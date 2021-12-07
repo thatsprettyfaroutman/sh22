@@ -1,9 +1,11 @@
-import { useRef, useCallback, useState } from 'react'
+import { useRef, useCallback, useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { a } from 'react-spring'
 import mergeRefs from 'react-merge-refs'
 import { useInView } from 'react-intersection-observer'
+import { isNil } from 'ramda'
 
+import { media, scale } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 import { useWindowResize } from '@hooks/useWindowResize'
@@ -25,27 +27,70 @@ const LottieWrapper = styled.div`
     pointer-events: none;
   }
 
-  ${({ $size: s }) => {
+  ${({ $size: s, $overrideScale: os }) => {
     if (!s) {
       return
     }
+
+    if (!isNil(os)) {
+      return css`
+        width: ${s.w * os}px;
+        height: ${s.h * os}px;
+      `
+    }
+
     return css`
       width: ${s.w}px;
       height: ${s.h}px;
+      ${media.tablet} {
+        width: ${scale.tablet(s.w)}px;
+        height: ${scale.tablet(s.h)}px;
+      }
+      ${media.phone} {
+        width: ${scale.phone(s.w)}px;
+        height: ${scale.phone(s.h)}px;
+      }
     `
   }};
 
-  ${({ $crop: c }) => {
+  ${({ $crop: c, $overrideScale: os }) => {
     if (!c) {
       return
     }
+
+    if (!isNil(os)) {
+      return css`
+        > span > img,
+        > svg {
+          position: relative;
+          top: ${c.y * os}px;
+          left: ${c.x * os}px;
+          width: ${c.w * os}px !important;
+          height: ${c.h * os}px !important;
+        }
+      `
+    }
+
     return css`
+      > span > img,
       > svg {
         position: relative;
         top: ${c.y}px;
         left: ${c.x}px;
         width: ${c.w}px !important;
         height: ${c.h}px !important;
+        ${media.tablet} {
+          top: ${scale.tablet(c.y)}px;
+          left: ${scale.tablet(c.x)}px;
+          width: ${scale.tablet(c.w)}px !important;
+          height: ${scale.tablet(c.h)}px !important;
+        }
+        ${media.phone} {
+          top: ${scale.phone(c.y)}px;
+          left: ${scale.phone(c.x)}px;
+          width: ${scale.phone(c.w)}px !important;
+          height: ${scale.phone(c.h)}px !important;
+        }
       }
     `
   }};
@@ -64,8 +109,15 @@ export const Lottie = ({
   const ref = useRef()
   const { ref: inViewRef, inView } = useInView()
   const { addSpringListener } = useInfiniteSpringContext()
-  const [crop, setCrop] = useState(null)
-  const [wrapperSize, setWrapperSize] = useState(null)
+  const [crop, setCrop] = useState(
+    getLottieSize(animationData, overrideScale).crop
+  )
+  const [wrapperSize, setWrapperSize] = useState(
+    getLottieSize(animationData, overrideScale).size
+  )
+
+  console.log(crop, wrapperSize)
+
   const { ref: lottieRef, lottieAnimation } =
     useStoredLottieAnimation(animationData)
 
@@ -129,7 +181,19 @@ export const Lottie = ({
       ref={mergeRefs([ref, inViewRef])}
       className={`Lottie ${restProps.className || ''}`}
     >
-      <LottieWrapper ref={lottieRef} $size={wrapperSize} $crop={crop} />
+      <LottieWrapper
+        ref={lottieRef}
+        $size={wrapperSize}
+        $crop={crop}
+        $overrideScale={overrideScale}
+      >
+        <noscript>
+          <img
+            src={require(`../../lotties/${animationData.nm}.svg`).default.src}
+            alt={animationData.nm}
+          />
+        </noscript>
+      </LottieWrapper>
     </StyledLottie>
   )
 }

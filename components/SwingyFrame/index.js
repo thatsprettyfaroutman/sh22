@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
+
 import { media, scale } from '@styles/theme'
+import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { Bite } from '@components/Bite'
 import { Lottie } from '@components/Lottie'
@@ -53,6 +55,10 @@ const StyledSwingyFrame = styled(a.div)`
       margin-left: -${scale.phone(GREMLIN_WIDTH_HALF)}px;
       margin-bottom: 77px;
     }
+  }
+
+  .no-js & {
+    ${NO_JS_ANIM.swingyFrame};
   }
 `
 

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { media } from '@styles/theme'
+import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
@@ -64,8 +65,13 @@ const Description = styled(Text.Body)`
 const Laptop = styled(Lottie)`
   grid-area: lottie;
   min-width: 320px;
+
   ${media.tablet} {
     min-width: initial;
+  }
+
+  .no-js & {
+    ${NO_JS_ANIM.danceRolly};
   }
 `
 

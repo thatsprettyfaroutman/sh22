@@ -1,4 +1,3 @@
-import window from 'handle-window-undefined'
 import { useState, useEffect } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import chroma from 'chroma-js'
@@ -45,6 +44,10 @@ export default function App({ Component, pageProps }) {
     setMounted(true)
   }, [])
   const theme = mounted && enabled ? themeDark : themeLight
+
+  useEffect(() => {
+    document.body.classList.remove('no-js')
+  }, [])
 
   return (
     <>

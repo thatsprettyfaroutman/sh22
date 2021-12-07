@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 import { a, useSpring } from 'react-spring'
 
 import { media, scale, SCALE } from '@styles/theme'
+import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { useDanceProgress } from '@hooks/useDanceProgress'
 import { Section } from '@components/Section'
@@ -83,6 +84,9 @@ const BfodaasTv = styled(a.div)`
   justify-self: center;
   margin-top: 48px;
   transform-origin: 50% 0;
+  .no-js & {
+    ${NO_JS_ANIM.danceRolly};
+  }
 `
 
 const BfodaasTvScreen = styled(a.div)`

@@ -3,10 +3,8 @@ import { useRouter } from 'next/router'
 import { a, useSpring } from 'react-spring'
 import { easeSinOut } from 'd3-ease'
 
-import { media } from '@styles/theme'
 import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
-import { Bite } from '@components/Bite'
 import { Lottie } from '@components/Lottie'
 
 import { lerpInOut } from './lib'
@@ -101,9 +99,16 @@ export const Track = ({ track, onClick, ...restProps }) => {
                 e.preventDefault()
                 setIsPushed(true)
                 setTimeout(() => {
-                  router.push(href, undefined, {
-                    shallow: true,
-                  })
+                  router.push(
+                    {
+                      pathname: '/track/[type]',
+                      query: { type: track.type.toLowerCase() },
+                    }
+                    // undefined,
+                    // {
+                    //   shallow: true,
+                    // }
+                  )
                 }, 120)
               }
             : null,
@@ -125,7 +130,7 @@ export const Track = ({ track, onClick, ...restProps }) => {
         </Styled.TrackIcon>
         <Styled.Title>{track.title}</Styled.Title>
         {isOpen ? (
-          <ExternalLink>Apply</ExternalLink>
+          <ExternalLink as="div">Apply</ExternalLink>
         ) : (
           <Text.Small>Application period starts on {opensAtDate}</Text.Small>
         )}
