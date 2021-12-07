@@ -9,9 +9,6 @@ import { TrackBody } from '@sections/TrackBody'
 import { Tracks } from '@sections/Tracks'
 import { Contacts } from '@sections/Contacts'
 
-// TODO: visuals
-// TODO: console nav
-
 const StyledTrack = styled.div``
 
 export default function Track({
