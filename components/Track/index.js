@@ -85,7 +85,14 @@ export const Track = ({ track, onClick, ...restProps }) => {
       $isOpen={isOpen}
       ref={setEl}
       {...restProps}
-      onMouseEnter={isOpen ? useCallback(() => setIsHovering(true), []) : null}
+      onMouseEnter={
+        isOpen
+          ? useCallback(() => {
+              setIsHovering(true)
+              router.prefetch(href)
+            }, [router, href])
+          : null
+      }
       onMouseLeave={isOpen ? useCallback(() => setIsHovering(false), []) : null}
       onClick={useMemo(
         () =>
@@ -93,12 +100,14 @@ export const Track = ({ track, onClick, ...restProps }) => {
             ? (e) => {
                 e.preventDefault()
                 setIsPushed(true)
-                router.push(href, undefined, {
-                  shallow: true,
-                })
+                setTimeout(() => {
+                  router.push(href, undefined, {
+                    shallow: true,
+                  })
+                }, 120)
               }
             : null,
-        [isOpen, onClick, track?.type, router]
+        [isOpen, onClick, track?.type, router, href]
       )}
     >
       <a.div style={contentSpring}>

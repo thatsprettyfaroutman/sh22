@@ -59,7 +59,7 @@ const StyledSwingyFrame = styled(a.div)`
 const BiteMarks = styled(Bite.A)`
   position: absolute;
   bottom: 300px;
-  left: -22px;
+  left: -23px;
   transform: rotate(-90deg);
 
   > path {
@@ -67,7 +67,7 @@ const BiteMarks = styled(Bite.A)`
   }
 
   ${media.tablet} {
-    left: -24px;
+    left: -25px;
   }
 `
 

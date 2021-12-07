@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import styled from 'styled-components'
 
 import { media } from '@styles/theme'
@@ -68,6 +67,11 @@ const Body = styled(Text.Body)`
   max-width: 700px;
   text-align: center;
   justify-self: center;
+
+  padding-bottom: 192px;
+  ${media.tabletWide} {
+    padding-bottom: 0;
+  }
 `
 
 const Boots = styled(Lottie)`
@@ -79,12 +83,7 @@ const TrackList = styled.div`
   display: grid;
   grid-gap: 16px;
   max-width: 700px;
-  padding-bottom: 192px;
   text-align: center;
-
-  ${media.tabletWide} {
-    padding-bottom: 0;
-  }
 `
 
 const StyledMrEyez = styled(MrEyez)`
@@ -125,24 +124,26 @@ const DancerB = styled(Lottie)`
   justify-self: end;
 `
 
-export const Tracks = ({ section, ...restProps }) => {
+export const Tracks = ({ section, isSimple = false, ...restProps }) => {
   return (
     <StyledTracks {...restProps}>
-      <StyledMrEyez />
-      <BiteMarksA />
-      <BiteMarksB />
+      {!isSimple && <StyledMrEyez />}
+      {!isSimple && <BiteMarksA />}
+      {!isSimple && <BiteMarksB />}
       <Title>{section?.title}</Title>
-      <Boots animationData={useMemo(() => boots, [])} />
+      <Boots animationData={boots} />
       <TrackList>
         {section?.tracks.map((track, i) => (
           <Track key={i} track={track} />
         ))}
       </TrackList>
       <Body>{section?.body}</Body>
-      <Dancers>
-        <DancerA animationData={useMemo(() => snek, [])} />
-        <DancerB animationData={useMemo(() => popsicle, [])} />
-      </Dancers>
+      {!isSimple && (
+        <Dancers>
+          <DancerA animationData={snek} />
+          <DancerB animationData={popsicle} />
+        </Dancers>
+      )}
     </StyledTracks>
   )
 }

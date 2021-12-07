@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import styled from 'styled-components'
-import { a } from 'react-spring'
+import styled, { css } from 'styled-components'
+import { a, useSpring } from 'react-spring'
 
 import { media, scale, SCALE } from '@styles/theme'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
@@ -78,32 +78,28 @@ const Info = styled.div`
   }
 `
 
-const BfodaasTv = styled.div`
+const BfodaasTv = styled(a.div)`
   position: relative;
   justify-self: center;
   margin-top: 48px;
+  transform-origin: 50% 0;
 `
 
 const BfodaasTvScreen = styled(a.div)`
   position: absolute;
-  /* top: 50px;
-  left: 70px;
-  width: 120px;
-  height: 120px; */
-
-  /* ${media.tablet} {
-    top: ${scale.tablet(50)}px;
-    left: ${scale.tablet(70)}px;
-    width: ${scale.tablet(120)}px;
-    height: ${scale.tablet(120)}px;
-  } */
-
-  /* ${media.phone} { */
   top: ${scale.phone(50)}px;
   left: ${scale.phone(70)}px;
   width: ${scale.phone(120)}px;
   height: ${scale.phone(120)}px;
-  /* } */
+
+  ${(p) =>
+    p.$isBfodaas &&
+    css`
+      top: 50px;
+      left: 70px;
+      width: 120px;
+      height: 120px;
+    `}
 `
 
 export const Contacts = ({
@@ -115,6 +111,10 @@ export const Contacts = ({
   const [isBfodaas, setIsBfodaas] = useState(false)
   const { setTimeScale } = useInfiniteSpringContext()
   const danceProgress = useDanceProgress()
+
+  const [tvSpring, setTvSpring] = useSpring(() => ({
+    scale: 1,
+  }))
 
   const playBfodaas = useCallback(
     (e) => {
@@ -151,8 +151,14 @@ export const Contacts = ({
       if (lottieScreenBackground) {
         lottieScreenBackground.style.fillOpacity = '1'
       }
+
+      setTvSpring({
+        reset: true,
+        from: { scale: SCALE.phone },
+        scale: 1,
+      })
     },
-    [setTimeScale, isBfodaas]
+    [setTimeScale, isBfodaas, setTvSpring]
   )
 
   return (
@@ -176,9 +182,13 @@ export const Contacts = ({
           })}
         </Infos>
         {isBfodaasDisabled ? null : (
-          <BfodaasTv>
-            <Lottie animationData={tv} overrideScale={SCALE.phone} />
+          <BfodaasTv style={tvSpring}>
+            <Lottie
+              animationData={tv}
+              overrideScale={isBfodaas ? 1 : SCALE.phone}
+            />
             <BfodaasTvScreen
+              $isBfodaas={isBfodaas}
               onClick={playBfodaas}
               style={{
                 ...(danceProgress ? { y: danceProgress.to((p) => p * 8) } : {}),

@@ -6,6 +6,7 @@ import { pick } from 'ramda'
 import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
 import { TrackHead } from '@sections/TrackHead'
 import { TrackBody } from '@sections/TrackBody'
+import { Tracks } from '@sections/Tracks'
 import { Contacts } from '@sections/Contacts'
 
 // TODO: visuals
@@ -17,6 +18,7 @@ export default function Track({
   track,
   trackList,
   contactsSection,
+  tracksSection,
   ...restProps
 }) {
   useConsoleNavigation(trackList, track)
@@ -25,6 +27,7 @@ export default function Track({
     <StyledTrack {...restProps}>
       <TrackHead track={track} />
       <TrackBody track={track} />
+      <Tracks isSimple section={tracksSection} />
       <Contacts
         section={contactsSection}
         isBfodaasDisabled
@@ -48,12 +51,14 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { type } }) {
   const { tracks } = await getSection('tracksSection')
   const contactsSection = await getSection('sectionContacts')
+  const tracksSection = await getSection('tracksSection')
 
   return {
     props: {
       trackList: tracks.map(pick(['type', 'title', 'link', 'opensAt'])),
       track: tracks.find((x) => x.type.toLowerCase() === type),
       contactsSection,
+      tracksSection,
     },
   }
 }
