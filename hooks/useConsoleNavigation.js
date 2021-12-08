@@ -11,11 +11,15 @@ SUMMER HUNTERS 2022
 `
 
 const getPorcuAndDucky = () =>
-  `background-image: url(${window.location.origin}/images/pixel-porcuboi.gif), url(${window.location.origin}/images/pixel-duckyduck.gif);
-  background-position: -12px 0, 60px 0;`
+  `background-image: url(${
+    window.location.origin
+  }/images/pixel-porcuboi-hd.gif), url(${
+    window.location.origin
+  }/images/pixel-duckyduck-hd.gif);
+  background-position: 0 0, ${64 * 1.5}px 0;`
 
 const getSnek = () =>
-  `background-image: url(${window.location.origin}/images/pixel-snek.gif);
+  `background-image: url(${window.location.origin}/images/pixel-snek-hd.gif);
   background-position: 0 0;`
 
 export const useConsoleNavigation = (tracks, currentTrack) => {
@@ -27,10 +31,11 @@ export const useConsoleNavigation = (tracks, currentTrack) => {
       }
       console.log(
         '%c ',
-        `${currentTrack ? getSnek() : getPorcuAndDucky()}
+        `
+          margin-top: 20px;
+          ${currentTrack ? getSnek() : getPorcuAndDucky()};
           padding-bottom: 64px;
-          padding-left: ${64 * 2}px;
-          margin: 20px;
+          padding-left: ${64 * 2.5}px;
           background-size: contain;
           background-repeat: no-repeat;
         `,
