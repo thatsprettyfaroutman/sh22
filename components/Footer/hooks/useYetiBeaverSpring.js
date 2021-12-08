@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react'
 import { useSpring } from 'react-spring'
 import { easeCubicInOut } from 'd3-ease'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
-import { getLottieSize } from '@components/Lottie'
+import { getScaledLottieSize } from '@components/Lottie'
 import { getBites } from '../lib'
 import { SECONDS_PER_BITE } from '../consts'
 
@@ -25,7 +25,7 @@ export const useYetiBeaverSpring = (
     const bite =
       biteSecond === 0 ? getBiteProps(bites - 1) : getBiteProps(bites)
 
-    const { size: beaverSize } = getLottieSize(animationData)
+    const { size: beaverSize } = getScaledLottieSize(animationData)
 
     if (!bite || !bite.isBitingStarted) {
       return [lastStyleRef.current, isDoneEatingRef.current]

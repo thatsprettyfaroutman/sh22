@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { useInView } from 'react-intersection-observer'
+
 import { Lottie } from '@components/Lottie'
 import { useIsomorphicLayoutEffect } from '@hooks/useIsomorphicLayoutEffect'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
+
 import yetibeaver from '@lotties/yetibeaver2.lottie.json'
+
 import { useGetBiteProps } from './hooks/useGetBiteProps'
 import { useBiteClipPath } from './hooks/useBiteClipPath'
 import { useYetiBeaverSpring } from './hooks/useYetiBeaverSpring'
@@ -57,6 +60,8 @@ export const Footer = ({
           animationData={yetibeaver}
           visible={bitingStartedAtSecond !== -1}
           isYetiJamming={isDoneEating}
+          yetiBeaverWidth={yetibeaver.crop.w}
+          yetiBeaverHeight={yetibeaver.crop.h}
         >
           <Lottie
             animationData={yetibeaver}

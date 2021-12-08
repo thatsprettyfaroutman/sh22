@@ -3,7 +3,7 @@ import { isNil } from 'ramda'
 
 import { BREAKPOINT, SCALE } from '@styles/theme'
 
-export const getLottieSize = (animationData, overrideScale = 1) => {
+export const getLottieSize = (animationData, scale = 1) => {
   if (!animationData) {
     throw new Error('getLottieSize, `animationData` not defined')
   }
@@ -13,15 +13,6 @@ export const getLottieSize = (animationData, overrideScale = 1) => {
       'getLottieSize, `animationData.crop` not defined. { x: number, y: number, w: number, height: number } expected'
     )
   }
-
-  const scale = overrideScale
-  // const scale = !isNil(overrideScale)
-  //   ? overrideScale
-  //   : window.innerWidth <= BREAKPOINT.phone
-  //   ? SCALE.phone
-  //   : window.innerWidth <= BREAKPOINT.tablet
-  //   ? SCALE.tablet
-  //   : 1
 
   return {
     scale,
@@ -36,4 +27,15 @@ export const getLottieSize = (animationData, overrideScale = 1) => {
       h: scale * h,
     },
   }
+}
+
+export const getScaledLottieSize = (animationData) => {
+  const scale =
+    window.innerWidth <= BREAKPOINT.phone
+      ? SCALE.phone
+      : window.innerWidth <= BREAKPOINT.tablet
+      ? SCALE.tablet
+      : 1
+
+  return getLottieSize(animationData, scale)
 }

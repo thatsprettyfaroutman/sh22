@@ -1,6 +1,8 @@
 import { useMemo, useState, useCallback, forwardRef } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
+
+import { media, scale } from '@styles/theme'
 import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
 import { useWindowResize } from '@hooks/useWindowResize'
 import { useDanceProgress } from '@hooks/useDanceProgress'
@@ -8,7 +10,13 @@ import { getLottieSize } from '@components/Lottie'
 
 const StyledYetiBeaverArea = styled(a.div)`
   position: absolute;
-  top: ${(p) => -p.$beaverSize?.h || 0}px;
+  top: ${(p) => -p.$yetiBeaverHeight}px;
+  ${media.tablet} {
+    top: ${(p) => scale.tablet(-p.$yetiBeaverHeight)}px;
+  }
+  ${media.phone} {
+    top: ${(p) => scale.phone(-p.$yetiBeaverHeight)}px;
+  }
   right: 0;
   bottom: 0;
   left: 0;
@@ -19,9 +27,21 @@ const StyledYetiBeaverArea = styled(a.div)`
   > div > .Lottie {
     display: block;
     position: absolute;
-    top: ${(p) => (-p.$beaverSize?.h || 0) * 0.62}px;
+    top: ${(p) => -p.$yetiBeaverHeight * 0.62}px;
+    ${media.tablet} {
+      top: ${(p) => scale.tablet(-p.$yetiBeaverHeight)(p) * 0.62}px;
+    }
+    ${media.phone} {
+      top: ${(p) => scale.phone(-p.$yetiBeaverHeight)(p) * 0.62}px;
+    }
     left: 0;
-    width: ${(p) => -p.$beaverSize?.w || 0}px;
+    width: ${(p) => p.$yetiBeaverWidth}px;
+    ${media.tablet} {
+      width: ${(p) => scale.tablet(p.$yetiBeaverWidth)}px;
+    }
+    ${media.phone} {
+      width: ${(p) => scale.phone(p.$yetiBeaverWidth)}px;
+    }
   }
 `
 
@@ -34,20 +54,22 @@ export const YetiBeaverArea = forwardRef(
       isYetiJamming = false,
       children,
       animationData,
+      yetiBeaverWidth = 0,
+      yetiBeaverHeight = 0,
       ...restProps
     },
     forwardedRef
   ) => {
     const [isJamming, setIsJamming] = useState(false)
-    const [beaverSize, setBeaverSize] = useState(null)
+    // const [beaverSize, setBeaverSize] = useState(null)
     const danceProgress = useDanceProgress({ enabled: visible && isJamming })
 
-    useWindowResize(
-      useCallback(() => {
-        const { size } = getLottieSize(animationData)
-        setBeaverSize(size)
-      }, [animationData])
-    )
+    // useWindowResize(
+    //   useCallback(() => {
+    //     const { size } = getLottieSize(animationData)
+    //     setBeaverSize(size)
+    //   }, [animationData])
+    // )
 
     const jammingSpring = useMemo(
       () =>
@@ -67,7 +89,9 @@ export const YetiBeaverArea = forwardRef(
       <StyledYetiBeaverArea
         ref={forwardedRef}
         {...restProps}
-        $beaverSize={beaverSize}
+        // $beaverSize={beaverSize}
+        $yetiBeaverWidth={yetiBeaverWidth}
+        $yetiBeaverHeight={yetiBeaverHeight}
       >
         <Content style={jammingSpring}>{visible ? children : null}</Content>
       </StyledYetiBeaverArea>
