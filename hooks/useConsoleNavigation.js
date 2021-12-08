@@ -16,11 +16,10 @@ const getPorcuAndDucky = () =>
   }/images/pixel-porcuboi-hd.gif), url(${
     window.location.origin
   }/images/pixel-duckyduck-hd.gif);
-  background-position: 0 0, ${64 * 1.5}px 0;`
+  background-position: 0 0, ${80 * 1}px 0;`
 
 const getSnek = () =>
-  `background-image: url(${window.location.origin}/images/pixel-snek-hd.gif);
-  background-position: 0 0;`
+  `background-image: url(${window.location.origin}/images/pixel-snek-hd.gif);`
 
 export const useConsoleNavigation = (tracks, currentTrack) => {
   // init
@@ -34,9 +33,9 @@ export const useConsoleNavigation = (tracks, currentTrack) => {
         `
           margin-top: 20px;
           ${currentTrack ? getSnek() : getPorcuAndDucky()};
-          padding-bottom: 64px;
-          padding-left: ${64 * 2.5}px;
-          background-size: contain;
+          padding-top: 80px;
+          padding-left: ${80 * 2}px;
+          background-size: 80px 80px, 80px 80px;
           background-repeat: no-repeat;
         `,
         `
