@@ -1,3 +1,4 @@
+import window from 'handle-window-undefined'
 import { useEffect } from 'react'
 
 const SH_BANNER = `
@@ -9,6 +10,14 @@ const SH_BANNER = `
 SUMMER HUNTERS 2022
 `
 
+const getPorcuAndDucky = () =>
+  `background-image: url(${window.location.origin}/images/pixel-porcuboi.gif), url(${window.location.origin}/images/pixel-duckyduck.gif);
+  background-position: -12px 0, 60px 0;`
+
+const getSnek = () =>
+  `background-image: url(${window.location.origin}/images/pixel-snek.gif);
+  background-position: 0 0;`
+
 export const useConsoleNavigation = (tracks, currentTrack) => {
   // init
   useEffect(() => {
@@ -18,16 +27,11 @@ export const useConsoleNavigation = (tracks, currentTrack) => {
       }
       console.log(
         '%c ',
-        ` background-image: url(${
-          window.location.origin
-        }/images/pixel-porcuboi.gif), url(${
-          window.location.origin
-        }/images/pixel-duckyduck.gif);
+        `${currentTrack ? getSnek() : getPorcuAndDucky()}
           padding-bottom: 64px;
           padding-left: ${64 * 2}px;
           margin: 20px;
           background-size: contain;
-          background-position: -12px 0, 60px 0;
           background-repeat: no-repeat;
         `,
         `
