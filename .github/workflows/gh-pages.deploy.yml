@@ -10,6 +10,8 @@ jobs:
 
     env:
       EXT_PUBLIC_BASE_PATH: /sh22
+      CONTENTFUL_SPACE_ID: ${{secrets.CONTENTFUL_SPACE_ID}}
+      CONTENTFUL_ACCESS_TOKEN: ${{secrets.CONTENTFUL_ACCESS_TOKEN}}
 
     strategy:
       matrix:
@@ -22,13 +24,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      # - name: Dem Secrets
+      #   run: |
+      #     echo CONTENTFUL_SPACE_ID=${{ secrets.CONTENTFUL_SPACE_ID }} >> .env.local
+      #     echo CONTENTFUL_ACCESS_TOKEN=${{ secrets.CONTENTFUL_ACCESS_TOKEN }} >> .env.local
+      #     cat .env.local
       - name: Install packages
         run: yarn
-      - name: Dem Secrets
-        run: |
-          echo CONTENTFUL_SPACE_ID=${{ secrets.CONTENTFUL_SPACE_ID }} >> .env.local
-          echo CONTENTFUL_ACCESS_TOKEN=${{ secrets.CONTENTFUL_ACCESS_TOKEN }} >> .env.local
-          cat .env.local
       - name: Build project
         run: yarn build
       - name: Export static files
