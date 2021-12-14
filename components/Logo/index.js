@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { basePath } from '@util/basePath'
 import { media } from '@styles/theme'
 import * as NO_JS_ANIM from '@styles/noJsAnimations'
 
@@ -48,7 +49,7 @@ export const Logo = (props) => {
   return (
     <StyledLogo {...props}>
       <Content>
-        <a href="/">
+        <a href={`${basePath}/`}>
           <svg width={132} height={28} fill="none">
             <path
               fillRule="evenodd"

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
 
+import { basePath } from '@util/basePath'
 import { media, scale } from '@styles/theme'
 import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
@@ -99,7 +100,7 @@ export const SwingyFrame = ({ ...restProps }) => {
         }
       }
     >
-      <img src="/images/julesframe.png" alt="Jules" />
+      <img src={`${basePath}/images/julesframe.png`} alt="Jules" />
       <Lottie animationData={swingygremlin} animationOffset={1000} />
       <BiteMarks />
     </StyledSwingyFrame>

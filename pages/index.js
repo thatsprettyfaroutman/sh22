@@ -2,6 +2,7 @@ import { getHomeSections } from '@util/contentfulPosts'
 
 import { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
+import { useRouter } from 'next/router'
 
 import { useThemeColorContext } from '@contexts/themeColor'
 import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
@@ -23,7 +24,9 @@ const SECTION_MAP = {
 }
 
 export default function Home({ sections, ...restProps }) {
+  const router = useRouter()
   const { setSectionOrder } = useThemeColorContext()
+
   useConsoleNavigation(
     useMemo(() => sections.find((x) => x.link === 'tracks')?.tracks, [sections])
   )
@@ -31,6 +34,32 @@ export default function Home({ sections, ...restProps }) {
   useEffect(() => {
     setSectionOrder(sections.map((x) => x.link))
   }, [sections])
+
+  // Handle initial routing
+  useEffect(() => {
+    const tracks = sections
+      .find((x) => x.link === 'tracks')
+      ?.tracks?.map((x) => x.type.toLowerCase())
+
+    const params = new URLSearchParams(window.location.search)
+    console.log(params.get('track'), tracks)
+    const track = params.get('track')
+
+    if (!track) {
+      return
+    }
+
+    if (tracks.includes(track.toLowerCase())) {
+      router.push(
+        {
+          pathname: '/track/[type]',
+          query: { type: track },
+        },
+        `?track=${track}`,
+        { shallow: true }
+      )
+    }
+  }, [sections, router])
 
   return (
     <StyledApp {...restProps}>
