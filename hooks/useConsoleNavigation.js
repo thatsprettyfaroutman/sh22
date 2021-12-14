@@ -1,6 +1,13 @@
 import window from 'handle-window-undefined'
 import { useEffect } from 'react'
 
+import {
+  PORCUBOI_GIF_URL,
+  DUCKYDUCK_GIF_URL,
+  SNEK_GIF_URL,
+  POPSICLE_GIF_URL,
+} from '@util/gifDataUrls'
+
 const SH_BANNER = `
        __   ___  ___
   ___ / /  |_  ||_  |
@@ -10,17 +17,11 @@ const SH_BANNER = `
 SUMMER HUNTERS 2022
 `
 
-const getPorcuAndDucky = () => {
-  const ROOT = window.location.origin
-  return `background-image: url(${ROOT}/images/pixel-porcuboi.gif), url(${ROOT}/images/pixel-duckyduck.gif);
-  background-position: 0 0, ${80 * 1.25}px 0;`
-}
+const getPorcuAndDucky = () =>
+  `background-image: url(${PORCUBOI_GIF_URL}), url(${DUCKYDUCK_GIF_URL});`
 
-const getSnekAndPopsicle = () => {
-  const ROOT = window.location.origin
-  return `background-image: url(${ROOT}/images/pixel-snek.gif), url(${ROOT}/images/pixel-popsicle.gif);
-  background-position: 0 0, ${80 * 1.25}px 0;`
-}
+const getSnekAndPopsicle = () =>
+  `background-image: url(${SNEK_GIF_URL}), url(${POPSICLE_GIF_URL});`
 
 export const useConsoleNavigation = (tracks, currentTrack) => {
   // init
@@ -34,6 +35,7 @@ export const useConsoleNavigation = (tracks, currentTrack) => {
         `
           margin-top: 20px;
           ${currentTrack ? getSnekAndPopsicle() : getPorcuAndDucky()};
+          background-position: 0 0, ${80 * 1.25}px 0;
           padding-top: 80px;
           padding-left: ${80 * 2.5}px;
           background-size: 80px 80px, 80px 80px;
