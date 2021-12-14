@@ -26,6 +26,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
         run: yarn
+      - name: Dem Secrets
+        run: |
+          echo CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID >> .env.local
+          echo CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN >> .env.local
       - name: Build project
         run: yarn build
       - name: Export static files
