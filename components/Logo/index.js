@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { a, useSpring } from 'react-spring'
 import { media } from '@styles/theme'
 import * as NO_JS_ANIM from '@styles/noJsAnimations'
 
@@ -17,7 +16,7 @@ const StyledLogo = styled.div`
   }
 `
 
-const Content = styled(a.div)`
+const Content = styled.div`
   justify-self: center;
   padding: 0 48px;
   max-width: 1250px;
@@ -32,26 +31,23 @@ const Content = styled(a.div)`
     justify-content: center;
   }
 
-  > svg > path {
-    fill: ${(p) => p.theme.color.logo.fg};
+  > a > svg {
+    ${NO_JS_ANIM.appear};
   }
 
-  .no-js & {
-    ${NO_JS_ANIM.appearScale};
-    animation-delay: 2.5s;
+  .no-js & > a > svg {
+    animation-delay: 2s;
+  }
+
+  > a > svg > path {
+    fill: ${(p) => p.theme.color.logo.fg};
   }
 `
 
 export const Logo = (props) => {
-  const spring = useSpring({
-    from: { scale: 0 },
-    scale: 1,
-    delay: 1000,
-  })
-
   return (
     <StyledLogo {...props}>
-      <Content style={spring}>
+      <Content>
         <a href="/">
           <svg width={132} height={28} fill="none">
             <path
