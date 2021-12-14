@@ -77,7 +77,7 @@ ${SH_BANNER}
     return () => {
       clearTimeout(t)
     }
-  }, [])
+  }, [currentTrack])
 
   useEffect(() => {
     window.tracks = () => {

@@ -1,8 +1,10 @@
 import { getSection } from '@util/contentfulPosts'
 
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { pick } from 'ramda'
 
+import { basePath } from '@util/basePath'
 import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
 import { TrackHead } from '@sections/TrackHead'
 import { TrackBody } from '@sections/TrackBody'
@@ -19,6 +21,19 @@ export default function Track({
   ...restProps
 }) {
   useConsoleNavigation(trackList, track)
+
+  // Clean up the url
+  useEffect(() => {
+    try {
+      window.history.pushState(
+        {},
+        null,
+        `${basePath}/${window.location.search}`
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }, [track])
 
   return (
     <StyledTrack {...restProps}>
