@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
-    "build:prod": "yarn build && yarn export && cp -r out docs"
+    "build:prod": "yarn build && yarn export && rm -rf docs && cp -r out docs"
   },
   "dependencies": {
     "chroma-js": "2.1.2",
