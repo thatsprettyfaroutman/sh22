@@ -103,7 +103,8 @@ export const Track = ({ track, onClick, ...restProps }) => {
                     {
                       pathname: '/track/[type]',
                       query: { type: track.type.toLowerCase() },
-                    }
+                    },
+                    `?track=${track.type.toLowerCase()}`
                     // undefined,
                     // {
                     //   shallow: true,
