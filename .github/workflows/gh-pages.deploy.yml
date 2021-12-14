@@ -10,6 +10,8 @@ jobs:
 
     env:
       EXT_PUBLIC_BASE_PATH: /sh22
+      CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+      CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
 
     strategy:
       matrix:
