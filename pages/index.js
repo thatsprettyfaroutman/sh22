@@ -42,7 +42,6 @@ export default function Home({ sections, ...restProps }) {
       ?.tracks?.map((x) => x.type.toLowerCase())
 
     const params = new URLSearchParams(window.location.search)
-    console.log(params.get('track'), tracks)
     const track = params.get('track')
 
     if (!track) {
