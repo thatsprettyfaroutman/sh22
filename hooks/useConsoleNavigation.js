@@ -1,5 +1,6 @@
 import window from 'handle-window-undefined'
 import { useEffect } from 'react'
+import { basePath } from '@util/basePath'
 
 const SH_BANNER = `
        __   ___  ___
@@ -11,13 +12,13 @@ SUMMER HUNTERS 2022
 `
 
 const getPorcuAndDucky = () => {
-  const ROOT = window.location.origin
+  const ROOT = `${window.location.origin}${basePath}`
   return `background-image: url(${ROOT}/images/pixel-porcuboi.gif), url(${ROOT}/images/pixel-duckyduck.gif);
   background-position: 0 0, ${80 * 1.25}px 0;`
 }
 
 const getSnekAndPopsicle = () => {
-  const ROOT = window.location.origin
+  const ROOT = `${window.location.origin}${basePath}`
   return `background-image: url(${ROOT}/images/pixel-snek.gif), url(${ROOT}/images/pixel-popsicle.gif);
   background-position: 0 0, ${80 * 1.25}px 0;`
 }
@@ -88,7 +89,7 @@ ${SH_BANNER}
           .map((track) => {
             const link = track.type.toLowerCase()
             window[link] = () => {
-              window.location.pathname = `/track/${link}`
+              window.location.search = `?track=${link}`
               return `🦔 Executing -- ${link}()`
             }
 
