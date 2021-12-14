@@ -10,16 +10,17 @@ const SH_BANNER = `
 SUMMER HUNTERS 2022
 `
 
-const getPorcuAndDucky = () =>
-  `background-image: url(${
-    window.location.origin
-  }/images/pixel-porcuboi-hd.gif), url(${
-    window.location.origin
-  }/images/pixel-duckyduck-hd.gif);
-  background-position: 0 0, ${80 * 1}px 0;`
+const getPorcuAndDucky = () => {
+  const ROOT = window.location.origin
+  return `background-image: url(${ROOT}/images/pixel-porcuboi.gif), url(${ROOT}/images/pixel-duckyduck.gif);
+  background-position: 0 0, ${80 * 1.25}px 0;`
+}
 
-const getSnek = () =>
-  `background-image: url(${window.location.origin}/images/pixel-snek-hd.gif);`
+const getSnekAndPopsicle = () => {
+  const ROOT = window.location.origin
+  return `background-image: url(${ROOT}/images/pixel-snek.gif), url(${ROOT}/images/pixel-popsicle.gif);
+  background-position: 0 0, ${80 * 1.25}px 0;`
+}
 
 export const useConsoleNavigation = (tracks, currentTrack) => {
   // init
@@ -32,9 +33,9 @@ export const useConsoleNavigation = (tracks, currentTrack) => {
         '%c ',
         `
           margin-top: 20px;
-          ${currentTrack ? getSnek() : getPorcuAndDucky()};
+          ${currentTrack ? getSnekAndPopsicle() : getPorcuAndDucky()};
           padding-top: 80px;
-          padding-left: ${80 * 2}px;
+          padding-left: ${80 * 2.5}px;
           background-size: 80px 80px, 80px 80px;
           background-repeat: no-repeat;
         `,

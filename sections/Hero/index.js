@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useEffect } from 'react'
-import styled, { css, keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { a, useSpring, useTrail } from 'react-spring'
 import { easeCubicOut } from 'd3-ease'
 import lerp from 'lerp'
@@ -24,7 +24,7 @@ import flowerboibg from '@lotties/flowerboibg.lottie.json'
 import arrow from '@lotties/arrow2.lottie.json'
 
 const getNoJsAnimationDelay = (() => {
-  let delay = 0
+  let delay = 1000
   return () => {
     delay += 240
     return `${delay}ms`

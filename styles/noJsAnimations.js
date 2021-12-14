@@ -81,7 +81,7 @@ export const appearScale = css`
   animation-duration: 1s;
   animation-iteration-count: 1;
   animation-timing-function: cubic-bezier(0, 0.18, 0.23, 1);
-  animation-fill-mode: backwards;
+  animation-fill-mode: both;
 `
 
 export const appearSlow = css`
