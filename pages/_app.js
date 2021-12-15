@@ -30,6 +30,12 @@ const GlobalStyle = createGlobalStyle`
    *, *::after, *::before {
      box-sizing: border-box;
    }
+
+   section, h1, h2, p, button > div {
+     transition-property: background-color, color;
+     transition-duration: 420ms;
+     transition-timing-function: ease-in-out;
+   }
 `
 
 export default function App({ Component, pageProps }) {
