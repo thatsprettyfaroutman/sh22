@@ -1,10 +1,12 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useSpring } from 'react-spring'
 
 import { Lottie } from '@components/Lottie'
 
 import toggleTheme from '@lotties/toggle-theme.lottie.json'
+
+export const THEME_CHANGING_CLASS_NAME = 'theme-changing'
 
 const StyledToggleTheme = styled.div`
   cursor: pointer;
@@ -21,33 +23,62 @@ const StyledToggleTheme = styled.div`
 
 export const ToggleTheme = ({ toggled = false, onChange, ...restProps }) => {
   const [lottieAnimation, setLottieAnimation] = useState()
-  const [clicked, setClicked] = useState(toggled)
+  const [lottieTimeTarget, setLottieTimeTarget] = useState(toggled ? 1000 : 0)
+  const isMounted = useRef(false)
+  const onRestClearThemeChangingClassNameTimeout = useRef()
 
   useEffect(() => {
-    setClicked(toggled)
-  }, [toggled])
+    isMounted.current = true
+    return () => {
+      isMounted.current = false
+    }
+  })
+
+  useEffect(() => {
+    if (lottieTimeTarget !== 0) {
+      return
+    }
+    setLottieTimeTarget((s) => (toggled ? s + 1000 : s))
+  }, [toggled, lottieTimeTarget])
 
   useSpring({
     config: { duration: 1000 },
-    from: { p: 0 },
-    p: clicked ? 1 : 0,
-    onChange: ({ value: { p } }) => {
-      if (lottieAnimation) {
-        lottieAnimation.goToAndStop(p * 1000)
-      }
-    },
-    onRest: () => {
-      if (typeof onChange === 'function') {
-        onChange(clicked)
-      }
-    },
+    from: { time: 0 },
+    time: lottieTimeTarget,
+    onStart: useCallback(() => {
+      clearTimeout(onRestClearThemeChangingClassNameTimeout.current)
+      document.body.classList.add(THEME_CHANGING_CLASS_NAME)
+    }, []),
+    onChange: useCallback(
+      ({ value: { time } }) => {
+        if (lottieAnimation) {
+          lottieAnimation.goToAndStop(time % 2000)
+        }
+      },
+      [lottieAnimation]
+    ),
+    onRest: useCallback(() => {
+      onRestClearThemeChangingClassNameTimeout.current = setTimeout(() => {
+        document.body.classList.remove(THEME_CHANGING_CLASS_NAME)
+      }, 500)
+    }, []),
   })
 
   return (
     <StyledToggleTheme
       onClick={useCallback(() => {
-        setClicked((s) => !s)
-      }, [])}
+        setLottieTimeTarget((s) => {
+          const nextTime = s + 1000
+          if (typeof onChange === 'function') {
+            setTimeout(() => {
+              if (isMounted.current) {
+                onChange(nextTime % 2000 === 1000)
+              }
+            }, 500)
+          }
+          return nextTime
+        })
+      }, [onChange, lottieTimeTarget])}
       {...restProps}
     >
       <Lottie

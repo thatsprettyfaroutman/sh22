@@ -9,7 +9,7 @@ import { combineComponents } from '@helpers/combineComponents'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
 import { ThemeColorProvider } from '@contexts/themeColor'
 import { Hud } from '@components/Hud'
-import { ToggleTheme } from '@components/ToggleTheme'
+import { ToggleTheme, THEME_CHANGING_CLASS_NAME } from '@components/ToggleTheme'
 
 const Providers = combineComponents(
   ThemeProvider,
@@ -31,10 +31,12 @@ const GlobalStyle = createGlobalStyle`
      box-sizing: border-box;
    }
 
-   section, h1, h2, p, button > div {
-     transition-property: background-color, color;
-     transition-duration: 420ms;
-     transition-timing-function: ease-in-out;
+   .${THEME_CHANGING_CLASS_NAME} {
+     section, h1, h2, p, button > div {
+      transition-property: background-color, color;
+      transition-duration: 250ms;
+       transition-timing-function: ease-in-out;
+    }
    }
 `
 
