@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { media } from '@styles/theme'
 import * as NO_JS_ANIM from '@styles/noJsAnimations'
 
-const StyledLogo = styled.div`
+const StyledHud = styled.div`
   position: absolute;
   top: 69px;
   left: 0;
@@ -17,10 +17,20 @@ const StyledLogo = styled.div`
 `
 
 const Content = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   justify-self: center;
   padding: 0 48px;
   max-width: 1250px;
   min-width: min(100vw, 1250px);
+
+  > a {
+    display: block;
+    > svg {
+      display: block;
+    }
+  }
 
   ${media.tablet} {
     padding: 0 16px;
@@ -28,7 +38,17 @@ const Content = styled.div`
 
   ${media.phone} {
     display: grid;
+    grid-template-columns: 1fr auto 1fr;
     justify-content: center;
+    align-content: center;
+
+    > a {
+      grid-column: 2/3;
+    }
+
+    > :not(a):last-child {
+      justify-self: end;
+    }
   }
 
   > a > svg {
@@ -44,9 +64,9 @@ const Content = styled.div`
   }
 `
 
-export const Logo = (props) => {
+export const Hud = ({ children, ...restProps }) => {
   return (
-    <StyledLogo {...props}>
+    <StyledHud {...restProps}>
       <Content>
         <a href="/">
           <svg width={132} height={28} fill="none">
@@ -58,7 +78,8 @@ export const Logo = (props) => {
             />
           </svg>
         </a>
+        {children}
       </Content>
-    </StyledLogo>
+    </StyledHud>
   )
 }

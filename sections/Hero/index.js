@@ -39,6 +39,7 @@ const StyledHero = styled(Section)`
   overflow: hidden;
   background-color: ${(p) => p.theme.color.section.hero.bg};
   color: ${(p) => p.theme.color.section.hero.fg};
+  user-select: none;
 `
 
 const MainContent = styled.div`

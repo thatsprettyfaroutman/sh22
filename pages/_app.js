@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import chroma from 'chroma-js'
 import Head from 'next/head'
 // Use this to detect dark mode from os
 // import useDarkMode from 'use-dark-mode'
@@ -9,7 +8,8 @@ import { themeDark, themeLight } from '@styles/theme'
 import { combineComponents } from '@helpers/combineComponents'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
 import { ThemeColorProvider } from '@contexts/themeColor'
-import { Logo } from '@components/Logo'
+import { Hud } from '@components/Hud'
+import { ToggleTheme } from '@components/ToggleTheme'
 
 const Providers = combineComponents(
   ThemeProvider,
@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }) {
   //   storageKey: null,
   //   onChange: null,
   // })
-  const [enabled] = useDarkMode()
+  const [enabled, setEnabled] = useDarkMode()
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
@@ -58,7 +58,9 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
       <Providers theme={theme}>
-        <Logo />
+        <Hud>
+          <ToggleTheme toggled={enabled} onChange={setEnabled} />
+        </Hud>
         <GlobalStyle />
         <Component {...pageProps} />
       </Providers>
