@@ -80,10 +80,14 @@ export const MrEyez = ({ ...restProps }) => {
       }
     }
     window.addEventListener('mousemove', mouseMove)
+    window.addEventListener('touchstart', mouseMove)
     window.addEventListener('touchmove', mouseMove)
+    window.addEventListener('touchend', mouseMove)
     return () => {
       window.removeEventListener('mousemove', mouseMove)
+      window.removeEventListener('touchstart', mouseMove)
       window.removeEventListener('touchmove', mouseMove)
+      window.removeEventListener('touchend', mouseMove)
     }
   }, [lottieAnimation, pupils, isHovering, inView])
 
