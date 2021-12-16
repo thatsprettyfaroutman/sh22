@@ -15,6 +15,11 @@ import tv from '@lotties/tv.lottie.json'
 
 const StyledContacts = styled(Section)`
   min-height: initial;
+  background-color: ${(p) => p.theme.color.section.contacts.bg};
+  color: ${(p) => p.theme.color.section.contacts.fg};
+`
+
+const Content = styled.div`
   position: relative;
   display: grid;
   grid-gap: 72px;
@@ -24,8 +29,6 @@ const StyledContacts = styled(Section)`
   max-width: 1250px;
   margin-left: auto;
   margin-right: auto;
-  background-color: ${(p) => p.theme.color.section.contacts.bg};
-  color: ${(p) => p.theme.color.section.contacts.fg};
 
   ${media.tablet} {
     padding: 96px 16px;
@@ -170,38 +173,42 @@ export const Contacts = ({
   return (
     <Footer isEatingDisabled={isFooterEatingDisabled}>
       <StyledContacts {...restProps}>
-        <Title>{section?.title}</Title>
-        <Infos>
-          {section?.contacts.map((info) => {
-            return (
-              <Info key={info.name}>
-                <Text.Tag>{info.role}</Text.Tag>
-                <Text.Heading1 as="p">{info.name}</Text.Heading1>
-                <a href={`tel:${info.phone}`}>
-                  <Text.Body>{info.phone}</Text.Body>
-                </a>
-                <a href={`mailto:${info.email}`}>
-                  <Text.Body>{info.email}</Text.Body>
-                </a>
-              </Info>
-            )
-          })}
-        </Infos>
-        {isBfodaasDisabled ? null : (
-          <BfodaasTv style={tvSpring}>
-            <Lottie
-              animationData={tv}
-              overrideScale={isBfodaas ? 1 : SCALE.phone}
-            />
-            <BfodaasTvScreen
-              $isBfodaas={isBfodaas}
-              onClick={playBfodaas}
-              style={{
-                ...(danceProgress ? { y: danceProgress.to((p) => p * 8) } : {}),
-              }}
-            />
-          </BfodaasTv>
-        )}
+        <Content>
+          <Title>{section?.title}</Title>
+          <Infos>
+            {section?.contacts.map((info) => {
+              return (
+                <Info key={info.name}>
+                  <Text.Tag>{info.role}</Text.Tag>
+                  <Text.Heading1 as="p">{info.name}</Text.Heading1>
+                  <a href={`tel:${info.phone}`}>
+                    <Text.Body>{info.phone}</Text.Body>
+                  </a>
+                  <a href={`mailto:${info.email}`}>
+                    <Text.Body>{info.email}</Text.Body>
+                  </a>
+                </Info>
+              )
+            })}
+          </Infos>
+          {isBfodaasDisabled ? null : (
+            <BfodaasTv style={tvSpring}>
+              <Lottie
+                animationData={tv}
+                overrideScale={isBfodaas ? 1 : SCALE.phone}
+              />
+              <BfodaasTvScreen
+                $isBfodaas={isBfodaas}
+                onClick={playBfodaas}
+                style={{
+                  ...(danceProgress
+                    ? { y: danceProgress.to((p) => p * 8) }
+                    : {}),
+                }}
+              />
+            </BfodaasTv>
+          )}
+        </Content>
       </StyledContacts>
     </Footer>
   )
