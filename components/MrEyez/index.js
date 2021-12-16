@@ -60,10 +60,17 @@ export const MrEyez = ({ ...restProps }) => {
       }
     })
 
-    const mouseMove = ({ clientX, clientY }) => {
-      const normalX = clientX + window.scrollX
-      const normalY = clientY + window.scrollY
+    const mouseMove = (e) => {
       for (let i = 0; i < pupils.length; i++) {
+        // If using touch device and there are multiple touches, make eyes look at different touches!
+        const clientX =
+          e.touches?.[i]?.clientX || e.touches?.[0]?.clientX || e.clientX
+        const clientY =
+          e.touches?.[i]?.clientY || e.touches?.[0]?.clientY || e.clientY
+
+        const normalX = clientX + window.scrollX
+        const normalY = clientY + window.scrollY
+
         const { el, x, y } = pupils[i]
         const pos = lastPositionsRef.current[i]
         const angle = Math.atan2(normalX - x, normalY - y)
@@ -73,8 +80,10 @@ export const MrEyez = ({ ...restProps }) => {
       }
     }
     window.addEventListener('mousemove', mouseMove)
+    window.addEventListener('touchmove', mouseMove)
     return () => {
       window.removeEventListener('mousemove', mouseMove)
+      window.removeEventListener('touchmove', mouseMove)
     }
   }, [lottieAnimation, pupils, isHovering, inView])
 
