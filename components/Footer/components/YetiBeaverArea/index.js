@@ -1,12 +1,10 @@
-import { useMemo, useState, useCallback, forwardRef } from 'react'
+import { useMemo, useState, forwardRef } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 
 import { media, scale } from '@styles/theme'
 import { useSecondsPassedEffect } from '@hooks/useSecondsPassedEffect'
-import { useWindowResize } from '@hooks/useWindowResize'
 import { useDanceProgress } from '@hooks/useDanceProgress'
-import { getLottieSize } from '@components/Lottie'
 
 const StyledYetiBeaverArea = styled(a.div)`
   position: absolute;
@@ -61,15 +59,7 @@ export const YetiBeaverArea = forwardRef(
     forwardedRef
   ) => {
     const [isJamming, setIsJamming] = useState(false)
-    // const [beaverSize, setBeaverSize] = useState(null)
     const danceProgress = useDanceProgress({ enabled: visible && isJamming })
-
-    // useWindowResize(
-    //   useCallback(() => {
-    //     const { size } = getLottieSize(animationData)
-    //     setBeaverSize(size)
-    //   }, [animationData])
-    // )
 
     const jammingSpring = useMemo(
       () =>
@@ -89,7 +79,6 @@ export const YetiBeaverArea = forwardRef(
       <StyledYetiBeaverArea
         ref={forwardedRef}
         {...restProps}
-        // $beaverSize={beaverSize}
         $yetiBeaverWidth={yetiBeaverWidth}
         $yetiBeaverHeight={yetiBeaverHeight}
       >

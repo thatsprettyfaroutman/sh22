@@ -1,12 +1,12 @@
+import { useMemo } from 'react'
 import styled from 'styled-components'
+import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
 
 import { media } from '@styles/theme'
+import { useDanceProgress } from '@hooks/useDanceProgress'
 import { Section } from '@components/Section'
 import { Text } from '@components/Text'
-import { TRACK_LOTTIE_MAP } from '@components/Track'
-import { Lottie } from '@components/Lottie'
-import { Button } from '@components/Button'
 
 const StyledSlack = styled(Section)`
   min-height: initial;
@@ -61,8 +61,14 @@ const Jiffs = styled.div`
   }
 `
 
-const Title = styled(Text.HeadingMega)`
+const Title = styled(Text.Heading1)`
   text-align: center;
+
+  > img {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+  }
 `
 
 const Description = styled.div`
@@ -74,7 +80,7 @@ const Description = styled.div`
   }
 `
 
-const SlackMessage = styled.div`
+const SlackMessage = styled(a.div)`
   display: grid;
   grid-template-columns: 72px 1fr;
   grid-template-areas:
@@ -129,10 +135,36 @@ const SlackMessageContent = styled.div`
 export const Slack = ({ section, ...restProps }) => {
   const { ref: inViewRef, inView } = useInView()
 
+  const danceProgress = useDanceProgress()
+
+  const logoStyle = useMemo(
+    () =>
+      danceProgress
+        ? {
+            y: danceProgress.to((p) => p * -8),
+            rotate: danceProgress.to((p) => p * -8),
+          }
+        : {},
+    [danceProgress]
+  )
+
+  const messageStyle = useMemo(
+    () =>
+      danceProgress
+        ? {
+            y: danceProgress.to((p) => p * 2),
+          }
+        : {},
+    [danceProgress]
+  )
+
   return (
     <StyledSlack ref={inViewRef} {...restProps}>
       <Titles>
-        <Title>{section.title}</Title>
+        <Title>
+          <a.img src="/images/slack.png" alt="Slack Logo" style={logoStyle} />
+          {section.title}
+        </Title>
         <Description>
           <Text.Markdown children={section.description} />
         </Description>
@@ -141,7 +173,7 @@ export const Slack = ({ section, ...restProps }) => {
         <Text.Small style={{ opacity: 0.5, marginBottom: 16 }}>
           Example:
         </Text.Small>
-        <SlackMessage>
+        <SlackMessage style={messageStyle}>
           <img src="/images/nikoboi.png" alt="Niko" />
           <SlackMessageName>
             <Text.Heading2>Niko</Text.Heading2>
