@@ -35,7 +35,7 @@ const StyledAlumni = styled(Section)`
     '. frame';
 
   ${media.tablet} {
-    padding: 48px 16px;
+    padding: 80px 16px;
     grid-template-columns: auto;
     justify-items: center;
     grid-template-areas:

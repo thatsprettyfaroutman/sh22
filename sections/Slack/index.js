@@ -18,7 +18,7 @@ const StyledSlack = styled(Section)`
   color: ${(p) => p.theme.color.section.slack.fg};
 
   ${media.tablet} {
-    padding: 48px 16px;
+    padding: 80px 16px;
     padding-bottom: 128px;
   }
 

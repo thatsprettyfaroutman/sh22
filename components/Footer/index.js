@@ -54,25 +54,27 @@ export const Footer = ({
 
   return (
     <Wrapper {...restProps}>
-      {isEatingDisabled ? null : (
-        <YetiBeaverArea
-          ref={inViewRef}
-          animationData={yetibeaver}
-          visible={bitingStartedAtSecond !== -1}
-          isYetiJamming={isDoneEating}
-          yetiBeaverWidth={yetibeaver.crop.w}
-          yetiBeaverHeight={yetibeaver.crop.h}
-        >
-          <Lottie
+      <StyledFooter>
+        {isEatingDisabled ? null : (
+          <YetiBeaverArea
+            ref={inViewRef}
             animationData={yetibeaver}
-            animationOffset={3000}
-            animationStopped={isDoneEating}
-            style={yetiBeaverSpring}
-          />
-        </YetiBeaverArea>
-      )}
-      <StyledFooter ref={biteRef} style={{ clipPath: biteClipPath }}>
-        {children}
+            visible={bitingStartedAtSecond !== -1}
+            isYetiJamming={isDoneEating}
+            yetiBeaverWidth={yetibeaver.crop.w}
+            yetiBeaverHeight={yetibeaver.crop.h}
+          >
+            <Lottie
+              animationData={yetibeaver}
+              animationOffset={3000}
+              animationStopped={isDoneEating}
+              style={yetiBeaverSpring}
+            />
+          </YetiBeaverArea>
+        )}
+        <div ref={biteRef} style={{ clipPath: biteClipPath }}>
+          {children}
+        </div>
       </StyledFooter>
     </Wrapper>
   )
