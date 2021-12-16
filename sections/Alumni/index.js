@@ -36,7 +36,6 @@ const StyledAlumni = styled(Section)`
 
   ${media.tablet} {
     padding: 48px 16px;
-    padding-bottom: 128px;
     grid-template-columns: auto;
     justify-items: center;
     grid-template-areas:

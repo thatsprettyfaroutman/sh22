@@ -17,6 +17,11 @@ const StyledSlack = styled(Section)`
   background-color: ${(p) => p.theme.color.section.slack.bg};
   color: ${(p) => p.theme.color.section.slack.fg};
 
+  ${media.tablet} {
+    padding: 48px 16px;
+    padding-bottom: 128px;
+  }
+
   ${media.phone} {
     grid-gap: 32px;
   }
