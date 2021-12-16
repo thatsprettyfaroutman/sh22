@@ -10,6 +10,7 @@ import { Hero } from '@sections/Hero'
 import { About } from '@sections/About'
 import { Tracks } from '@sections/Tracks'
 import { Alumni } from '@sections/Alumni'
+import { Slack } from '@sections/Slack'
 import { Contacts } from '@sections/Contacts'
 
 const StyledApp = styled.main``
@@ -19,6 +20,7 @@ const SECTION_MAP = {
   about: About,
   tracks: Tracks,
   alumni: Alumni,
+  slack: Slack,
   contacts: Contacts,
 }
 

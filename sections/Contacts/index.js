@@ -24,6 +24,8 @@ const StyledContacts = styled(Section)`
   max-width: 1250px;
   margin-left: auto;
   margin-right: auto;
+  background-color: ${(p) => p.theme.color.section.contacts.bg};
+  color: ${(p) => p.theme.color.section.contacts.fg};
 
   ${media.tablet} {
     padding: 96px 16px;

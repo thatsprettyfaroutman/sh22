@@ -79,7 +79,7 @@ const BiteMarks = styled(Bite.A)`
 
 export const SwingyFrame = ({ ...restProps }) => {
   const { ref, inView } = useInView()
-  const { infiniteSpring, secondsPassed } = useInfiniteSpringContext()
+  const { infiniteSpring } = useInfiniteSpringContext()
 
   const p = useMemo(
     () =>

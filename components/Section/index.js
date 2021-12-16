@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, forwardRef } from 'react'
 import styled from 'styled-components'
+import mergeRefs from 'react-merge-refs'
 import { useInView } from 'react-intersection-observer'
 import { useThemeColorContext } from '@contexts/themeColor'
 import { media } from '@styles/theme'
@@ -12,7 +13,7 @@ const StyledSection = styled.section`
   }
 `
 
-export const Section = ({ name, ...restProps }) => {
+export const Section = forwardRef(({ name, ...restProps }, forwardedRef) => {
   const { ref: inViewRef, inView } = useInView()
   const { setSection } = useThemeColorContext()
 
@@ -20,5 +21,8 @@ export const Section = ({ name, ...restProps }) => {
     setSection(name, inView)
   }, [setSection, name, inView])
 
-  return <StyledSection ref={inViewRef} {...restProps} />
-}
+  return (
+    <StyledSection ref={mergeRefs([forwardedRef, inViewRef])} {...restProps} />
+  )
+})
+Section.displayName = 'Section'
