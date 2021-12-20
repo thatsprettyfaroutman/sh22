@@ -24,8 +24,6 @@ const getSnekAndPopsicle = () =>
   `background-image: url(${SNEK_GIF_URL}), url(${POPSICLE_GIF_URL});`
 
 export const useConsoleNavigation = (tracks, currentTrack) => {
-  console.log(tracks, currentTrack)
-
   // init
   useEffect(() => {
     const t = setTimeout(() => {
