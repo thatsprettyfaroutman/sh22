@@ -32,7 +32,7 @@ export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
 
     if (actualBites >= maxBites) {
       // Hide all!
-      return "path('M -1 -1, L 0 0')"
+      return `path("M -1 -1, L 0 0")`
     }
 
     const dirLeft = y % 2 === 0
@@ -40,7 +40,7 @@ export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
     const coords = dirLeft
       ? [
           // Move to current row
-          `M 0 ${pathY(y)}`,
+          `M -1 ${pathY(y)}`,
 
           // Generate previous row bites
           ...(y === 0
@@ -63,15 +63,15 @@ export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
           }),
 
           // Include rest of the footer/area
-          `L ${width} ${height}`,
-          `L 0 ${height}`,
+          `L ${width + 1} ${height + 1}`,
+          `L -1 ${height + 1}`,
 
           // Close loop
           'Z',
         ]
       : [
           // Move to current row
-          `M 0 ${pathY(y)}`,
+          `M -1 ${pathY(y)}`,
 
           // Generate current row bites
           ...range(0, x).map((i) => {
@@ -94,13 +94,13 @@ export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
               })),
 
           // Include rest of the footer/area
-          `L ${width} ${height}`,
-          `L 0 ${height}`,
+          `L ${width + 1} ${height + 1}`,
+          `L -1 ${height + 1}`,
 
           // Close loop
           'Z',
         ]
 
-    return `path('${coords.join(',')}')`
+    return `path("${coords.join(' ')}")`
   }, [bites, getBiteProps, isEnabled])
 }

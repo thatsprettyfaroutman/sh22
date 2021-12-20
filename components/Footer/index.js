@@ -23,6 +23,10 @@ const StyledFooter = styled.footer`
   color: ${(p) => p.theme.color.footer.fg};
 `
 
+const BiteWrapper = styled.div`
+  position: relative;
+`
+
 export const Footer = ({
   children,
   isEatingDisabled = false,
@@ -72,9 +76,9 @@ export const Footer = ({
             />
           </YetiBeaverArea>
         )}
-        <div ref={biteRef} style={{ clipPath: biteClipPath }}>
+        <BiteWrapper ref={biteRef} style={{ clipPath: biteClipPath }}>
           {children}
-        </div>
+        </BiteWrapper>
       </StyledFooter>
     </Wrapper>
   )
