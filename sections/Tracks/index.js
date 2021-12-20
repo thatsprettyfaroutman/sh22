@@ -96,11 +96,10 @@ const StyledMrEyez = styled(MrEyez)`
   left: 64px;
 
   ${media.tabletWide} {
-    top: 180px;
+    top: 32px;
   }
 
   ${media.tablet} {
-    top: 32px;
     left: 32px;
   }
 
