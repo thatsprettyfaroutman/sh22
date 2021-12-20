@@ -3,7 +3,7 @@ import { isNil } from 'ramda'
 
 export const BREAKPOINT = {
   tabletWide: 1024,
-  tablet: 768,
+  tablet: 800,
   phone: 767,
 }
 

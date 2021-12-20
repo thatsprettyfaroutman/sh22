@@ -95,6 +95,10 @@ const StyledMrEyez = styled(MrEyez)`
   top: 132px;
   left: 64px;
 
+  ${media.tabletWide} {
+    top: 180px;
+  }
+
   ${media.tablet} {
     top: 32px;
     left: 32px;

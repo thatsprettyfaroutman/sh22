@@ -16,7 +16,8 @@ export const Track = styled.a`
     position: relative;
     display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: 24px;
+    grid-column-gap: 24px;
+    grid-row-gap: 8px;
     padding: 24px 32px;
     align-items: center;
     justify-items: start;
@@ -26,21 +27,8 @@ export const Track = styled.a`
     border: 3px solid ${(p) => p.theme.color.track.fg};
     pointer-events: none;
 
-    ${media.tablet} {
-      grid-template-columns: 1fr auto;
-
-      ${(p) =>
-        !p.$isOpen &&
-        css`
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-
-          > :nth-child(3) {
-            margin-top: -24px;
-          }
-        `};
+    ${media.phone} {
+      grid-template-columns: auto 1fr;
     }
   }
 
@@ -63,21 +51,22 @@ export const Track = styled.a`
 export const TrackIcon = styled(a.div)`
   display: flex;
   align-items: center;
-  min-width: 70px;
-  min-height: 70px;
 
   :empty {
     background-color: ${(p) => p.theme.color.track.fg};
     opacity: 0.05;
   }
 
-  @media (max-width: 780px) {
-    grid-column: 1/3;
-    margin-right: auto;
+  ${media.phone} {
+    grid-row: 1/3;
   }
 `
 
 export const Title = styled(Text.Heading2)`
+  text-align: left;
+`
+
+export const OpensAtText = styled(Text.Small)`
   text-align: left;
 `
 

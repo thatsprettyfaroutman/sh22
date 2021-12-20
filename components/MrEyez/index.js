@@ -13,7 +13,7 @@ import { Lottie } from '@components/Lottie'
 import mreyez from '@lotties/mreyez.lottie.json'
 
 const StyledMrEyez = styled.div`
-  transform: rotate(-14deg);
+  transform: rotate3d(0, 0, 1, -14deg);
 `
 
 export const MrEyez = ({ ...restProps }) => {

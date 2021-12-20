@@ -22,17 +22,20 @@ const Content = styled(a(Text.Button))`
 
 export const ExternalLink = ({
   isDancing = false,
+  isHovered = false,
   children,
   onClick,
+
   ...restProps
 }) => {
-  const [isHovering, setIsHovering] = useState(false)
+  const [isLocalHovering, setIsLocalHovering] = useState(false)
+  const isHovering = isHovered || isLocalHovering
   const danceProgress = useDanceProgress({ enabled: isHovering })
 
   return (
     <StyledExternalLink
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={() => setIsLocalHovering(true)}
+      onMouseLeave={() => setIsLocalHovering(false)}
       target="_blank"
       {...restProps}
     >

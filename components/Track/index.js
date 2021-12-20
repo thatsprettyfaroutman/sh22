@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { a, useSpring } from 'react-spring'
 import { easeSinOut } from 'd3-ease'
 
-import { Text } from '@components/Text'
 import { ExternalLink } from '@components/ExternalLink'
 import { Lottie } from '@components/Lottie'
 
@@ -12,6 +11,8 @@ import { TRACK_LOTTIE_MAP, TRACK_LOTTIE_PUPIL_SELECTOR_MAP } from './consts'
 import * as Styled from './styles'
 
 export * from './consts'
+
+// TODO: ask for email if track not open?
 
 export const Track = ({ track, onClick, ...restProps }) => {
   const router = useRouter()
@@ -70,7 +71,12 @@ export const Track = ({ track, onClick, ...restProps }) => {
     onChange: handleEyeMovement,
   })
 
-  const href = useMemo(() => `/track/${track.type.toLowerCase()}`, [track.type])
+  const href = useMemo(() => {
+    if (!isOpen) {
+      return `#tracks`
+    }
+    return `/track/${track.type.toLowerCase()}`
+  }, [track.type, isOpen])
 
   const opensAtDate = useMemo(
     () => track?.opensAt.split('-').reverse().join('.'),
@@ -83,42 +89,41 @@ export const Track = ({ track, onClick, ...restProps }) => {
       $isOpen={isOpen}
       ref={setEl}
       {...restProps}
-      onMouseEnter={
-        isOpen
-          ? useCallback(() => {
-              setIsHovering(true)
-              router.prefetch(href)
-            }, [router, href])
-          : null
-      }
-      onMouseLeave={isOpen ? useCallback(() => setIsHovering(false), []) : null}
-      onClick={useMemo(
-        () =>
-          isOpen
-            ? (e) => {
-                e.preventDefault()
-                setIsPushed(true)
-                setTimeout(() => {
-                  router.push(
-                    {
-                      pathname: '/track/[type]',
-                      query: { type: track.type.toLowerCase() },
-                    }
-                    // undefined,
-                    // {
-                    //   shallow: true,
-                    // }
-                  )
-                }, 120)
+      onMouseEnter={useCallback(() => {
+        setIsHovering(true)
+        if (!isOpen) {
+          return
+        }
+        router.prefetch(href)
+      }, [router, href, isOpen])}
+      onMouseLeave={useCallback(() => setIsHovering(false), [])}
+      onClick={useCallback(
+        (e) => {
+          if (!isOpen) {
+            return
+          }
+          e.preventDefault()
+          setIsPushed(true)
+          setTimeout(() => {
+            router.push(
+              {
+                pathname: '/track/[type]',
+                query: { type: track.type.toLowerCase() },
               }
-            : null,
+              // undefined,
+              // {
+              //   shallow: true,
+              // }
+            )
+          }, 120)
+        },
         [isOpen, onClick, track?.type, router, href]
       )}
     >
       <a.div style={contentSpring}>
         <Styled.TrackIcon
           style={{
-            y: iconSpring.p.to((p, dp) => lerpInOut(0, -5, p)),
+            y: iconSpring.p.to((p) => lerpInOut(0, -5, p)),
           }}
         >
           {lottieAnimationData && (
@@ -130,9 +135,13 @@ export const Track = ({ track, onClick, ...restProps }) => {
         </Styled.TrackIcon>
         <Styled.Title>{track.title}</Styled.Title>
         {isOpen ? (
-          <ExternalLink as="div">Apply</ExternalLink>
+          <ExternalLink as="div" isHovered={isHovering}>
+            Apply
+          </ExternalLink>
         ) : (
-          <Text.Small>Application period starts on {opensAtDate}</Text.Small>
+          <Styled.OpensAtText>
+            Application period starts on {opensAtDate}
+          </Styled.OpensAtText>
         )}
         <Styled.BiteMarks />
         <Styled.BiteMarksOuter />
