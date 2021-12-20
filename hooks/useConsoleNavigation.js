@@ -24,6 +24,8 @@ const getSnekAndPopsicle = () =>
   `background-image: url(${SNEK_GIF_URL}), url(${POPSICLE_GIF_URL});`
 
 export const useConsoleNavigation = (tracks, currentTrack) => {
+  console.log(tracks, currentTrack)
+
   // init
   useEffect(() => {
     const t = setTimeout(() => {
@@ -83,10 +85,21 @@ ${SH_BANNER}
   useEffect(() => {
     window.tracks = () => {
       const now = new Date()
+
+      const openTracks = tracks?.filter(
+        (track) => new Date(track.opensAt) <= now
+      )
+
+      const isNoTracksAvailable = !openTracks?.length
+
+      if (isNoTracksAvailable) {
+        console.log(`\n\nNo tracks available at this point.\n\n`)
+        return '🦔 Completed -- tracks()'
+      }
+
       console.log(
-        `\n\nWe have ${tracks.length} tracks available for you:\n\n`,
-        tracks
-          ?.filter((track) => new Date(track.opensAt) <= now)
+        `\n\nWe have ${openTracks?.length} tracks available for you:\n\n`,
+        openTracks
           .map((track) => {
             const link = track.type.toLowerCase()
             window[link] = () => {
