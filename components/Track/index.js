@@ -99,10 +99,10 @@ export const Track = ({ track, onClick, ...restProps }) => {
       onMouseLeave={useCallback(() => setIsHovering(false), [])}
       onClick={useCallback(
         (e) => {
+          e.preventDefault()
           if (!isOpen) {
             return
           }
-          e.preventDefault()
           setIsPushed(true)
           setTimeout(() => {
             router.push(

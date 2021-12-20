@@ -151,6 +151,16 @@ const Markdown = styled(ReactMarkdown)`
   > p {
     ${bodyStyle};
   }
+
+  ul,
+  ol {
+    li {
+      ${bodyStyle};
+      :not(:last-child) {
+        margin-bottom: 16px;
+      }
+    }
+  }
 `
 
 export const Text = {
