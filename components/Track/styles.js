@@ -12,6 +12,12 @@ export const Track = styled.a`
   border-radius: 8px;
   text-decoration: none;
 
+  ${(p) =>
+    !p.$isOpen &&
+    css`
+      cursor: default;
+    `}
+
   > div {
     position: relative;
     display: grid;
