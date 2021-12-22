@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
@@ -78,6 +78,7 @@ const BiteMarks = styled(Bite.A)`
 `
 
 export const SwingyFrame = ({ ...restProps }) => {
+  const extremeMiska = useRef(Math.random() < 0.1)
   const { ref, inView } = useInView()
   const { infiniteSpring } = useInfiniteSpringContext()
 
@@ -99,7 +100,14 @@ export const SwingyFrame = ({ ...restProps }) => {
         }
       }
     >
-      <img src="/images/julesframe.png" alt="Jules" />
+      <img
+        src={
+          extremeMiska.current
+            ? '/images/miskaframeextreme.png'
+            : '/images/miskaframe.png'
+        }
+        alt=""
+      />
       <Lottie animationData={swingygremlin} animationOffset={1000} />
       <BiteMarks />
     </StyledSwingyFrame>
