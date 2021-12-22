@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { a, useSpring } from 'react-spring'
+import { a, useSpring, to } from 'react-spring'
 import { easeSinOut } from 'd3-ease'
 
+import { useDanceProgress } from '@hooks/useDanceProgress'
 import { ExternalLink } from '@components/ExternalLink'
 import { Lottie } from '@components/Lottie'
 
@@ -19,6 +20,7 @@ export const Track = ({ track, onClick, ...restProps }) => {
   const [el, setEl] = useState(null)
   const [isHovering, setIsHovering] = useState(false)
   const [isPushed, setIsPushed] = useState(false)
+  const danceProgress = useDanceProgress()
 
   const isOpen = useMemo(
     () => new Date(track.opensAt) <= new Date(),
@@ -27,8 +29,22 @@ export const Track = ({ track, onClick, ...restProps }) => {
 
   const contentSpring = useSpring({
     config: { tension: 400 },
-    y: isPushed ? 0 : isHovering ? -8 : -4,
+    pushed: isPushed ? 1 : 0,
+    hovering: isHovering ? 1 : 0,
   })
+
+  const contentStyle = useMemo(
+    () => ({
+      y: to(
+        [danceProgress, contentSpring.pushed, contentSpring.hovering],
+        (dp, pushed, hovering) =>
+          -4 * (1 - pushed) +
+          -2 * hovering +
+          -2 * (dp || 0) * Math.max(0, hovering - pushed)
+      ),
+    }),
+    [contentSpring, danceProgress]
+  )
 
   // Release pushed state in 1s
   useEffect(() => {
@@ -120,7 +136,7 @@ export const Track = ({ track, onClick, ...restProps }) => {
         [isOpen, onClick, track?.type, router, href]
       )}
     >
-      <a.div style={contentSpring}>
+      <a.div style={contentStyle}>
         <Styled.TrackIcon
           style={{
             y: iconSpring.p.to((p) => lerpInOut(0, -5, p)),
