@@ -78,7 +78,6 @@ const BiteMarks = styled(Bite.A)`
 `
 
 export const SwingyFrame = ({ ...restProps }) => {
-  const extremeMiska = useRef(Math.random() < 0.1)
   const { ref, inView } = useInView()
   const { infiniteSpring } = useInfiniteSpringContext()
 
@@ -100,14 +99,7 @@ export const SwingyFrame = ({ ...restProps }) => {
         }
       }
     >
-      <img
-        src={
-          extremeMiska.current
-            ? '/images/miskaframeextreme.png'
-            : '/images/miskaframe.png'
-        }
-        alt=""
-      />
+      <img src="/images/miskaframe.png" alt="" />
       <Lottie animationData={swingygremlin} animationOffset={1000} />
       <BiteMarks />
     </StyledSwingyFrame>
