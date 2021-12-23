@@ -87,7 +87,7 @@ ${SH_BANNER}
       const now = new Date()
 
       const openTracks =
-        tracks?.filter((track) => !(new Date(track.opensAt) <= now)) || []
+        tracks?.filter((track) => new Date(track.opensAt) <= now) || []
 
       const isNoTracksAvailable = !openTracks.length
 
