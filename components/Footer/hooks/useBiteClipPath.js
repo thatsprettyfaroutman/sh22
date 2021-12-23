@@ -1,5 +1,7 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { range } from 'ramda'
+
+import { event } from '@util/ga'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
 import { getBitePathA, getBitePathB, rand, getBites } from '../lib'
 
@@ -9,6 +11,15 @@ const getBitePathFn = (i = 0) => (rand(i) < 0.5 ? getBitePathA : getBitePathB)
 export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
   const { secondsPassed } = useInfiniteSpringContext()
   const bites = getBites(secondsPassed)
+  const footerEatenProgress = useRef({
+    0: { reached: false },
+    1: { reached: false },
+    5: { reached: false },
+    25: { reached: false },
+    50: { reached: false },
+    75: { reached: false },
+    98: { reached: false },
+  })
 
   return useMemo(() => {
     const biteProps = getBiteProps(bites)
@@ -29,6 +40,19 @@ export const useBiteClipPath = (getBiteProps, isEnabled = true) => {
       pathY,
       actualBites,
     } = biteProps
+
+    const biteProgress = actualBites / maxBites
+
+    Object.entries(footerEatenProgress.current).forEach(([p, val]) => {
+      if (val.reached) {
+        return
+      }
+      const threshold = Number(p) / 100
+      if (threshold <= biteProgress) {
+        val.reached = true
+        event('footer_eaten_progress', { value: Number(p) })
+      }
+    })
 
     if (actualBites >= maxBites) {
       // Hide all!
