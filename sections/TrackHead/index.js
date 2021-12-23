@@ -23,8 +23,12 @@ const Content = styled.div`
   justify-self: center;
 
   ${media.tablet} {
-    padding: 96px 16px;
+    padding: 128px 16px;
     grid-template-columns: auto;
+  }
+
+  ${media.phone} {
+    padding: 96px 16px;
   }
 `
 
