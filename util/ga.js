@@ -1,4 +1,4 @@
-export const GA_ID = 'GTM-T985BF6'
+export const GA_ID = 'G-PR8PXJSQVV'
 
 // log the pageview with their URL
 export const pageview = (url) => {
