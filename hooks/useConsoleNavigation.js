@@ -1,6 +1,8 @@
 import window from 'handle-window-undefined'
 import { useEffect } from 'react'
 
+import { event } from '@util/ga'
+
 import {
   PORCUBOI_GIF_URL,
   DUCKYDUCK_GIF_URL,
@@ -84,11 +86,16 @@ ${SH_BANNER}
     window.tracks = () => {
       const now = new Date()
 
-      const openTracks = tracks?.filter(
-        (track) => new Date(track.opensAt) <= now
-      )
+      const openTracks =
+        tracks?.filter((track) => !(new Date(track.opensAt) <= now)) || []
 
-      const isNoTracksAvailable = !openTracks?.length
+      const isNoTracksAvailable = !openTracks.length
+
+      try {
+        event('console_cmd_tracks', {
+          tracks: openTracks.map((x) => x.type).sort(),
+        })
+      } catch (err) {}
 
       if (isNoTracksAvailable) {
         console.log(`\n\nNo tracks available at this point.\n\n`)
@@ -96,12 +103,17 @@ ${SH_BANNER}
       }
 
       console.log(
-        `\n\nWe have ${openTracks?.length} tracks available for you:\n\n`,
+        `\n\nWe have ${openTracks.length} tracks available for you:\n\n`,
         openTracks
           .map((track) => {
             const link = track.type.toLowerCase()
             window[link] = () => {
               window.location.pathname = `/track/${link}`
+              try {
+                event(`console_cmd_${link}`, {
+                  track: track.type,
+                })
+              } catch (err) {}
               return `🦔 Executing -- ${link}()`
             }
 
@@ -126,6 +138,11 @@ ${track.title}
           console.error('🦔 Unable to execute -- apply()')
           return
         }
+        try {
+          event(`console_cmd_apply`, {
+            track: currentTrack.type,
+          })
+        } catch (err) {}
         window.location = currentTrack.href
       }, 1000)
       return `🦔 Executing -- apply()`
