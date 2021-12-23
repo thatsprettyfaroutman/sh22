@@ -9,6 +9,7 @@ import {
   START_BASS_BOOMING_AT_SECOND,
 } from '@contexts/infiniteSpring'
 
+import { event } from '@util/ga'
 import { media } from '@styles/theme'
 import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { useSpringScroll } from '@hooks/useSpringScroll'
@@ -256,6 +257,9 @@ export const Hero = ({ section, ...restProps }) => {
         '[data-section-link="tracks"]'
       )
       scrollTo(tracksSection)
+      event({
+        action: 'press_apply_button',
+      })
     },
     [scrollTo]
   )
