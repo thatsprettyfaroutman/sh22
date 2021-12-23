@@ -49,7 +49,7 @@ export const themeDark = {
       tracks: { bg: '#100010', fg: '#FFFAE5' },
       alumni: { bg: '#000008', fg: '#ffffff' },
       slack: { bg: '#00000f', fg: '#FAFAFA' },
-      contacts: { bg: '#000820', fg: '#ffffff' },
+      contacts: { bg: '#32322f', fg: '#ffffff' },
       trackHead: { bg: '#100010', fg: '#FFFAE5' },
       trackBody: { bg: '#000008', fg: '#ffffff' },
     },
@@ -57,7 +57,7 @@ export const themeDark = {
     footer: { bg: '#000008', fg: '#ffffff' },
     button: { bg: '#101010', fg: '#ffd31a' },
     link: { bg: chroma('#5462DB').alpha(0).css('rgba'), fg: '#5462DB' },
-    slackMessage: { bg: '#38383c', fg: '#fff' },
+    slackMessage: { bg: '#32322f', fg: '#fff' },
   },
 }
 
