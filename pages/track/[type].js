@@ -1,9 +1,11 @@
-import { getSection } from '@util/contentfulPosts'
+import { getSection, getSeo } from '@util/contentfulPosts'
 
+import Head from 'next/head'
 import styled from 'styled-components'
 import { pick } from 'ramda'
 
 import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
+import { SeoHead } from '@components/SeoHead'
 import { TrackHead } from '@sections/TrackHead'
 import { TrackBody } from '@sections/TrackBody'
 import { Tracks } from '@sections/Tracks'
@@ -16,21 +18,28 @@ export default function Track({
   trackList,
   contactsSection,
   tracksSection,
+  seo,
   ...restProps
 }) {
   useConsoleNavigation(trackList, track)
 
   return (
-    <StyledTrack {...restProps}>
-      <TrackHead track={track} key={track.type} />
-      <TrackBody track={track} />
-      <Tracks isSimple section={tracksSection} omitTrack={track} />
-      <Contacts
-        section={contactsSection}
-        isBfodaasDisabled
-        isFooterEatingDisabled
-      />
-    </StyledTrack>
+    <>
+      <SeoHead {...seo} />
+      <Head>
+        <title>{track.title} | Summer Hunters 2022</title>
+      </Head>
+      <StyledTrack {...restProps}>
+        <TrackHead track={track} key={track.type} />
+        <TrackBody track={track} />
+        <Tracks isSimple section={tracksSection} omitTrack={track} />
+        <Contacts
+          section={contactsSection}
+          isBfodaasDisabled
+          isFooterEatingDisabled
+        />
+      </StyledTrack>
+    </>
   )
 }
 
@@ -46,9 +55,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { type } }) {
-  const [contactsSection, tracksSection] = await Promise.all([
+  const [contactsSection, tracksSection, seo] = await Promise.all([
     getSection('sectionContacts'),
     getSection('tracksSection'),
+    getSeo(),
   ])
 
   const { tracks } = tracksSection
@@ -59,6 +69,7 @@ export async function getStaticProps({ params: { type } }) {
       track: tracks.find((x) => x.type.toLowerCase() === type),
       contactsSection,
       tracksSection,
+      seo,
     },
   }
 }

@@ -8,18 +8,20 @@ const client = require('contentful').createClient({
   accessToken,
 })
 
-function fixItem(item) {
+function getItemFields(item) {
   if (R.isNil(item)) {
     return item
   }
   if (Array.isArray(item)) {
-    return item.map(fixItem)
+    return item.map(getItemFields)
   }
   if (item.fields && item.sys) {
-    const contentType = item.sys.contentType.sys.id
+    const contentType =
+      item.sys.contentType?.sys?.id || item.fields.file?.contentType
+
     return Object.entries(item.fields)
       .map(([key, field]) => {
-        return [key, fixItem(field)]
+        return [key, getItemFields(field)]
       })
       .reduce(
         (acc, [key, field]) => {
@@ -43,7 +45,7 @@ export async function getHomeSections() {
     console.log(`Error getting HomeSections.`)
   }
 
-  return fixItem(item.fields.sections).map((section) => {
+  return getItemFields(item.fields.sections).map((section) => {
     let link = section.contentType.toLowerCase().replace('section', '')
     if (link === 'alumn') {
       link = 'alumni'
@@ -53,6 +55,29 @@ export async function getHomeSections() {
       link,
     }
   })
+}
+
+export async function getSeo() {
+  const { items } = await client.getEntries({
+    content_type: 'homePage',
+    include: 2,
+  })
+  const item = items[0]
+  if (R.isNil(item)) {
+    console.log(`Error getting Seo.`)
+  }
+
+  const seoItem = R.pipe(
+    R.toPairs,
+    R.filter(([key]) => key.startsWith('seo')),
+    R.map(([key, field]) => [key, getItemFields(field)]),
+    R.map(([key, field]) =>
+      key === 'seoImage' ? [key, field.file.url] : [key, field]
+    ),
+    R.fromPairs
+  )(item.fields)
+
+  return seoItem
 }
 
 export async function getSection(contentType) {
@@ -65,7 +90,9 @@ export async function getSection(contentType) {
     console.log(`Error getting Entries for ${contentType}.`)
   }
 
-  return fixItem(items[0])
+  return getItemFields(items[0])
+}
+
 }
 
 export default { getHomeSections, getSection }

@@ -1,10 +1,11 @@
-import { getHomeSections } from '@util/contentfulPosts'
+import { getHomeSections, getSeo } from '@util/contentfulPosts'
 
 import { useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { useThemeColorContext } from '@contexts/themeColor'
 import { useConsoleNavigation } from '@hooks/useConsoleNavigation'
+import { SeoHead } from '@components/SeoHead'
 
 import { Hero } from '@sections/Hero'
 import { About } from '@sections/About'
@@ -24,7 +25,7 @@ const SECTION_MAP = {
   contacts: Contacts,
 }
 
-export default function Home({ sections, ...restProps }) {
+export default function Home({ sections, seo, ...restProps }) {
   const { setSectionOrder } = useThemeColorContext()
   useConsoleNavigation(
     useMemo(() => sections.find((x) => x.link === 'tracks')?.tracks, [sections])
@@ -35,31 +36,35 @@ export default function Home({ sections, ...restProps }) {
   }, [sections])
 
   return (
-    <StyledApp {...restProps}>
-      {sections.map((section) => {
-        const Section = SECTION_MAP[section.link]
-        if (!Section) {
-          return null
-        }
-        return (
-          <Section
-            key={section.contentType}
-            section={section}
-            // data-section-link is used for scrolling
-            data-section-link={section.link}
-            name={section.link}
-          />
-        )
-      })}
-    </StyledApp>
+    <>
+      <SeoHead {...seo} />
+      <StyledApp {...restProps}>
+        {sections.map((section) => {
+          const Section = SECTION_MAP[section.link]
+          if (!Section) {
+            return null
+          }
+          return (
+            <Section
+              key={section.contentType}
+              section={section}
+              // data-section-link is used for scrolling
+              data-section-link={section.link}
+              name={section.link}
+            />
+          )
+        })}
+      </StyledApp>
+    </>
   )
 }
 
 export async function getStaticProps() {
-  const sections = await getHomeSections()
+  const [seo, sections] = await Promise.all([getSeo(), getHomeSections()])
   return {
     props: {
       sections,
+      seo,
     },
   }
 }
