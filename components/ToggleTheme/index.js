@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useSpring } from 'react-spring'
 
+import { event } from '@util/ga'
 import { Lottie } from '@components/Lottie'
 
 import toggleTheme from '@lotties/toggle-theme.lottie.json'
@@ -72,7 +73,12 @@ export const ToggleTheme = ({ toggled = false, onChange, ...restProps }) => {
           if (typeof onChange === 'function') {
             setTimeout(() => {
               if (isMounted.current) {
-                onChange(nextTime % 2000 === 1000)
+                const enabled = nextTime % 2000 === 1000
+                onChange(enabled)
+                event('theme_toggle', {
+                  dark: enabled,
+                  darkEnabled: enabled ? 'yes' : 'no',
+                })
               }
             }, 500)
           }

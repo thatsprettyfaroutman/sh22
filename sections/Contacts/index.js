@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { a, useSpring } from 'react-spring'
 
+import { event } from '@util/ga'
 import { media, scale, SCALE } from '@styles/theme'
 import * as NO_JS_ANIM from '@styles/noJsAnimations'
 import { useInfiniteSpringContext } from '@contexts/infiniteSpring'
@@ -166,6 +167,8 @@ export const Contacts = ({
         from: { scale: SCALE.phone },
         scale: 1,
       })
+
+      event('bfodaas')
     },
     [setTimeScale, isBfodaas, setTvSpring]
   )

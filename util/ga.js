@@ -10,8 +10,8 @@ export const pageview = (url) => {
 }
 
 // log specific events happening.
-export const event = ({ action, params }) => {
+export const event = (action, params = {}) => {
   try {
-    window.gtag('event', action, params)
+    window.gtag('event', action, { event_category: 'UI', ...params })
   } catch (err) {}
 }
