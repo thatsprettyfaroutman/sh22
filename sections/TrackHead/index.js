@@ -48,9 +48,11 @@ export const TrackHead = ({ track, ...restProps }) => {
       <Content>
         {lottieAnimationData && <Lottie animationData={lottieAnimationData} />}
         <Title>{track.title}</Title>
-        <Description>
-          <Text.Markdown children={track.description} />
-        </Description>
+        {track.description ? (
+          <Description>
+            <Text.Markdown children={track.description} />
+          </Description>
+        ) : null}
         {track?.href ? (
           <ApplyButtonWrapper href={track.href}>
             <Button isDancing={false}>Apply for this track</Button>

@@ -93,6 +93,17 @@ export async function getSection(contentType) {
   return getItemFields(items[0])
 }
 
+export async function getSubpages() {
+  const { items } = await client.getEntries({
+    content_type: 'subpage',
+    include: 1,
+  })
+
+  if (!items) {
+    console.log(`Error getting Subpages.`)
+  }
+
+  return getItemFields(items)
 }
 
 export default { getHomeSections, getSection }
