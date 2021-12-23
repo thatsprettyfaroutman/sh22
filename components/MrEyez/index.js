@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer'
 import { easeCubicInOut } from 'd3-ease'
 import { useSpring } from 'react-spring'
 
+import { event } from '@util/ga'
 import { useWindowResize } from '@hooks/useWindowResize'
 import { Lottie } from '@components/Lottie'
 
@@ -23,6 +24,12 @@ export const MrEyez = ({ ...restProps }) => {
   const [lottieAnimation, setLottieAnimation] = useState(null)
   const [pupils, setPupils] = useState([])
   const lastPositionsRef = useRef([])
+
+  useEffect(() => {
+    if (isHovering) {
+      event('mreyez_hover')
+    }
+  }, [isHovering])
 
   useWindowResize(
     useCallback(() => {

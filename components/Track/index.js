@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { a, useSpring, to } from 'react-spring'
 import { easeSinOut } from 'd3-ease'
 
+import { event } from '@util/ga'
 import { useDanceProgress } from '@hooks/useDanceProgress'
 import { ExternalLink } from '@components/ExternalLink'
 import { Lottie } from '@components/Lottie'
@@ -121,17 +122,14 @@ export const Track = ({ track, onClick, ...restProps }) => {
           }
           setIsPushed(true)
           setTimeout(() => {
-            router.push(
-              {
-                pathname: '/track/[type]',
-                query: { type: track.type.toLowerCase() },
-              }
-              // undefined,
-              // {
-              //   shallow: true,
-              // }
-            )
+            router.push({
+              pathname: '/track/[type]',
+              query: { type: track.type.toLowerCase() },
+            })
           }, 120)
+          event('press_track', {
+            track: track.type,
+          })
         },
         [isOpen, onClick, track?.type, router, href]
       )}

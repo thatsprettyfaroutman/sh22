@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import styled from 'styled-components'
 import { a } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
 
+import { event } from '@util/ga'
 import { media } from '@styles/theme'
 import { useDanceProgress } from '@hooks/useDanceProgress'
 import { Section } from '@components/Section'
@@ -163,6 +164,14 @@ export const Slack = ({ section, ...restProps }) => {
     [danceProgress]
   )
 
+  const handleEmojiDownloadGa = useCallback((e) => {
+    try {
+      event('emoji_download', {
+        emoji: e.target.alt,
+      })
+    } catch (err) {}
+  }, [])
+
   return (
     <StyledSlack ref={inViewRef} {...restProps}>
       <Titles>
@@ -205,16 +214,32 @@ export const Slack = ({ section, ...restProps }) => {
         </SlackMessage>
       </Content>
       <Jiffs>
-        <a href="/images/pixel-duckyduck.gif" download>
+        <a
+          href="/images/pixel-duckyduck.gif"
+          download
+          onClick={handleEmojiDownloadGa}
+        >
           {inView && <img src="/images/pixel-duckyduck.gif" alt="duckyduck" />}
         </a>
-        <a href="/images/pixel-porcuboi.gif" download>
+        <a
+          href="/images/pixel-porcuboi.gif"
+          download
+          onClick={handleEmojiDownloadGa}
+        >
           {inView && <img src="/images/pixel-porcuboi.gif" alt="porcuboi" />}
         </a>
-        <a href="/images/pixel-snek.gif" download>
+        <a
+          href="/images/pixel-snek.gif"
+          download
+          onClick={handleEmojiDownloadGa}
+        >
           {inView && <img src="/images/pixel-snek.gif" alt="snek" />}
         </a>
-        <a href="/images/pixel-popsicle.gif" download>
+        <a
+          href="/images/pixel-popsicle.gif"
+          download
+          onClick={handleEmojiDownloadGa}
+        >
           {inView && <img src="/images/pixel-popsicle.gif" alt="popsicle" />}
         </a>
       </Jiffs>

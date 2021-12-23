@@ -250,16 +250,14 @@ export const Hero = ({ section, ...restProps }) => {
     [trail]
   )
 
-  const handelApplyButtonClick = useCallback(
+  const handleApplyButtonClick = useCallback(
     (e) => {
       e.preventDefault()
       const tracksSection = document.querySelector(
         '[data-section-link="tracks"]'
       )
       scrollTo(tracksSection)
-      event({
-        action: 'press_apply_button',
-      })
+      event('press_apply_button')
     },
     [scrollTo]
   )
@@ -287,12 +285,12 @@ export const Hero = ({ section, ...restProps }) => {
         <Title style={titleSpring}>{section.title}</Title>
         <ApplyButtonWrapper
           href="#tracks"
-          onClick={handelApplyButtonClick}
+          onClick={handleApplyButtonClick}
           style={buttonSpring}
         >
           <Button isDancing>{section.button}</Button>
         </ApplyButtonWrapper>
-        <Arrow style={arrowSpring} onClick={handelApplyButtonClick}>
+        <Arrow style={arrowSpring} onClick={handleApplyButtonClick}>
           <Lottie
             animationData={arrow}
             animationStopped={!isDancersVisible}

@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 // Use this to detect dark mode from os
 // import useDarkMode from 'use-dark-mode'
 import { useDarkMode } from '@hooks/useDarkMode'
+import { pageview } from '@util/ga'
 import { themeDark, themeLight } from '@styles/theme'
 import { combineComponents } from '@helpers/combineComponents'
 import { InfiniteSpringProvider } from '@contexts/infiniteSpring'
@@ -56,6 +58,15 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     document.body.classList.remove('no-js')
   }, [])
+
+  const router = useRouter()
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', pageview)
+    return () => {
+      router.events.off('routeChangeComplete', pageview)
+    }
+  }, [router.events])
 
   return (
     <>
