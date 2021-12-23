@@ -144,12 +144,30 @@ const Markdown = styled(ReactMarkdown)`
   > h4,
   > h5,
   > h6 {
-    margin-top: 32px;
-    ${heading2Style};
+    ${heading1Style};
+
+    :not(:first-child) {
+      margin-top: 128px;
+    }
+
+    :not(:last-child) {
+      margin-bottom: 64px;
+    }
   }
 
   > p {
     ${bodyStyle};
+
+    > img {
+      display: block;
+      height: auto;
+      margin-left: 0;
+      max-width: max(100%, 80vw);
+    }
+
+    > a {
+      color: ${(p) => p.theme.color.link.fg};
+    }
   }
 
   ul,
@@ -160,6 +178,26 @@ const Markdown = styled(ReactMarkdown)`
         margin-bottom: 16px;
       }
     }
+  }
+
+  pre,
+  code {
+    font-family: 'Red Hat Mono', monospace;
+    font-size: 20px;
+
+    ${media.phone} {
+      font-size: 14px;
+    }
+  }
+
+  pre {
+    padding: 16px;
+    max-width: max(100%, 80vw);
+    overflow: auto;
+  }
+
+  code {
+    white-space: pre-wrap;
   }
 `
 

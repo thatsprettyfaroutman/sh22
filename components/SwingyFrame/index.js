@@ -99,7 +99,7 @@ export const SwingyFrame = ({ ...restProps }) => {
         }
       }
     >
-      <img src="/images/miskaframe.png" alt="" />
+      <img src="/images/miskaframeextreme.png" alt="" />
       <Lottie animationData={swingygremlin} animationOffset={1000} />
       <BiteMarks />
     </StyledSwingyFrame>

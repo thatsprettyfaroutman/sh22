@@ -117,9 +117,9 @@ export const MrEyez = ({ ...restProps }) => {
   return (
     <StyledMrEyez
       ref={mergeRefs([ref, inViewRef])}
-      {...restProps}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      {...restProps}
     >
       <Lottie
         animationData={mreyez}
